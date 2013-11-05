@@ -4,41 +4,15 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>VenoBox - responsive jQuery modal window plugin</title>
 	<meta name="description" content="Responsive jQuery lightbox plugin, suitable for images, inline contents, iFrames, Vimeo and YouTube videos." />
-	<meta property="og:image" content="http://lab.veno.it/venobox/preview.jpg" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 		<link rel="stylesheet" href="bootstrap.min.css" type="text/css" media="screen" />
 
 		<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-		<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 
 		<link rel="stylesheet" href="venobox/venobox.css" type="text/css" media="screen" />
 		<script type="text/javascript" src="venobox/venobox.min.js"></script>
 		<style type="text/css">
-			@font-face {
-			    font-family: 'rockwell';
-			    src: url('fonts/rockwell.eot');
-			    src: url('fonts/rockwell.eot?#iefix') format('embedded-opentype'),
-			         url('fonts/rockwell.woff') format('woff'),
-			         url('fonts/rockwell.ttf') format('truetype'),
-			         url('fonts/rockwell.svg#matchbook') format('svg');
-			    font-weight: normal;
-			    font-style: normal;
-			}
-			h1, h2, h3, h4{
-				font-family: 'rockwell', Arial, Helvetica, sans-serif;
-			}
-			ul, li{
-				list-style: none;
-				margin: 0;
-				padding: 0;
-			}
-			.left{
-				float: left;
-			}
-			.clear{
-				clear: both;
-			}
 			.logo{
 				float: left;
 				margin-right: 10px;
@@ -123,7 +97,7 @@
 		<header>
 		<div class="header">
 
-		<img class="logo" src="v.jpg"><h1 class="left"> VenoBox</h1>
+		<img class="logo" src="v.jpg"><h1 class="pull-left"> VenoBox</h1>
 		</div>
 
 			<p>Just another responsive jQuery <a target="_blank" href="http://en.wikipedia.org/wiki/Lightbox_%28JavaScript%29">lightbox</a> plugin, suitable for images, inline contents, iFrames, Google Maps, Ajax requests, Vimeo and YouTube videos.</p>
@@ -133,7 +107,7 @@
 		<div class="block">
 		<h2>Examples</h2>
 		<p>Image gallery (possibility of navigation with keyboard arrows)</p>
-			<ul class="thumbs">
+			<ul class="thumbs list-unstyled">
 				<li>
 					<a id="firstlink" class="venobox" data-gall="gall1" title="Breakfast Recipe" href="http://behance.vo.llnwd.net/profiles4/162876/projects/618102/25f7bf38a36413a35c1a1f1bf9363f76.png"><img src="img/pic1.jpg"></a>
 				</li>
@@ -146,8 +120,8 @@
 				<li>
 					<a class="venobox" data-gall="gall1" href="http://behance.vo.llnwd.net/profiles20/884161/projects/5205761/64628d508ea9b5de1ea0f2ff9066419c.jpg"><img src="img/pic4.jpg"></a>
 				</li>
-			</li>
-		<small class="left clear">pictures by: <a target="_blank" href="http://www.behance.net/luciobolognesi"> Basik</a>, <a target="_blank" href="http://www.behance.net/FedericoTomozBandini">TomoZ</a></small>
+			</ul>
+		<small class="pull-left clearfix">pictures by: <a target="_blank" href="http://www.behance.net/luciobolognesi"> Basik</a>, <a target="_blank" href="http://www.behance.net/FedericoTomozBandini">TomoZ</a></small>
 
 		</div>
 
@@ -251,11 +225,6 @@ $(document).ready(function(){
 			<p><code>framewidth:</code> you can set a static window width, otherwise the plugin will keep the responsive size settings of <code>.venoframe</code> class</p>
 			<p><code>frameheight:</code> you can set a static window height, otherwise the plugin will keep the responsive size settings of <code>.venoframe</code> class</p>
 		</div>
-		
-		<div class="block">
-			<h2>Download</h2>
-			<a class="btn btn-success" href="http://lab.veno.it/venobox/venobox.zip">Download VenoBox 1.2</a>
-		</div>
 
 		<footer class="footer">
 			<p><strong>VenoBox</strong> is a completely free plugin developed by <a target="_blank" href="http://www.veno.it"><strong>Nicola Franchini</strong></a></p>
@@ -292,17 +261,5 @@ $(document).ready(function(){
 		})
 	</script>
 
-	<script type="text/javascript">
-		var _gaq = _gaq || [];
-		_gaq.push(['_setAccount', 'UA-3220555-1']);
-		_gaq.push(['_setDomainName', 'veno.it']);
-		_gaq.push(['_trackPageview']);
-
-		(function() {
-		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-		})();
-	</script>
 	</body>
 </html>
