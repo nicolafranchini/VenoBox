@@ -1,0 +1,74 @@
+.logo{
+	float: left;
+	margin-right: 10px;
+	margin-top: 10px;
+}
+a img{
+	opacity: 1;
+	transition: opacity .25s ease-in-out;
+	-moz-transition: opacity .25s ease-in-out;
+	-webkit-transition: opacity .25s ease-in-out;
+}
+a img:hover{
+	opacity: 0.8;
+}
+.wrapper{
+	width: 94%;
+	margin: 0 auto;
+	max-width: 900px;
+}
+.block{
+	float: left;
+	width: 100%;
+	margin-bottom: 20px;
+}
+.header{
+	float: left;
+	width: 100%;
+	padding: 20px 0;
+}
+.header h1{
+	margin-top: 40px;
+}
+.footer{
+	float: left;
+	width: 100%;
+	padding: 30px 0;
+	text-align: center;
+	border-top: 1px solid #EEEEEE;
+}
+.footer a{
+	margin: 0 2px;
+}
+.footer p{
+	margin-bottom: 4px;
+}
+.btn{
+	margin-bottom: 10px;
+}
+.thumbs{
+	float: left;
+	clear: both;
+	width: 100%;
+}
+.thumbs li{
+	float: left;
+	margin-right: 10px;
+	margin-bottom: 4px;
+}
+.ringraziamenti{
+	font-size: 12px;
+}
+@media (max-width: 600px) {
+    .thumbs li{
+        width: 48%;
+        margin: 1%;
+        float: left;
+    }
+    .thumbs li img{
+    	width: 100%;
+    }
+    .block{
+		margin-bottom: 10px;
+	}
+}
