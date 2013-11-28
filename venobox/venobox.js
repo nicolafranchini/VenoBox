@@ -1,6 +1,6 @@
 /* 
  * VenoBox - jQuery Plugin
- * version: 1.2
+ * version: 1.2.2
  * @requires jQuery
  *
  * Examples at http://lab.veno.it/venobox/
@@ -446,17 +446,18 @@
 
       /* -------- CENTER ON RESIZE -------- */
       function updateoverlayresize(){
+        if($('.vbox-content').length){
+          sonH = content.height();
+          finH = $(window).height();
 
-        sonH = content.height();
-        finH = $(window).height();
-
-        if(sonH+80 < finH){
-          margine = (finH - sonH)/2;
-          content.css('margin-top', margine);
-          content.css('margin-bottom', margine);
-        }else{
-          content.css('margin-top', '40px');
-          content.css('margin-bottom', '40px');
+          if(sonH+80 < finH){
+            margine = (finH - sonH)/2;
+            content.css('margin-top', margine);
+            content.css('margin-bottom', margine);
+          }else{
+            content.css('margin-top', '40px');
+            content.css('margin-bottom', '40px');
+          }
         }
       }
 
