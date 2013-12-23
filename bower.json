@@ -6,7 +6,7 @@
     "Nicola Franchini"
   ],
   "description": "Responsive jQuery modal window plugin",
-  "main": "./venobox/venobox.js",
+  "main": "./venobox/venobox.min.js",
   "license": "Creative Commons Attribution 3.0 License",
   "ignore": [
     "**/.*",
