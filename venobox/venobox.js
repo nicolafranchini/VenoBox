@@ -1,6 +1,6 @@
 /* 
  * VenoBox - jQuery Plugin
- * version: 1.2.2
+ * version: 1.2.3
  * @requires jQuery
  *
  * Examples at http://lab.veno.it/venobox/
@@ -367,11 +367,11 @@
       })
       .done(function( msg ) {
           content.html('<div class="vbox-inline">'+ msg +'</div>');
-          updateoverlay();
+          updateoverlay(true);
 
       }) .fail(function() {
           content.html('<div class="vbox-inline"><p>Error retrieving contents, please retry</div>');
-          updateoverlay();
+          updateoverlay(true);
       })
     }
 
@@ -418,10 +418,14 @@
     }
 
     /* -------- CENTER ON LOAD -------- */
-    function updateoverlay(){
+    function updateoverlay(notopzero){
 
-      $(window).scrollTop(0);
-
+      notopzero = notopzero || false;
+      
+      if (notopzero != true) {
+        $(window).scrollTop(0);
+      }
+      
       blocktitle.html(title);
       content.find(">:first-child").addClass('figlio');
       $('.figlio').css('width', framewidth).css('height', frameheight).css('padding', border).css('background', bgcolor);
