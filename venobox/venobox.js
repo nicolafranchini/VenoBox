@@ -1,6 +1,6 @@
 /* 
  * VenoBox - jQuery Plugin
- * version: 1.2.3
+ * version: 1.2.4
  * @requires jQuery
  *
  * Examples at http://lab.veno.it/venobox/
@@ -54,7 +54,6 @@
                     top = $(window).scrollTop();
                     top = -top;
 
-                    //                   $('body').wrapInner('<div class="vwrap" style="top:'+ top +'px; height:'+$('body').height()+'" data-top="'+ top +'" ></div>')
                     $('body').wrapInner('<div class="vwrap"></div>')
 
                     vwrap =  $('.vwrap');
@@ -334,7 +333,7 @@
 
                       if( !$(e.target).is(evitacontent) && !$(e.target).is(evitanext) && !$(e.target).is(evitaprev)&& !$(e.target).is(figliall) ){
 
-                        overlay.css('opacity', '0');
+                        overlay.unbind("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd"); 
                         overlay.bind("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function(){ 
 
                           overlay.remove();
@@ -351,6 +350,7 @@
                           }
                           keyNavigationDisabled = false;
                         });
+                        overlay.css('opacity', '0');
                       }
                     });
                     return false;
