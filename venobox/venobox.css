@@ -30,16 +30,47 @@ body{
 /* ----- preloader ----- */
 .vbox-preloader{
     position:fixed; 
-    width:36px; 
-    height:36px;
+    width:32px; 
+    height:32px;
     left:50%; 
     top:50%; 
-    margin-left:-18px; 
-    margin-top:-18px;
-    background: url(preload.gif) center center no-repeat;
+    margin-left:-16px; 
+    margin-top:-16px;
+    background-image: url(preload.png);
     text-indent: -100px;
     overflow: hidden;
+    -webkit-animation: play 1.4s steps(18) infinite;
+       -moz-animation: play 1.4s steps(18) infinite;
+        -ms-animation: play 1.4s steps(18) infinite;
+         -o-animation: play 1.4s steps(18) infinite;
+            animation: play 1.4s steps(18) infinite;
 }
+
+@-webkit-keyframes play {
+   from { background-position:    0px; }
+     to { background-position: -576px; }
+}
+
+@-moz-keyframes play {
+   from { background-position:    0px; }
+     to { background-position: -576px; }
+}
+
+@-ms-keyframes play {
+   from { background-position:    0px; }
+     to { background-position: -576px; }
+}
+
+@-o-keyframes play {
+   from { background-position:    0px; }
+     to { background-position: -576px; }
+}
+
+@keyframes play {
+   from { background-position:    0px; }
+     to { background-position: -576px; }
+}
+
 
 /* ----- navigation ----- */
 .vbox-close{
