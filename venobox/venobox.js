@@ -1,6 +1,6 @@
 /* 
  * VenoBox - jQuery Plugin
- * version: 1.3
+ * version: 1.3.1
  * @requires jQuery
  *
  * Examples at http://lab.veno.it/venobox/
@@ -176,7 +176,7 @@
                         }
 
       
-                        if (overlayColor == undefined ) {
+                        if (overlayColor === undefined ) {
                           overlayColor = "";
                         }  
 
@@ -224,7 +224,7 @@
                           title = '';
                         }
 
-                        if (overlayColor == undefined ) {
+                        if (overlayColor === undefined ) {
                           overlayColor = "";
                         }  
 
@@ -272,7 +272,7 @@
                         title = '';
                       }
 
-                      if (overlayColor == undefined ) {
+                      if (overlayColor === undefined ) {
                         overlayColor = "";
                       }  
 
@@ -318,7 +318,7 @@
                         title = '';
                       }
 
-                      if (overlayColor == undefined ) {
+                      if (overlayColor === undefined ) {
                         overlayColor = "";
                       }  
 
