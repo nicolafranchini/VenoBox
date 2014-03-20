@@ -148,7 +148,7 @@ body{
     background: #fff;
     text-align: left;
     margin: 0 auto;
-    overflow: scroll;
+    overflow: auto;
 }
 
 /* ------- Video & iFrames window ------ */
@@ -156,7 +156,6 @@ body{
     border: none;
     width: 960px;
     height: 720px;
-    overflow: scroll;
 }
 @media (max-width: 992px) {
     .venoframe{
