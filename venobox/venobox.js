@@ -1,6 +1,6 @@
 /* 
  * VenoBox - jQuery Plugin
- * version: 1.3.1
+ * version: 1.3.2
  * @requires jQuery
  *
  * Examples at http://lab.veno.it/venobox/
@@ -11,7 +11,7 @@
  */
 (function($){
 
-    var overlayColor, overlay, vwrap, container, content, core, dest, top, sonH, finH, margine, prima, framewidth, frameheight, border, bgcolor, type, thisgall, items, thenext, theprev, title, nextok, prevok, keyNavigationDisabled, blocktitle, blocknum, numeratio, evitanext, evitaprev, evitacontent, figliall;
+    var overlayColor, overlay, vwrap, container, content, core, dest, top, sonH, finH, margine, prima, framewidth, frameheight, border, bgcolor, type, thisgall, items, thenext, theprev, title, nextok, prevok, keyNavigationDisabled, blocktitle, blocknum, numeratio, evitanext, evitaprev, evitacontent, figliall, infinigall;
 
     $.fn.extend({
         //plugin name - venobox
@@ -23,18 +23,21 @@
               frameheight: '',
               border: '0',
               bgcolor: '#fff',
-              numeratio: false
+              numeratio: false,
+              infinigall: false
           }; 
           var options = $.extend(defaults, options);
 
             return this.each(function() {
                   var obj = $(this);
+
                   obj.addClass('vbox-item');
                   obj.data('framewidth', options.framewidth);
                   obj.data('frameheight', options.frameheight);
                   obj.data('border', options.border);
                   obj.data('bgcolor', options.bgcolor);
                   obj.data('numeratio', options.numeratio);
+                  obj.data('infinigall', options.infinigall);
 
                   obj.click(function(e){
                     e.stopPropagation();
@@ -116,6 +119,7 @@
 
                       thisgall = obj.data('gall');
                       numeratio = obj.data('numeratio');
+                      infinigall = obj.data('infinigall');
 
                       items = $('.vbox-item[data-gall="' + thisgall + '"]');
 
@@ -137,19 +141,34 @@
                         blocktitle.fadeOut();
                       }
 
-                      if(thenext.length > 0 ){
-                        $('.vbox-next').css('display', 'block');
+                      if (infinigall === true) {
+
                         nextok = true;
-                      }else{
-                        $('.vbox-next').css('display', 'none');
-                        nextok = false;
-                      }
-                      if(items.index(obj) > 0 ){
-                        $('.vbox-prev').css('display', 'block');
                         prevok = true;
-                      }else{
-                        $('.vbox-prev').css('display', 'none');
-                        prevok = false;
+
+                        if(thenext.length < 1 ){
+                          thenext = items.eq(0);
+                        }
+                        if(items.index(obj) < 1 ){
+                          theprev = items.eq( items.index(items.length) );
+                        }   
+
+                      } else {
+
+                        if(thenext.length > 0 ){
+                          $('.vbox-next').css('display', 'block');
+                          nextok = true;
+                        }else{
+                          $('.vbox-next').css('display', 'none');
+                          nextok = false;
+                        }
+                        if(items.index(obj) > 0 ){
+                          $('.vbox-prev').css('display', 'block');
+                          prevok = true;
+                        }else{
+                          $('.vbox-prev').css('display', 'none');
+                          prevok = false;
+                        }
                       }
                     }
 
@@ -175,7 +194,6 @@
                           title = '';
                         }
 
-      
                         if (overlayColor === undefined ) {
                           overlayColor = "";
                         }  
@@ -429,7 +447,6 @@
 
     /* -------- PRELOAD IMAGE -------- */
     function preloadFirst(){
-
         prima = $('.vbox-content').find('img');
         prima.one('load', function() {
           updateoverlay();
@@ -441,9 +458,7 @@
 
     /* -------- CENTER ON LOAD -------- */
     function updateoverlay(notopzero){
-
       notopzero = notopzero || false;
-      
       if (notopzero != true) {
         $(window).scrollTop(0);
       }
@@ -467,7 +482,6 @@
       content.animate({
         'opacity': '1'
       },'slow');
-
     }
 
     /* -------- CENTER ON RESIZE -------- */

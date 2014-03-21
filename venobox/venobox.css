@@ -27,7 +27,9 @@ body{
     display: block;
     position: relative;
 }
-/* ----- preloader ----- */
+/* ----- preloader - choose between CIRCLE, IOS, DOTS, QUADS ----- */
+
+/* circle preloader */
 .vbox-preloader{
     position:fixed; 
     width:32px; 
@@ -36,42 +38,157 @@ body{
     top:50%; 
     margin-left:-16px; 
     margin-top:-16px;
-    background-image: url(preload.png);
+    background-image: url(preload-circle.png);
     text-indent: -100px;
     overflow: hidden;
-    -webkit-animation: play 1.4s steps(18) infinite;
-       -moz-animation: play 1.4s steps(18) infinite;
-        -ms-animation: play 1.4s steps(18) infinite;
-         -o-animation: play 1.4s steps(18) infinite;
-            animation: play 1.4s steps(18) infinite;
+    -webkit-animation: playload 1.4s steps(18) infinite;
+       -moz-animation: playload 1.4s steps(18) infinite;
+        -ms-animation: playload 1.4s steps(18) infinite;
+         -o-animation: playload 1.4s steps(18) infinite;
+            animation: playload 1.4s steps(18) infinite;
 }
-
-@-webkit-keyframes play {
+@-webkit-keyframes playload {
    from { background-position:    0px; }
      to { background-position: -576px; }
 }
-
-@-moz-keyframes play {
+@-moz-keyframes playload {
    from { background-position:    0px; }
      to { background-position: -576px; }
 }
-
-@-ms-keyframes play {
+@-ms-keyframes playload {
    from { background-position:    0px; }
      to { background-position: -576px; }
 }
-
-@-o-keyframes play {
+@-o-keyframes playload {
    from { background-position:    0px; }
      to { background-position: -576px; }
 }
-
-@keyframes play {
+@keyframes playload {
    from { background-position:    0px; }
      to { background-position: -576px; }
 }
+/* IOS preloader */
+/*
+.vbox-preloader{
+    position:fixed; 
+    width:32px; 
+    height:32px;
+    left:50%; 
+    top:50%; 
+    margin-left:-16px; 
+    margin-top:-16px;
+    background-image: url(preload-ios.png);
+    text-indent: -100px;
+    overflow: hidden;
+    -webkit-animation: playload 1.4s steps(12) infinite;
+       -moz-animation: playload 1.4s steps(12) infinite;
+        -ms-animation: playload 1.4s steps(12) infinite;
+         -o-animation: playload 1.4s steps(12) infinite;
+            animation: playload 1.4s steps(12) infinite;
+}
 
+@-webkit-keyframes playload {
+   from { background-position:    0px; }
+     to { background-position: -384px; }
+}
+@-moz-keyframes playload {
+   from { background-position:    0px; }
+     to { background-position: -384px; }
+}
+@-ms-keyframes playload {
+   from { background-position:    0px; }
+     to { background-position: -384px; }
+}
+@-o-keyframes playload {
+   from { background-position:    0px; }
+     to { background-position: -384px; }
+}
+@keyframes playload {
+   from { background-position:    0px; }
+     to { background-position: -384px; }
+}
+*/
+/* dots preloader */
+/*
+.vbox-preloader{
+    position:fixed; 
+    width:32px; 
+    height:11px;
+    left:50%; 
+    top:50%; 
+    margin-left:-16px; 
+    margin-top:-16px;
+    background-image: url(preload-dots.png);
+    text-indent: -100px;
+    overflow: hidden;
+    -webkit-animation: playload 1.4s steps(24) infinite;
+       -moz-animation: playload 1.4s steps(24) infinite;
+        -ms-animation: playload 1.4s steps(24) infinite;
+         -o-animation: playload 1.4s steps(24) infinite;
+            animation: playload 1.4s steps(24) infinite;
+}
 
+@-webkit-keyframes playload {
+   from { background-position:    0px; }
+     to { background-position: -768px; }
+}
+@-moz-keyframes playload {
+   from { background-position:    0px; }
+     to { background-position: -768px; }
+}
+@-ms-keyframes playload {
+   from { background-position:    0px; }
+     to { background-position: -768px; }
+}
+@-o-keyframes playload {
+   from { background-position:    0px; }
+     to { background-position: -768px; }
+}
+@keyframes playload {
+   from { background-position:    0px; }
+     to { background-position: -768px; }
+}
+*/
+/* quads preloader */
+/*
+.vbox-preloader{
+    position:fixed; 
+    width:32px; 
+    height:10px;
+    left:50%; 
+    top:50%; 
+    margin-left:-16px; 
+    margin-top:-16px;
+    background-image: url(preload-quads.png);
+    text-indent: -100px;
+    overflow: hidden;
+    -webkit-animation: playload 1.4s steps(12) infinite;
+       -moz-animation: playload 1.4s steps(12) infinite;
+        -ms-animation: playload 1.4s steps(12) infinite;
+         -o-animation: playload 1.4s steps(12) infinite;
+            animation: playload 1.4s steps(12) infinite;
+}
+@-webkit-keyframes playload {
+   from { background-position:    0px; }
+     to { background-position: -384px; }
+}
+@-moz-keyframes playload {
+   from { background-position:    0px; }
+     to { background-position: -384px; }
+}
+@-ms-keyframes playload {
+   from { background-position:    0px; }
+     to { background-position: -384px; }
+}
+@-o-keyframes playload {
+   from { background-position:    0px; }
+     to { background-position: -384px; }
+}
+@keyframes playload {
+   from { background-position:    0px; }
+     to { background-position: -384px; }
+}
+*/
 /* ----- navigation ----- */
 .vbox-close{
     cursor: pointer;
