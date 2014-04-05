@@ -1,6 +1,6 @@
 /* 
  * VenoBox - jQuery Plugin
- * version: 1.3.2
+ * version: 1.3.3
  * @requires jQuery
  *
  * Examples at http://lab.veno.it/venobox/
@@ -11,7 +11,7 @@
  */
 (function($){
 
-    var overlayColor, overlay, vwrap, container, content, core, dest, top, sonH, finH, margine, prima, framewidth, frameheight, border, bgcolor, type, thisgall, items, thenext, theprev, title, nextok, prevok, keyNavigationDisabled, blocktitle, blocknum, numeratio, evitanext, evitaprev, evitacontent, figliall, infinigall;
+    var ios, ie9, overlayColor, overlay, vwrap, container, content, core, dest, top, sonH, finH, margine, prima, framewidth, frameheight, border, bgcolor, type, thisgall, items, thenext, theprev, title, nextok, prevok, keyNavigationDisabled, blocktitle, blocknum, numeratio, evitanext, evitaprev, evitacontent, figliall, infinigall;
 
     $.fn.extend({
         //plugin name - venobox
@@ -38,6 +38,11 @@
                   obj.data('bgcolor', options.bgcolor);
                   obj.data('numeratio', options.numeratio);
                   obj.data('infinigall', options.infinigall);
+
+                  ios = (navigator.userAgent.match(/(iPad|iPhone|iPod)/g) ? true : false);
+
+                  // Idiot Explorer 9 or less
+                  ie9 = ((document.all && !window.atob) ? true : false);
 
                   obj.click(function(e){
                     e.stopPropagation();
@@ -73,46 +78,66 @@
 
                     checknav();
 
-                    overlay.css({
-                      'opacity': '1',
-                      'min-height' : $(window).outerHeight() + 130
-                    });
+                    overlay.css('min-height', $(window).outerHeight() + 130);
 
-                    if (navigator.userAgent.match(/(iPod|iPhone|iPad|Android)/)) { 
+                    if (ie9) {
+                      overlay.animate({opacity:1}, 250, function(){ 
+                        overlay.css({
+                          'min-height': $(window).outerHeight(),
+                          height : 'auto'
+                        });
+                        if(obj.data('type') == 'iframe'){
+                          loadIframe();
+                        }else if (obj.data('type') == 'inline'){
+                          loadInline();
+                        }else if (obj.data('type') == 'ajax'){
+                          loadAjax(); 
+                        }else if (obj.data('type') == 'vimeo'){
+                          loadVimeo();
+                        }else if (obj.data('type') == 'youtube'){
+                          loadYoutube();
+                        } else {
+                          content.html('<img src="'+dest+'">');
+                          preloadFirst();
+                        }
+                      });
+                    } else {
+                      overlay.bind("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function(){ 
+                        overlay.css({
+                          'min-height': $(window).outerHeight(),
+                          height : 'auto'
+                        });
+                        if(obj.data('type') == 'iframe'){
+                          loadIframe();
+                        }else if (obj.data('type') == 'inline'){
+                          loadInline();
+                        }else if (obj.data('type') == 'ajax'){
+                          loadAjax(); 
+                        }else if (obj.data('type') == 'vimeo'){
+                          loadVimeo();
+                        }else if (obj.data('type') == 'youtube'){
+                          loadYoutube();
+                        } else {
+                          content.html('<img src="'+dest+'">');
+                          preloadFirst();
+                        }
+                      });
+                      overlay.css('opacity', '1');
+                    }
+
+                    if (ios) { 
                       vwrap.css({
                         'position': 'fixed',
                         'top': top,
                         'opacity': '0'
                       }).data('top', top);
-                    }else{
+                    } else {
                       vwrap.css({
                         'position': 'fixed',
                         'top': top,
                       }).data('top', top);
                       $(window).scrollTop(0);
                     }
-
-                    overlay.bind("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function(){ 
-                      overlay.css({
-                        'min-height': $(window).outerHeight(),
-                        height : 'auto'
-                      });
-
-                      if(obj.data('type') == 'iframe'){
-                        loadIframe();
-                      }else if (obj.data('type') == 'inline'){
-                        loadInline();
-                      }else if (obj.data('type') == 'ajax'){
-                        loadAjax(); 
-                      }else if (obj.data('type') == 'vimeo'){
-                        loadVimeo();
-                      }else if (obj.data('type') == 'youtube'){
-                        loadYoutube();
-                      } else {
-                        content.html('<img src="'+dest+'">');
-                        preloadFirst();
-                      }
-                    });                 
 
                     /* -------- CHECK NEXT / PREV -------- */
                     function checknav(){
@@ -373,24 +398,34 @@
 
                       if( !$(e.target).is(evitacontent) && !$(e.target).is(evitanext) && !$(e.target).is(evitaprev)&& !$(e.target).is(figliall) ){
 
-                        overlay.unbind("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd"); 
-                        overlay.bind("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function(){ 
 
-                          overlay.remove();
+                        if (ie9) {
+                          overlay.animate({opacity:0}, 500, function(){
+                            overlay.remove();
+                            $('.vwrap').children().unwrap();
+                            $(window).scrollTop(-top);
+                            keyNavigationDisabled = false;
+                          });
+                        } else {
 
-                          if (navigator.userAgent.match(/(iPod|iPhone|iPad|Android)/)) { 
-                            $('.vwrap').css('opacity', '1');
-                            $('.vwrap').bind("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function(){ 
+                          overlay.unbind("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd"); 
+                          overlay.bind("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function(){ 
+                            overlay.remove();
+
+                            if (ios) { 
+                              $('.vwrap').bind("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function(){ 
+                                $('.vwrap').children().unwrap();
+                                $(window).scrollTop(-top);
+                              });
+                              $('.vwrap').css('opacity', '1');
+                            }else{
                               $('.vwrap').children().unwrap();
                               $(window).scrollTop(-top);
-                            });
-                          }else{
-                              $('.vwrap').children().unwrap();
-                            $(window).scrollTop(-top);
-                          }
-                          keyNavigationDisabled = false;
-                        });
-                        overlay.css('opacity', '0');
+                            }
+                            keyNavigationDisabled = false;
+                          });
+                          overlay.css('opacity', '0');
+                        }
                       }
                     });
                     return false;

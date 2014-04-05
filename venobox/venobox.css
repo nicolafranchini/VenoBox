@@ -7,6 +7,7 @@ body{
 }
 /* ------- overlay: change here background color and opacity ----- */
 .vbox-overlay{
+    background: #181818;
     background: rgba(0,0,0,0.85); 
     width: 100%;
     height: auto;
@@ -322,12 +323,12 @@ body{
     -moz-transition: opacity .25s ease-in-out;
     -webkit-transition: opacity .25s ease-in-out;
     width: 100%;
+    height: auto;
     float: left;
     position: relative;
     margin: 0;
     padding: 0;
     left: 0;
-    height: auto;
     overflow: hidden;
     z-index: 1;
 }
