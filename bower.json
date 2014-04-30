@@ -18,7 +18,12 @@
     "**/.*",
     "node_modules",
     "bower_components",
+    "bower.json",
+    "README.md"
     "test",
     "tests"
-  ]
+  ],
+  "dependencies": {
+    "jquery": ">=1.11.0"
+  }
 }
