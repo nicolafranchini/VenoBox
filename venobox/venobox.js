@@ -1,6 +1,6 @@
 /* 
  * VenoBox - jQuery Plugin
- * version: 1.3.3
+ * version: 1.3.4
  * @requires jQuery
  *
  * Examples at http://lab.veno.it/venobox/
@@ -470,7 +470,7 @@
     function loadYoutube(){
       var pezzi = dest.split('/');
       var videoid = pezzi[pezzi.length-1];
-      content.html('<iframe class="venoframe" src="http://www.youtube.com/embed/'+videoid+'"></iframe>')
+      content.html('<iframe class="venoframe" allowfullscreen src="http://www.youtube.com/embed/'+videoid+'"></iframe>')
       updateoverlay();
     }
     
