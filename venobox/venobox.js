@@ -1,6 +1,6 @@
-/* 
+/*
  * VenoBox - jQuery Plugin
- * version: 1.3.6
+ * version: 1.3.7
  * @requires jQuery
  *
  * Examples at http://lab.veno.it/venobox/
@@ -11,7 +11,7 @@
  */
 (function($){
 
-    var ios, ie9, overlayColor, overlay, vwrap, container, content, core, dest, top, sonH, finH, margine, prima, framewidth, frameheight, border, bgcolor, type, thisgall, items, thenext, theprev, title, nextok, prevok, keyNavigationDisabled, blocktitle, blocknum, numeratio, evitanext, evitaprev, evitacontent, figliall, infinigall;
+    var ios, ie9, overlayColor, overlay, vwrap, container, content, core, dest, top, sonH, finH, margine, prima, framewidth, frameheight, border, bgcolor, type, thisgall, items, thenext, theprev, title, nextok, prevok, keyNavigationDisabled, blocktitle, blocknum, numeratio, evitanext, evitaprev, evitacontent, figliall, infinigall, extraCss;
 
     $.fn.extend({
         //plugin name - venobox
@@ -25,7 +25,7 @@
               bgcolor: '#fff',
               numeratio: false,
               infinigall: false
-          }; 
+          };
           var options = $.extend(defaults, options);
 
             return this.each(function() {
@@ -59,11 +59,12 @@
                     dest = obj.attr('href');
                     top = $(window).scrollTop();
                     top = -top;
+                    extraCss = obj.data( 'css' ) || "";
 
                     $('body').wrapInner('<div class="vwrap"></div>')
 
                     vwrap = $('.vwrap');
-                    core = '<div class="vbox-overlay" style="background:'+ overlayColor +'"><div class="vbox-preloader">Loading...</div><div class="vbox-container"><div class="vbox-content"></div></div><div class="vbox-title"></div><div class="vbox-num">0/0</div><div class="vbox-close">X</div><div class="vbox-next">next</div><div class="vbox-prev">prev</div></div>';
+                    core = '<div class="vbox-overlay ' + extraCss + '" style="background:'+ overlayColor +'"><div class="vbox-preloader">Loading...</div><div class="vbox-container"><div class="vbox-content"></div></div><div class="vbox-title"></div><div class="vbox-num">0/0</div><div class="vbox-close">X</div><div class="vbox-next">next</div><div class="vbox-prev">prev</div></div>';
 
                     $('body').append(core);
 
@@ -81,7 +82,7 @@
                     overlay.css('min-height', $(window).outerHeight() + 130);
 
                     if (ie9) {
-                      overlay.animate({opacity:1}, 250, function(){ 
+                      overlay.animate({opacity:1}, 250, function(){
                         overlay.css({
                           'min-height': $(window).outerHeight(),
                           height : 'auto'
@@ -91,7 +92,7 @@
                         }else if (obj.data('type') == 'inline'){
                           loadInline();
                         }else if (obj.data('type') == 'ajax'){
-                          loadAjax(); 
+                          loadAjax();
                         }else if (obj.data('type') == 'vimeo'){
                           loadVimeo();
                         }else if (obj.data('type') == 'youtube'){
@@ -102,7 +103,7 @@
                         }
                       });
                     } else {
-                      overlay.bind("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function(){ 
+                      overlay.bind("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function(){
                         overlay.css({
                           'min-height': $(window).outerHeight(),
                           height : 'auto'
@@ -112,7 +113,7 @@
                         }else if (obj.data('type') == 'inline'){
                           loadInline();
                         }else if (obj.data('type') == 'ajax'){
-                          loadAjax(); 
+                          loadAjax();
                         }else if (obj.data('type') == 'vimeo'){
                           loadVimeo();
                         }else if (obj.data('type') == 'youtube'){
@@ -125,7 +126,7 @@
                       overlay.css('opacity', '1');
                     }
 
-                    if (ios) { 
+                    if (ios) {
                       vwrap.css({
                         'position': 'fixed',
                         'top': top,
@@ -176,7 +177,7 @@
                         }
                         if(items.index(obj) < 1 ){
                           theprev = items.eq( items.index(items.length) );
-                        }   
+                        }
 
                       } else {
 
@@ -200,7 +201,7 @@
                     /* -------- NAVIGATE WITH ARROW KEYS -------- */
                     $('body').keydown(function(e) {
                       if (keyNavigationDisabled) return;
-                      
+
                       if(e.keyCode == 37 && prevok == true) { // left
                         keyNavigationDisabled = true;
 
@@ -212,7 +213,7 @@
                         bgcolor = theprev.data('bgcolor');
 
                         dest = theprev.attr('href');
-                        
+
                         if(theprev.attr('title')){
                           title = theprev.attr('title');
                         }else{
@@ -221,10 +222,10 @@
 
                         if (overlayColor === undefined ) {
                           overlayColor = "";
-                        }  
+                        }
 
                         overlay.css('min-height', $(window).outerHeight() + 130);
-                      
+
                         content.animate({ opacity:0}, 500, function(){
                         overlay.css('min-height', $(window).outerHeight()).css('background',overlayColor);
 
@@ -269,7 +270,7 @@
 
                         if (overlayColor === undefined ) {
                           overlayColor = "";
-                        }  
+                        }
 
                         overlay.css('min-height', $(window).outerHeight() + 130);
 
@@ -317,7 +318,7 @@
 
                       if (overlayColor === undefined ) {
                         overlayColor = "";
-                      }  
+                      }
 
                       overlay.css('min-height', $(window).outerHeight() + 130);
 
@@ -329,7 +330,7 @@
                         } else if (thenext.data('type') == 'inline'){
                           loadInline();
                         } else if (thenext.data('type') == 'ajax'){
-                          loadAjax();     
+                          loadAjax();
                         } else if (thenext.data('type') == 'youtube'){
                           loadYoutube();
                         } else if (thenext.data('type') == 'vimeo'){
@@ -340,7 +341,7 @@
                         }
                         obj = thenext;
                         checknav();
-                      });    
+                      });
                     });
 
                     /* -------- PREVGALL -------- */
@@ -354,7 +355,7 @@
                       bgcolor = theprev.data('bgcolor');
 
                       dest = theprev.attr('href');
-                      
+
                       if(theprev.attr('title')){
                         title = theprev.attr('title');
                       }else{
@@ -363,7 +364,7 @@
 
                       if (overlayColor === undefined ) {
                         overlayColor = "";
-                      }  
+                      }
 
                       overlay.css('min-height', $(window).outerHeight() + 130);
 
@@ -408,12 +409,12 @@
                           });
                         } else {
 
-                          overlay.unbind("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd"); 
-                          overlay.bind("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function(){ 
+                          overlay.unbind("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd");
+                          overlay.bind("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function(){
                             overlay.remove();
 
-                            if (ios) { 
-                              $('.vwrap').bind("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function(){ 
+                            if (ios) {
+                              $('.vwrap').bind("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function(){
                                 $('.vwrap').children().unwrap();
                                 $(window).scrollTop(-top);
                               });
@@ -473,7 +474,7 @@
       content.html('<iframe class="venoframe" allowfullscreen src="http://www.youtube.com/embed/'+videoid+'"></iframe>')
       updateoverlay();
     }
-    
+
     /* -------- LOAD INLINE -------- */
     function loadInline(){
       content.html('<div class="vbox-inline">'+$(dest).html()+'</div>');
@@ -488,7 +489,7 @@
 
         }).each(function() {
           if(this.complete) $(this).load();
-        }); 
+        });
     }
 
     /* -------- CENTER ON LOAD -------- */
@@ -497,7 +498,7 @@
       if (notopzero != true) {
         $(window).scrollTop(0);
       }
-      
+
       blocktitle.html(title);
       content.find(">:first-child").addClass('figlio');
       $('.figlio').css('width', framewidth).css('height', frameheight).css('padding', border).css('background', bgcolor);
