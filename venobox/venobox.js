@@ -1,6 +1,6 @@
 /*
  * VenoBox - jQuery Plugin
- * version: 1.4.0
+ * version: 1.3.9
  * @requires jQuery
  *
  * Examples at http://lab.veno.it/venobox/
