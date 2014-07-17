@@ -1,6 +1,6 @@
 {
   "name": "venobox",
-  "version": "1.3.6",
+  "version": "1.4",
   "authors": [
     "Nicola Franchini"
   ],
@@ -22,6 +22,6 @@
     "README.md"
   ],
   "dependencies": {
-    "jquery": "<=1.11.0"
+    "jquery": ">=1.10.0"
   }
 }

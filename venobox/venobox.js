@@ -1,6 +1,6 @@
 /*
  * VenoBox - jQuery Plugin
- * version: 1.3.6
+ * version: 1.4
  * @requires jQuery
  *
  * Examples at http://lab.veno.it/venobox/
@@ -11,7 +11,7 @@
  */
 (function($){
 
-    var ios, ie9, overlayColor, overlay, vwrap, container, content, core, dest, top, sonH, finH, margine, prima, framewidth, frameheight, border, bgcolor, type, thisgall, items, thenext, theprev, title, nextok, prevok, keyNavigationDisabled, blocktitle, blocknum, numeratio, evitanext, evitaprev, evitacontent, figliall, infinigall;
+    var ios, ie9, overlayColor, overlay, vwrap, container, content, core, dest, top, sonH, finH, margine, prima, framewidth, frameheight, border, bgcolor, type, thisgall, items, thenext, theprev, title, nextok, prevok, keyNavigationDisabled, blocktitle, blocknum, numeratio, evitanext, evitaprev, evitacontent, figliall, infinigall, extraCss;
 
     $.fn.extend({
         //plugin name - venobox
@@ -79,7 +79,7 @@
 
                     checknav();
 
-                    overlay.css('min-height', $(window).outerHeight() + 130);
+                    overlay.css('min-height', $(window).outerHeight());
 
                     if (ie9) {
                       overlay.animate({opacity:1}, 250, function(){
@@ -167,7 +167,7 @@
                         blocktitle.fadeOut();
                       }
 
-                      if (infinigall === true) {
+                      if (items.length > 0 && infinigall === true) {
 
                         nextok = true;
                         prevok = true;
@@ -224,7 +224,7 @@
                           overlayColor = "";
                         }
 
-                        overlay.css('min-height', $(window).outerHeight() + 130);
+                        overlay.css('min-height', $(window).outerHeight());
 
                         content.animate({ opacity:0}, 500, function(){
                         overlay.css('min-height', $(window).outerHeight()).css('background',overlayColor);
@@ -272,7 +272,7 @@
                           overlayColor = "";
                         }
 
-                        overlay.css('min-height', $(window).outerHeight() + 130);
+                        overlay.css('min-height', $(window).outerHeight());
 
                         content.animate({ opacity:0}, 500, function(){
                         overlay.css('min-height', $(window).outerHeight()).css('background',overlayColor);
@@ -320,7 +320,7 @@
                         overlayColor = "";
                       }
 
-                      overlay.css('min-height', $(window).outerHeight() + 130);
+                      overlay.css('min-height', $(window).outerHeight());
 
                       content.animate({ opacity:0}, 500, function(){
                       overlay.css('min-height', $(window).outerHeight()).css('background',overlayColor);
@@ -366,7 +366,7 @@
                         overlayColor = "";
                       }
 
-                      overlay.css('min-height', $(window).outerHeight() + 130);
+                      overlay.css('min-height', $(window).outerHeight());
 
                       content.animate({ opacity:0}, 500, function(){
                       overlay.css('min-height', $(window).outerHeight()).css('background',overlayColor);
@@ -390,7 +390,43 @@
                       });
                     });
 
+
+                    /* -------- CLOSE VBOX -------- */
+
+                    function closeVbox(){
+                      if (ie9) {
+                        overlay.animate({opacity:0}, 500, function(){
+                          overlay.remove();
+                          $('.vwrap').children().unwrap();
+                          $(window).scrollTop(-top);
+                          keyNavigationDisabled = false;
+                          obj.focus();
+                        });
+                      } else {
+
+                        overlay.unbind("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd");
+                        overlay.bind("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function(){
+                          overlay.remove();
+
+                          if (ios) {
+                            $('.vwrap').bind("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function(){
+                              $('.vwrap').children().unwrap();
+                              $(window).scrollTop(-top);
+                            });
+                            $('.vwrap').css('opacity', '1');
+                          }else{
+                            $('.vwrap').children().unwrap();
+                            $(window).scrollTop(-top);
+                          }
+                          keyNavigationDisabled = false;
+                          obj.focus();
+                        });
+                        overlay.css('opacity', '0');
+                      }
+                    }
+
                     /* -------- CHIUDI -------- */
+
                     $('.vbox-close, .vbox-overlay').click(function(e){
                       evitacontent = '.figlio';
                       evitaprev = '.vbox-prev';
@@ -398,54 +434,34 @@
                       figliall = '.figlio *';
 
                       if( !$(e.target).is(evitacontent) && !$(e.target).is(evitanext) && !$(e.target).is(evitaprev)&& !$(e.target).is(figliall) ){
-
-
-                        if (ie9) {
-                          overlay.animate({opacity:0}, 500, function(){
-                            overlay.remove();
-                            $('.vwrap').children().unwrap();
-                            $(window).scrollTop(-top);
-                            keyNavigationDisabled = false;
-                          });
-                        } else {
-
-                          overlay.unbind("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd");
-                          overlay.bind("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function(){
-                            overlay.remove();
-
-                            if (ios) {
-                              $('.vwrap').bind("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function(){
-                                $('.vwrap').children().unwrap();
-                                $(window).scrollTop(-top);
-                              });
-                              $('.vwrap').css('opacity', '1');
-                            }else{
-                              $('.vwrap').children().unwrap();
-                              $(window).scrollTop(-top);
-                            }
-                            keyNavigationDisabled = false;
-                          });
-                          overlay.css('opacity', '0');
-                        }
+                        closeVbox();
                       }
                     });
+
+                    $('body').keydown(function(e) {
+                      if(e.keyCode == 27) {
+                        closeVbox();
+                      }
+
+                    });
+
                     return false;
                   });
             });
         }
     });
 
+
     /* -------- LOAD AJAX -------- */
     function loadAjax(){
       $.ajax({
       url: dest,
       cache: false
-      })
-      .done(function( msg ) {
+      }).done(function( msg ) {
           content.html('<div class="vbox-inline">'+ msg +'</div>');
           updateoverlay(true);
 
-      }) .fail(function() {
+      }).fail(function() {
           content.html('<div class="vbox-inline"><p>Error retrieving contents, please retry</div>');
           updateoverlay(true);
       })
