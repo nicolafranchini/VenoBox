@@ -23,9 +23,11 @@
               frameheight: '',
               border: '0',
               bgcolor: '#fff',
+              titleattr: 'title',
               numeratio: false,
               infinigall: false
           };
+
           var options = $.extend(defaults, options);
 
             return this.each(function() {
@@ -159,8 +161,8 @@
                       thenext = items.eq( items.index(obj) + 1 );
                       theprev = items.eq( items.index(obj) - 1 );
 
-                      if(obj.attr('title')){
-                        title = obj.attr('title');
+                      if(obj.attr(options.titleattr)){
+                        title = obj.attr(options.titleattr);
                         blocktitle.fadeIn();
                       }else{
                         title = '';
@@ -214,8 +216,8 @@
 
                         dest = theprev.attr('href');
 
-                        if(theprev.attr('title')){
-                          title = theprev.attr('title');
+                        if(theprev.attr(options.titleattr)){
+                          title = theprev.attr(options.titleattr);
                         }else{
                           title = '';
                         }
@@ -264,8 +266,8 @@
 
                         dest = thenext.attr('href');
 
-                        if(thenext.attr('title')){
-                          title = thenext.attr('title');
+                        if(thenext.attr(options.titleattr)){
+                          title = thenext.attr(options.titleattr);
                         }else{
                           title = '';
                         }
