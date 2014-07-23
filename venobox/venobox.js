@@ -197,12 +197,12 @@
                         }
                       }
                     }
+                    
+                     /* -------- NAVIGATION CODE -------- */
+                    var gallnav = {
+                      
+                      prev: function() {
 
-                    /* -------- NAVIGATE WITH ARROW KEYS -------- */
-                    $('body').keydown(function(e) {
-                      if (keyNavigationDisabled) return;
-
-                      if(e.keyCode == 37 && prevok == true) { // left
                         keyNavigationDisabled = true;
 
                         overlayColor = theprev.data('overlay');
@@ -248,8 +248,10 @@
                           keyNavigationDisabled = false;
                         });
 
-                      }
-                      if(e.keyCode == 39 && nextok == true) { // right
+                      },
+
+                      next: function() {
+                        
                         keyNavigationDisabled = true;
 
                         overlayColor = thenext.data('overlay');
@@ -297,102 +299,32 @@
                         });
 
                       }
-                    });
-                    /* -------- NEXTGALL -------- */
-                    $('.vbox-next').click(function(){
 
-                      overlayColor = thenext.data('overlay');
+                    }
 
-                      framewidth = thenext.data('framewidth');
-                      frameheight = thenext.data('frameheight');
-                      border = thenext.data('border');
-                      bgcolor = thenext.data('bgcolor');
+                    /* -------- NAVIGATE WITH ARROW KEYS -------- */
+                    $('body').keydown(function(e) {
+                      if (keyNavigationDisabled) return;
 
-                      dest = thenext.attr('href');
-
-                      if(thenext.attr('title')){
-                        title = thenext.attr('title');
-                      }else{
-                        title = '';
+                      if(e.keyCode == 37 && prevok == true) { // left
+                        gallnav.prev();
                       }
-
-                      if (overlayColor === undefined ) {
-                        overlayColor = "";
+                      if(e.keyCode == 39 && nextok == true) { // right
+                        gallnav.next();
                       }
-
-                      overlay.css('min-height', $(window).outerHeight());
-
-                      content.animate({ opacity:0}, 500, function(){
-                      overlay.css('min-height', $(window).outerHeight()).css('background',overlayColor);
-
-                        if (thenext.data('type') == 'iframe') {
-                          loadIframe();
-                        } else if (thenext.data('type') == 'inline'){
-                          loadInline();
-                        } else if (thenext.data('type') == 'ajax'){
-                          loadAjax();
-                        } else if (thenext.data('type') == 'youtube'){
-                          loadYoutube();
-                        } else if (thenext.data('type') == 'vimeo'){
-                          loadVimeo();
-                        }else{
-                            content.html('<img src="'+dest+'">');
-                            preloadFirst();
-                        }
-                        obj = thenext;
-                        checknav();
-                      });
                     });
 
                     /* -------- PREVGALL -------- */
                     $('.vbox-prev').click(function(){
-
-                      overlayColor = theprev.data('overlay');
-
-                      framewidth = theprev.data('framewidth');
-                      frameheight = theprev.data('frameheight');
-                      border = theprev.data('border');
-                      bgcolor = theprev.data('bgcolor');
-
-                      dest = theprev.attr('href');
-
-                      if(theprev.attr('title')){
-                        title = theprev.attr('title');
-                      }else{
-                        title = '';
-                      }
-
-                      if (overlayColor === undefined ) {
-                        overlayColor = "";
-                      }
-
-                      overlay.css('min-height', $(window).outerHeight());
-
-                      content.animate({ opacity:0}, 500, function(){
-                      overlay.css('min-height', $(window).outerHeight()).css('background',overlayColor);
-
-                        if (theprev.data('type') == 'iframe') {
-                          loadIframe();
-                        } else if (theprev.data('type') == 'inline'){
-                          loadInline();
-                        } else if (theprev.data('type') == 'ajax'){
-                          loadAjax();
-                        } else if (theprev.data('type') == 'youtube'){
-                          loadYoutube();
-                        } else if (theprev.data('type') == 'vimeo'){
-                          loadVimeo();
-                        }else{
-                          content.html('<img src="'+dest+'">');
-                          preloadFirst();
-                        }
-                          obj = theprev;
-                          checknav();
-                      });
+                      gallnav.prev();
+                    });
+                    
+                    /* -------- NEXTGALL -------- */
+                    $('.vbox-next').click(function(){
+                      gallnav.next();
                     });
 
-
                     /* -------- CLOSE VBOX -------- */
-
                     function closeVbox(){
                       if (ie9) {
                         overlay.animate({opacity:0}, 500, function(){
@@ -502,7 +434,6 @@
         prima = $('.vbox-content').find('img');
         prima.one('load', function() {
           updateoverlay();
-
         }).each(function() {
           if(this.complete) $(this).load();
         });
