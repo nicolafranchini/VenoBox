@@ -205,7 +205,7 @@
                       
                       prev: function() {
 
-                        keyNavigationDisabled = true;
+                        if (keyNavigationDisabled) return; else keyNavigationDisabled = true;
 
                         overlayColor = theprev.data('overlay');
 
@@ -254,7 +254,7 @@
 
                       next: function() {
                         
-                        keyNavigationDisabled = true;
+                        if (keyNavigationDisabled) return; else keyNavigationDisabled = true;
 
                         overlayColor = thenext.data('overlay');
 
@@ -306,14 +306,15 @@
 
                     /* -------- NAVIGATE WITH ARROW KEYS -------- */
                     $('body').keydown(function(e) {
-                      if (keyNavigationDisabled) return;
 
                       if(e.keyCode == 37 && prevok == true) { // left
                         gallnav.prev();
                       }
+
                       if(e.keyCode == 39 && nextok == true) { // right
                         gallnav.next();
                       }
+
                     });
 
                     /* -------- PREVGALL -------- */
