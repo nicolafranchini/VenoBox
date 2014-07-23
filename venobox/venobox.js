@@ -323,10 +323,22 @@
                     $('.vbox-next').click(function(){
                       gallnav.next();
                     });
+                    
+                    /* -------- ESCAPE HANDLER -------- */
+                    function escapeHandler(e) {
+                      if(e.keyCode === 27) {
+                        closeVbox();
+                      }
+                    }
 
                     /* -------- CLOSE VBOX -------- */
+
                     function closeVbox(){
+                      
+                      $('body').unbind('keydown', escapeHandler);
+
                       if (ie9) {
+
                         overlay.animate({opacity:0}, 500, function(){
                           overlay.remove();
                           $('.vwrap').children().unwrap();
@@ -334,6 +346,7 @@
                           keyNavigationDisabled = false;
                           obj.focus();
                         });
+
                       } else {
 
                         overlay.unbind("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd");
@@ -354,12 +367,15 @@
                           obj.focus();
                         });
                         overlay.css('opacity', '0');
+
                       }
+
                     }
 
                     /* -------- CHIUDI -------- */
 
                     $('.vbox-close, .vbox-overlay').click(function(e){
+
                       evitacontent = '.figlio';
                       evitaprev = '.vbox-prev';
                       evitanext = '.vbox-next';
@@ -368,16 +384,13 @@
                       if( !$(e.target).is(evitacontent) && !$(e.target).is(evitanext) && !$(e.target).is(evitaprev)&& !$(e.target).is(figliall) ){
                         closeVbox();
                       }
-                    });
-
-                    $('body').keydown(function(e) {
-                      if(e.keyCode == 27) {
-                        closeVbox();
-                      }
 
                     });
+
+                    $('body').keydown(escapeHandler);
 
                     return false;
+
                   });
             });
         }
