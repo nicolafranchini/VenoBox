@@ -207,22 +207,26 @@ body{
     overflow: hidden;
 }
 .vbox-next, .vbox-prev{
+    box-sizing: content-box;
     cursor: pointer;
     position: fixed;
     top: 50%;
     color: #fff;
     width: 30px;
-    height: 30px;
-    margin-top: -15px;
+    height: 170px;
+    margin-top: -85px;
     text-indent: -100px;
+    border: solid transparent; /* Using border instead of padding to keep bg image in place */
     overflow: hidden;
 }
 .vbox-prev{
-    left: 10px;
+    left: 0;
+    border-width: 0 30px 0 10px;
     background: url(prev.gif) center center no-repeat;
 }
 .vbox-next{
-    right: 10px;
+    right: 0;
+    border-width: 0 10px 0 30px;
     background: url(next.gif) center center no-repeat;
 }
 

@@ -1,6 +1,6 @@
 /*
  * VenoBox - jQuery Plugin
- * version: 1.4.0
+ * version: 1.5.0
  * @requires jQuery
  *
  * Examples at http://lab.veno.it/venobox/
@@ -11,7 +11,7 @@
  */
 (function($){
 
-    var ios, ie9, overlayColor, overlay, vwrap, container, content, core, dest, top, sonH, finH, margine, prima, framewidth, frameheight, border, bgcolor, type, thisgall, items, thenext, theprev, title, nextok, prevok, keyNavigationDisabled, blocktitle, blocknum, numeratio, evitanext, evitaprev, evitacontent, figliall, infinigall, extraCss;
+    var ios, ie9, overlayColor, overlay, vwrap, container, content, core, dest, top, sonH, finH, margine, prima, type, thisgall, items, thenext, theprev, title, nextok, prevok, keyNavigationDisabled, blocktitle, blocknum, evitanext, evitaprev, evitacontent, figliall, extraCss;
 
     $.fn.extend({
         //plugin name - venobox
@@ -23,13 +23,20 @@
               frameheight: '',
               border: '0',
               bgcolor: '#fff',
+              titleattr: 'title', // specific attribute to get a title (e.g. [data-title]) - thanx @mendezcode
               numeratio: false,
               infinigall: false
           };
+
           var options = $.extend(defaults, options);
 
             return this.each(function() {
                   var obj = $(this);
+
+                  // Prevent double initialization - thanx @matthistuff
+                  if(obj.data('venobox')) {
+                    return true;
+                  }
 
                   obj.addClass('vbox-item');
                   obj.data('framewidth', options.framewidth);
@@ -38,10 +45,11 @@
                   obj.data('bgcolor', options.bgcolor);
                   obj.data('numeratio', options.numeratio);
                   obj.data('infinigall', options.infinigall);
+                  obj.data('venobox', true);
 
                   ios = (navigator.userAgent.match(/(iPad|iPhone|iPod)/g) ? true : false);
 
-                  // Idiot Explorer 9 or less
+                  // IE 9 or less
                   ie9 = ((document.all && !window.atob) ? true : false);
 
                   obj.click(function(e){
@@ -103,7 +111,13 @@
                         }
                       });
                     } else {
-                      overlay.bind("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function(){
+                      overlay.bind("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function(e){
+
+                        // Check if transition is on the overlay - thanx @kanduvisla
+                        if( e.target != e.currentTarget ) {
+                          return;
+                        }
+                        
                         overlay.css({
                           'min-height': $(window).outerHeight(),
                           height : 'auto'
@@ -159,8 +173,8 @@
                       thenext = items.eq( items.index(obj) + 1 );
                       theprev = items.eq( items.index(obj) - 1 );
 
-                      if(obj.attr('title')){
-                        title = obj.attr('title');
+                      if(obj.attr(options.titleattr)){
+                        title = obj.attr(options.titleattr);
                         blocktitle.fadeIn();
                       }else{
                         title = '';
@@ -197,13 +211,13 @@
                         }
                       }
                     }
+                    
+                     /* -------- NAVIGATION CODE -------- */
+                    var gallnav = {
+                      
+                      prev: function() {
 
-                    /* -------- NAVIGATE WITH ARROW KEYS -------- */
-                    $('body').keydown(function(e) {
-                      if (keyNavigationDisabled) return;
-
-                      if(e.keyCode == 37 && prevok == true) { // left
-                        keyNavigationDisabled = true;
+                        if (keyNavigationDisabled) return; else keyNavigationDisabled = true;
 
                         overlayColor = theprev.data('overlay');
 
@@ -214,8 +228,8 @@
 
                         dest = theprev.attr('href');
 
-                        if(theprev.attr('title')){
-                          title = theprev.attr('title');
+                        if(theprev.attr(options.titleattr)){
+                          title = theprev.attr(options.titleattr);
                         }else{
                           title = '';
                         }
@@ -248,9 +262,11 @@
                           keyNavigationDisabled = false;
                         });
 
-                      }
-                      if(e.keyCode == 39 && nextok == true) { // right
-                        keyNavigationDisabled = true;
+                      },
+
+                      next: function() {
+                        
+                        if (keyNavigationDisabled) return; else keyNavigationDisabled = true;
 
                         overlayColor = thenext.data('overlay');
 
@@ -262,8 +278,8 @@
 
                         dest = thenext.attr('href');
 
-                        if(thenext.attr('title')){
-                          title = thenext.attr('title');
+                        if(thenext.attr(options.titleattr)){
+                          title = thenext.attr(options.titleattr);
                         }else{
                           title = '';
                         }
@@ -297,104 +313,47 @@
                         });
 
                       }
-                    });
-                    /* -------- NEXTGALL -------- */
-                    $('.vbox-next').click(function(){
 
-                      overlayColor = thenext.data('overlay');
+                    }
 
-                      framewidth = thenext.data('framewidth');
-                      frameheight = thenext.data('frameheight');
-                      border = thenext.data('border');
-                      bgcolor = thenext.data('bgcolor');
+                    /* -------- NAVIGATE WITH ARROW KEYS -------- */
+                    $('body').keydown(function(e) {
 
-                      dest = thenext.attr('href');
-
-                      if(thenext.attr('title')){
-                        title = thenext.attr('title');
-                      }else{
-                        title = '';
+                      if(e.keyCode == 37 && prevok == true) { // left
+                        gallnav.prev();
                       }
 
-                      if (overlayColor === undefined ) {
-                        overlayColor = "";
+                      if(e.keyCode == 39 && nextok == true) { // right
+                        gallnav.next();
                       }
 
-                      overlay.css('min-height', $(window).outerHeight());
-
-                      content.animate({ opacity:0}, 500, function(){
-                      overlay.css('min-height', $(window).outerHeight()).css('background',overlayColor);
-
-                        if (thenext.data('type') == 'iframe') {
-                          loadIframe();
-                        } else if (thenext.data('type') == 'inline'){
-                          loadInline();
-                        } else if (thenext.data('type') == 'ajax'){
-                          loadAjax();
-                        } else if (thenext.data('type') == 'youtube'){
-                          loadYoutube();
-                        } else if (thenext.data('type') == 'vimeo'){
-                          loadVimeo();
-                        }else{
-                            content.html('<img src="'+dest+'">');
-                            preloadFirst();
-                        }
-                        obj = thenext;
-                        checknav();
-                      });
                     });
 
                     /* -------- PREVGALL -------- */
                     $('.vbox-prev').click(function(){
-
-                      overlayColor = theprev.data('overlay');
-
-                      framewidth = theprev.data('framewidth');
-                      frameheight = theprev.data('frameheight');
-                      border = theprev.data('border');
-                      bgcolor = theprev.data('bgcolor');
-
-                      dest = theprev.attr('href');
-
-                      if(theprev.attr('title')){
-                        title = theprev.attr('title');
-                      }else{
-                        title = '';
-                      }
-
-                      if (overlayColor === undefined ) {
-                        overlayColor = "";
-                      }
-
-                      overlay.css('min-height', $(window).outerHeight());
-
-                      content.animate({ opacity:0}, 500, function(){
-                      overlay.css('min-height', $(window).outerHeight()).css('background',overlayColor);
-
-                        if (theprev.data('type') == 'iframe') {
-                          loadIframe();
-                        } else if (theprev.data('type') == 'inline'){
-                          loadInline();
-                        } else if (theprev.data('type') == 'ajax'){
-                          loadAjax();
-                        } else if (theprev.data('type') == 'youtube'){
-                          loadYoutube();
-                        } else if (theprev.data('type') == 'vimeo'){
-                          loadVimeo();
-                        }else{
-                          content.html('<img src="'+dest+'">');
-                          preloadFirst();
-                        }
-                          obj = theprev;
-                          checknav();
-                      });
+                      gallnav.prev();
                     });
-
+                    
+                    /* -------- NEXTGALL -------- */
+                    $('.vbox-next').click(function(){
+                      gallnav.next();
+                    });
+                    
+                    /* -------- ESCAPE HANDLER -------- */
+                    function escapeHandler(e) {
+                      if(e.keyCode === 27) {
+                        closeVbox();
+                      }
+                    }
 
                     /* -------- CLOSE VBOX -------- */
 
                     function closeVbox(){
+                      
+                      $('body').unbind('keydown', escapeHandler);
+
                       if (ie9) {
+
                         overlay.animate({opacity:0}, 500, function(){
                           overlay.remove();
                           $('.vwrap').children().unwrap();
@@ -402,12 +361,18 @@
                           keyNavigationDisabled = false;
                           obj.focus();
                         });
+
                       } else {
 
                         overlay.unbind("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd");
-                        overlay.bind("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function(){
-                          overlay.remove();
+                        overlay.bind("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function(e){
 
+                          // Check if transition is on the overlay - thanx @kanduvisla
+                          if( e.target != e.currentTarget ) {
+                            return;
+                          }
+
+                          overlay.remove();
                           if (ios) {
                             $('.vwrap').bind("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function(){
                               $('.vwrap').children().unwrap();
@@ -425,26 +390,17 @@
                       }
                     }
 
-                    /* -------- CHIUDI -------- */
-
+                    /* -------- CLOSE CLICK -------- */
                     $('.vbox-close, .vbox-overlay').click(function(e){
                       evitacontent = '.figlio';
                       evitaprev = '.vbox-prev';
                       evitanext = '.vbox-next';
                       figliall = '.figlio *';
-
-                      if( !$(e.target).is(evitacontent) && !$(e.target).is(evitanext) && !$(e.target).is(evitaprev)&& !$(e.target).is(figliall) ){
+                      if(!$(e.target).is(evitacontent) && !$(e.target).is(evitanext) && !$(e.target).is(evitaprev)&& !$(e.target).is(figliall)){
                         closeVbox();
                       }
                     });
-
-                    $('body').keydown(function(e) {
-                      if(e.keyCode == 27) {
-                        closeVbox();
-                      }
-
-                    });
-
+                    $('body').keydown(escapeHandler);
                     return false;
                   });
             });
@@ -502,7 +458,6 @@
         prima = $('.vbox-content').find('img');
         prima.one('load', function() {
           updateoverlay();
-
         }).each(function() {
           if(this.complete) $(this).load();
         });
