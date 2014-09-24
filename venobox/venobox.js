@@ -23,7 +23,7 @@
               frameheight: '',
               border: '0',
               bgcolor: '#fff',
-              titleattr: 'title', // specific attribute to get a title (e.g. [data-title]) - thanx @mendezcode
+              titleattr: 'title', // specific attribute to get a title - thanx @mendezcode
               numeratio: false,
               infinigall: false
           };
