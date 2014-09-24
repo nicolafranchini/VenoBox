@@ -106,6 +106,7 @@
                       });
                     } else {
                       overlay.bind("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function(){
+                        if(overlay[0] != e.target) { return; }
                         overlay.css({
                           'min-height': $(window).outerHeight(),
                           height : 'auto'
