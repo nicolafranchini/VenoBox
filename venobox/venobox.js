@@ -33,6 +33,10 @@
             return this.each(function() {
                   var obj = $(this);
 
+                  if(obj.data('venobox')) {
+                  	return true;
+                  }
+
                   obj.addClass('vbox-item');
                   obj.data('framewidth', options.framewidth);
                   obj.data('frameheight', options.frameheight);
@@ -40,6 +44,7 @@
                   obj.data('bgcolor', options.bgcolor);
                   obj.data('numeratio', options.numeratio);
                   obj.data('infinigall', options.infinigall);
+                  obj.data('venobox', true);
 
                   ios = (navigator.userAgent.match(/(iPad|iPhone|iPod)/g) ? true : false);
 
