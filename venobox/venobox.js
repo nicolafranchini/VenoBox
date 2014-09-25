@@ -435,7 +435,7 @@
     function loadVimeo(){
       var pezzi = dest.split('/');
       var videoid = pezzi[pezzi.length-1];
-      content.html('<iframe class="venoframe" src="http://player.vimeo.com/video/'+videoid+'"></iframe>')
+      content.html('<iframe class="venoframe" src="//player.vimeo.com/video/'+videoid+'"></iframe>')
       updateoverlay();
     }
 
@@ -443,7 +443,7 @@
     function loadYoutube(){
       var pezzi = dest.split('/');
       var videoid = pezzi[pezzi.length-1];
-      content.html('<iframe class="venoframe" allowfullscreen src="http://www.youtube.com/embed/'+videoid+'"></iframe>')
+      content.html('<iframe class="venoframe" allowfullscreen src="//www.youtube.com/embed/'+videoid+'"></iframe>')
       updateoverlay();
     }
 
