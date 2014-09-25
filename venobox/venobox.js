@@ -1,6 +1,6 @@
 /*
  * VenoBox - jQuery Plugin
- * version: 1.5.0
+ * version: 1.5.1
  * @requires jQuery
  *
  * Examples at http://lab.veno.it/venobox/
@@ -23,7 +23,7 @@
               frameheight: '',
               border: '0',
               bgcolor: '#fff',
-              titleattr: 'title', // specific attribute to get a title - thanx @mendezcode
+              titleattr: 'title', // specific attribute to get a title (e.g. [data-title]) - thanx @mendezcode
               numeratio: false,
               infinigall: false
           };
@@ -435,7 +435,7 @@
     function loadVimeo(){
       var pezzi = dest.split('/');
       var videoid = pezzi[pezzi.length-1];
-      content.html('<iframe class="venoframe" src="http://player.vimeo.com/video/'+videoid+'"></iframe>')
+      content.html('<iframe class="venoframe" src="//player.vimeo.com/video/'+videoid+'"></iframe>')
       updateoverlay();
     }
 
@@ -443,7 +443,7 @@
     function loadYoutube(){
       var pezzi = dest.split('/');
       var videoid = pezzi[pezzi.length-1];
-      content.html('<iframe class="venoframe" allowfullscreen src="http://www.youtube.com/embed/'+videoid+'"></iframe>')
+      content.html('<iframe class="venoframe" allowfullscreen src="//www.youtube.com/embed/'+videoid+'"></iframe>')
       updateoverlay();
     }
 
