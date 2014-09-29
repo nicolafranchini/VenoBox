@@ -327,7 +327,7 @@ body{
     -moz-transition: opacity .25s ease-in-out;
     -webkit-transition: opacity .25s ease-in-out;
     width: 100%;
-    height: auto;
+    height: 100%;
     float: left;
     position: relative;
     margin: 0;
