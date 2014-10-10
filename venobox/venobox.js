@@ -11,13 +11,16 @@
  */
 (function($){
 
-    var ios, ie9, overlayColor, overlay, vwrap, container, content, core, dest, top, sonH, finH, margine, prima, type, thisgall, items, thenext, theprev, title, nextok, prevok, keyNavigationDisabled, blocktitle, blocknum, evitanext, evitaprev, evitacontent, figliall, extraCss;
+    var ios, ie9, overlayColor, overlay, framewidth, border, bgcolor, frameheight, margine, sonH, finH, numeratio,
+        vwrap, container, infinigall, content, core, dest, top, prima, type, thisgall, items, thenext, theprev,
+        title, nextok, prevok, keyNavigationDisabled, blocktitle, blocknum, evitanext, evitaprev, evitacontent,
+        figliall, extraCss;
 
     $.fn.extend({
         //plugin name - venobox
         venobox: function(options) {
 
-          // default options
+          // default option
           var defaults = {
               framewidth: '',
               frameheight: '',
@@ -25,10 +28,11 @@
               bgcolor: '#fff',
               titleattr: 'title', // specific attribute to get a title (e.g. [data-title]) - thanx @mendezcode
               numeratio: false,
-              infinigall: false
+              infinigall: false,
+              overlayclose: true
           };
 
-          var options = $.extend(defaults, options);
+          var option = $.extend(defaults, options);
 
             return this.each(function() {
                   var obj = $(this);
@@ -39,12 +43,13 @@
                   }
 
                   obj.addClass('vbox-item');
-                  obj.data('framewidth', options.framewidth);
-                  obj.data('frameheight', options.frameheight);
-                  obj.data('border', options.border);
-                  obj.data('bgcolor', options.bgcolor);
-                  obj.data('numeratio', options.numeratio);
-                  obj.data('infinigall', options.infinigall);
+                  obj.data('framewidth', option.framewidth);
+                  obj.data('frameheight', option.frameheight);
+                  obj.data('border', option.border);
+                  obj.data('bgcolor', option.bgcolor);
+                  obj.data('numeratio', option.numeratio);
+                  obj.data('infinigall', option.infinigall);
+                  obj.data('overlayclose', option.overlayclose);
                   obj.data('venobox', true);
 
                   ios = (navigator.userAgent.match(/(iPad|iPhone|iPod)/g) ? true : false);
@@ -69,7 +74,7 @@
                     top = -top;
                     extraCss = obj.data( 'css' ) || "";
 
-                    $('body').wrapInner('<div class="vwrap"></div>')
+                    $('body').wrapInner('<div class="vwrap"></div>');
 
                     vwrap = $('.vwrap');
                     core = '<div class="vbox-overlay ' + extraCss + '" style="background:'+ overlayColor +'"><div class="vbox-preloader">Loading...</div><div class="vbox-container"><div class="vbox-content"></div></div><div class="vbox-title"></div><div class="vbox-num">0/0</div><div class="vbox-close">X</div><div class="vbox-next">next</div><div class="vbox-prev">prev</div></div>';
@@ -149,7 +154,7 @@
                     } else {
                       vwrap.css({
                         'position': 'fixed',
-                        'top': top,
+                        'top': top
                       }).data('top', top);
                       $(window).scrollTop(0);
                     }
@@ -173,8 +178,8 @@
                       thenext = items.eq( items.index(obj) + 1 );
                       theprev = items.eq( items.index(obj) - 1 );
 
-                      if(obj.attr(options.titleattr)){
-                        title = obj.attr(options.titleattr);
+                      if(obj.attr(option.titleattr)){
+                        title = obj.attr(option.titleattr);
                         blocktitle.fadeIn();
                       }else{
                         title = '';
@@ -228,8 +233,8 @@
 
                         dest = theprev.attr('href');
 
-                        if(theprev.attr(options.titleattr)){
-                          title = theprev.attr(options.titleattr);
+                        if(theprev.attr(option.titleattr)){
+                          title = theprev.attr(option.titleattr);
                         }else{
                           title = '';
                         }
@@ -278,8 +283,8 @@
 
                         dest = thenext.attr('href');
 
-                        if(thenext.attr(options.titleattr)){
-                          title = thenext.attr(options.titleattr);
+                        if(thenext.attr(option.titleattr)){
+                          title = thenext.attr(option.titleattr);
                         }else{
                           title = '';
                         }
@@ -314,7 +319,7 @@
 
                       }
 
-                    }
+                    };
 
                     /* -------- NAVIGATE WITH ARROW KEYS -------- */
                     $('body').keydown(function(e) {
@@ -391,7 +396,12 @@
                     }
 
                     /* -------- CLOSE CLICK -------- */
-                    $('.vbox-close, .vbox-overlay').click(function(e){
+                    var closeclickclass = '.vbox-close, .vbox-overlay';
+                    if(!obj.data('overlayclose')){
+                        closeclickclass = '.vbox-close';    // close only on X
+                    }
+
+                    $(closeclickclass).click(function(e){
                       evitacontent = '.figlio';
                       evitaprev = '.vbox-prev';
                       evitanext = '.vbox-next';
@@ -406,7 +416,6 @@
             });
         }
     });
-
 
     /* -------- LOAD AJAX -------- */
     function loadAjax(){
@@ -435,7 +444,7 @@
     function loadVimeo(){
       var pezzi = dest.split('/');
       var videoid = pezzi[pezzi.length-1];
-      content.html('<iframe class="venoframe" src="//player.vimeo.com/video/'+videoid+'"></iframe>')
+      content.html('<iframe class="venoframe" src="//player.vimeo.com/video/'+videoid+'"></iframe>');
       updateoverlay();
     }
 
@@ -443,7 +452,7 @@
     function loadYoutube(){
       var pezzi = dest.split('/');
       var videoid = pezzi[pezzi.length-1];
-      content.html('<iframe class="venoframe" allowfullscreen src="//www.youtube.com/embed/'+videoid+'"></iframe>')
+      content.html('<iframe class="venoframe" allowfullscreen src="//www.youtube.com/embed/'+videoid+'"></iframe>');
       updateoverlay();
     }
 
