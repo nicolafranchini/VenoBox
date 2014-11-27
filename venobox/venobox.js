@@ -69,7 +69,7 @@
                     nextok = false;
                     prevok = false;
                     keyNavigationDisabled = false;
-                    dest = obj.attr('href');
+                    dest = obj.data('href') || obj.attr('href');
                     top = $(window).scrollTop();
                     top = -top;
                     extraCss = obj.data( 'css' ) || "";
