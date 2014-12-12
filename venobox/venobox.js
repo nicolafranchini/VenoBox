@@ -29,7 +29,8 @@
               titleattr: 'title', // specific attribute to get a title (e.g. [data-title]) - thanx @mendezcode
               numeratio: false,
               infinigall: false,
-              overlayclose: true // disable overlay click-close - thanx @martybalandis 
+              autoplay: false, //for youtube and vimeo videos
+              overlayclose: true // disable overlay click-close - thanx @martybalandis
           };
 
           var option = $.extend(defaults, options);
@@ -49,6 +50,7 @@
                   obj.data('bgcolor', option.bgcolor);
                   obj.data('numeratio', option.numeratio);
                   obj.data('infinigall', option.infinigall);
+                  obj.data('autoplay', option.autoplay);
                   obj.data('overlayclose', option.overlayclose);
                   obj.data('venobox', true);
 
@@ -66,6 +68,7 @@
                     frameheight = obj.data('frameheight');
                     border = obj.data('border');
                     bgcolor = obj.data('bgcolor');
+                    autoplay = obj.data('autoplay');
                     nextok = false;
                     prevok = false;
                     keyNavigationDisabled = false;
@@ -107,9 +110,9 @@
                         }else if (obj.data('type') == 'ajax'){
                           loadAjax();
                         }else if (obj.data('type') == 'vimeo'){
-                          loadVimeo();
+                          loadVimeo(autoplay);
                         }else if (obj.data('type') == 'youtube'){
-                          loadYoutube();
+                          loadYoutube(autoplay);
                         } else {
                           content.html('<img src="'+dest+'">');
                           preloadFirst();
@@ -122,7 +125,7 @@
                         if( e.target != e.currentTarget ) {
                           return;
                         }
-                        
+
                         overlay.css({
                           'min-height': $(window).outerHeight(),
                           height : 'auto'
@@ -134,9 +137,9 @@
                         }else if (obj.data('type') == 'ajax'){
                           loadAjax();
                         }else if (obj.data('type') == 'vimeo'){
-                          loadVimeo();
+                          loadVimeo(autoplay);
                         }else if (obj.data('type') == 'youtube'){
-                          loadYoutube();
+                          loadYoutube(autoplay);
                         } else {
                           content.html('<img src="'+dest+'">');
                           preloadFirst();
@@ -216,10 +219,10 @@
                         }
                       }
                     }
-                    
+
                      /* -------- NAVIGATION CODE -------- */
                     var gallnav = {
-                      
+
                       prev: function() {
 
                         if (keyNavigationDisabled) return; else keyNavigationDisabled = true;
@@ -230,6 +233,7 @@
                         frameheight = theprev.data('frameheight');
                         border = theprev.data('border');
                         bgcolor = theprev.data('bgcolor');
+                        autoplay = theprev.data('autoplay');
 
                         dest = theprev.attr('href');
 
@@ -255,9 +259,9 @@
                           } else if (theprev.data('type') == 'ajax'){
                             loadAjax();
                           } else if (theprev.data('type') == 'youtube'){
-                            loadYoutube();
+                            loadYoutube(autoplay);
                           } else if (theprev.data('type') == 'vimeo'){
-                            loadVimeo();
+                            loadVimeo(autoplay);
                           }else{
                             content.html('<img src="'+dest+'">');
                             preloadFirst();
@@ -270,7 +274,7 @@
                       },
 
                       next: function() {
-                        
+
                         if (keyNavigationDisabled) return; else keyNavigationDisabled = true;
 
                         overlayColor = thenext.data('overlay');
@@ -279,6 +283,7 @@
                         frameheight = thenext.data('frameheight');
                         border = thenext.data('border');
                         bgcolor = thenext.data('bgcolor');
+                        autoplay = thenext.data('autoplay');
 
 
                         dest = thenext.attr('href');
@@ -305,9 +310,9 @@
                           } else if (thenext.data('type') == 'ajax'){
                             loadAjax();
                           } else if (thenext.data('type') == 'youtube'){
-                            loadYoutube();
+                            loadYoutube(autoplay);
                           } else if (thenext.data('type') == 'vimeo'){
-                            loadVimeo();
+                            loadVimeo(autoplay);
                           }else{
                             content.html('<img src="'+dest+'">');
                             preloadFirst();
@@ -338,12 +343,12 @@
                     $('.vbox-prev').click(function(){
                       gallnav.prev();
                     });
-                    
+
                     /* -------- NEXTGALL -------- */
                     $('.vbox-next').click(function(){
                       gallnav.next();
                     });
-                    
+
                     /* -------- ESCAPE HANDLER -------- */
                     function escapeHandler(e) {
                       if(e.keyCode === 27) {
@@ -354,7 +359,7 @@
                     /* -------- CLOSE VBOX -------- */
 
                     function closeVbox(){
-                      
+
                       $('body').unbind('keydown', escapeHandler);
 
                       if (ie9) {
@@ -441,18 +446,28 @@
     }
 
     /* -------- LOAD VIMEO -------- */
-    function loadVimeo(){
+    function loadVimeo(autoplay){
+      autoplay = autoplay || false;
       var pezzi = dest.split('/');
       var videoid = pezzi[pezzi.length-1];
-      content.html('<iframe class="venoframe" src="//player.vimeo.com/video/'+videoid+'"></iframe>');
+      var stringAutoplay = "";
+      if (autoplay == true) {
+        var stringAutoplay = "?autoplay=1";
+      }
+      content.html('<iframe class="venoframe" src="//player.vimeo.com/video/'+videoid+stringAutoplay+'"></iframe>');
       updateoverlay();
     }
 
     /* -------- LOAD YOUTUBE -------- */
-    function loadYoutube(){
+    function loadYoutube(autoplay){
+      autoplay = autoplay || false;
       var pezzi = dest.split('/');
       var videoid = pezzi[pezzi.length-1];
-      content.html('<iframe class="venoframe" allowfullscreen src="//www.youtube.com/embed/'+videoid+'"></iframe>');
+      var stringAutoplay;
+      if (autoplay == true) {
+        var stringAutoplay = "?autoplay=1";
+      }
+      content.html('<iframe class="venoframe" allowfullscreen src="//www.youtube.com/embed/'+videoid+stringAutoplay+'"></iframe>');
       updateoverlay();
     }
 
