@@ -7,7 +7,8 @@
  * License: Creative Commons Attribution 3.0 License
  * License URI: http://creativecommons.org/licenses/by/3.0/
  * Copyright 2013-2014 Nicola Franchini - @nicolafranchini
- *
+ * 
+ * Updated to add a close confirmation message option.
  */
 (function($){
 
@@ -50,6 +51,7 @@
                   obj.data('numeratio', option.numeratio);
                   obj.data('infinigall', option.infinigall);
                   obj.data('overlayclose', option.overlayclose);
+                  obj.data('closemessage', option.closemessage);
                   obj.data('venobox', true);
 
                   ios = (navigator.userAgent.match(/(iPad|iPhone|iPod)/g) ? true : false);
@@ -396,20 +398,32 @@
                     }
 
                     /* -------- CLOSE CLICK -------- */
-                    var closeclickclass = '.vbox-close, .vbox-overlay';
-                    if(!obj.data('overlayclose')){
-                        closeclickclass = '.vbox-close';    // close only on X
+                    
+					var closeclickclass = '.vbox-close, .vbox-overlay';
+                    var closemessage = obj.data('closemessage');
+					if(!obj.data('overlayclose')){
+                       closeclickclass = '.vbox-close';    // close only on X
                     }
 
+ 				    evitacontent = '.figlio';
+				    evitaprev = '.vbox-prev';
+				    evitanext = '.vbox-next';
+				    figliall = '.figlio *';
+
                     $(closeclickclass).click(function(e){
-                      evitacontent = '.figlio';
-                      evitaprev = '.vbox-prev';
-                      evitanext = '.vbox-next';
-                      figliall = '.figlio *';
-                      if(!$(e.target).is(evitacontent) && !$(e.target).is(evitanext) && !$(e.target).is(evitaprev)&& !$(e.target).is(figliall)){
-                        closeVbox();
-                      }
-                    });
+						if (closemessage && $(this).attr('class').indexOf('overlay')>=0) {
+							//prevent accidental close messages
+						  if (!confirm(closemessage)) 
+						  	{
+								  return false;
+							}				
+						}
+						if(!$(e.target).is(evitacontent) && !$(e.target).is(evitanext) && !$(e.target).is(evitaprev)&& !$(e.target).is(figliall)) {
+							closeVbox();
+						  	e.stopImmediatePropagation(); //prevent duplicate confirmation messages
+						  }
+						});
+					
                     $('body').keydown(escapeHandler);
                     return false;
                   });
