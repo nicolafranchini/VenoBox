@@ -29,6 +29,7 @@
               titleattr: 'title', // specific attribute to get a title (e.g. [data-title]) - thanx @mendezcode
               numeratio: false,
               infinigall: false,
+              prevnext: true,  // disable prev, next buttons - thanx iankp
               overlayclose: true // disable overlay click-close - thanx @martybalandis 
           };
 
@@ -49,6 +50,7 @@
                   obj.data('bgcolor', option.bgcolor);
                   obj.data('numeratio', option.numeratio);
                   obj.data('infinigall', option.infinigall);
+                  obj.data('prevnext', option.prevnext);
                   obj.data('overlayclose', option.overlayclose);
                   obj.data('venobox', true);
 
@@ -77,7 +79,10 @@
                     $('body').wrapInner('<div class="vwrap"></div>');
 
                     vwrap = $('.vwrap');
-                    core = '<div class="vbox-overlay ' + extraCss + '" style="background:'+ overlayColor +'"><div class="vbox-preloader">Loading...</div><div class="vbox-container"><div class="vbox-content"></div></div><div class="vbox-title"></div><div class="vbox-num">0/0</div><div class="vbox-close">X</div><div class="vbox-next">next</div><div class="vbox-prev">prev</div></div>';
+                    core = '<div class="vbox-overlay ' + extraCss + '" style="background:'+ overlayColor +'"><div class="vbox-preloader">Loading...</div><div class="vbox-container"><div class="vbox-content"></div></div><div class="vbox-title"></div><div class="vbox-num">0/0</div><div class="vbox-close">X</div>';
+                    if (obj.data('prevnext')) {
+                        core += '<div class="vbox-next">next</div><div class="vbox-prev">prev</div></div>';
+                    }
 
                     $('body').append(core);
 
@@ -90,7 +95,9 @@
                     content.html('');
                     content.css('opacity', '0');
 
-                    checknav();
+                    if (obj.data('prevnext')) {
+                        checknav();
+                    }
 
                     overlay.css('min-height', $(window).outerHeight());
 
