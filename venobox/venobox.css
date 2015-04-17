@@ -1,33 +1,27 @@
 /* ------ venobox.css --------*/
 .vbox-overlay *, .vbox-overlay *:before, .vbox-overlay *:after{
     -webkit-backface-visibility: hidden;
-    -webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
-body{
-    -webkit-overflow-scrolling:touch;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    box-sizing:border-box;
 }
 /* ------- overlay: change here background color and opacity ----- */
 .vbox-overlay{
-    background: #181818;
+    background: #fdfdfd;
     background: rgba(0,0,0,0.85); 
     width: 100%;
     height: auto;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
+    bottom: 0;
     z-index: 999;
-    overflow: hidden;
     opacity: 0;
-    transition: opacity .25s ease-in-out;
-    -moz-transition: opacity .25s ease-in-out;
-    -webkit-transition: opacity .25s ease-in-out;
+    overflow-x: hidden;
+    overflow-y: auto;
+
 }
-.relativo{
-    float: left;
-    width: 100%;
-    height: 100%;
-    display: block;
-    position: relative;
-}
+
 /* ----- preloader - choose between CIRCLE, IOS, DOTS, QUADS ----- */
 
 /* circle preloader */
@@ -68,9 +62,11 @@ body{
    from { background-position:    0px; }
      to { background-position: -576px; }
 }
+
+
 /* IOS preloader */
-/*
-.vbox-preloader{
+
+/*.vbox-preloader{
     position:fixed; 
     width:32px; 
     height:32px;
@@ -109,6 +105,8 @@ body{
      to { background-position: -384px; }
 }
 */
+
+
 /* dots preloader */
 /*
 .vbox-preloader{
@@ -150,6 +148,8 @@ body{
      to { background-position: -768px; }
 }
 */
+
+
 /* quads preloader */
 /*
 .vbox-preloader{
@@ -303,12 +303,16 @@ body{
 }
 
 /* ------- PLease do NOT edit this! (or do it at your own risk) ------ */
+.vbox-open{
+    overflow: hidden;
+}
 .vbox-container{
     position: relative;
     background: #000;
-    width: 98%;
-    max-width: 1024px;
+    width: 100%;
+    max-width: 1200px;
     margin: 0 auto;
+    padding: 0 15px;
 }
 .vbox-content{
     text-align: center;
@@ -320,19 +324,4 @@ body{
 .vbox-container img{
     max-width: 100%;
     height: auto;
-}
-.vwrap{
-    opacity: 1;
-    transition: opacity .25s ease-in-out;
-    -moz-transition: opacity .25s ease-in-out;
-    -webkit-transition: opacity .25s ease-in-out;
-    width: 100%;
-    height: 100%;
-    float: left;
-    position: relative;
-    margin: 0;
-    padding: 0;
-    left: 0;
-    overflow: hidden;
-    z-index: 1;
 }

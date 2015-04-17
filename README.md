@@ -9,4 +9,4 @@ The big difference compared to many others plugins like this is that VenoBox cal
 
 view demo at: http://lab.veno.it/venobox/
 
-License: Creative Commons Attribution 3.0 License
+License: released under the MIT License
