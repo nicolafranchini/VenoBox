@@ -324,6 +324,6 @@
 .vbox-container img{
     max-width: 100%;
     width: auto;
-    max-height: 100% !important;
+    max-height: 100%;
     height: auto;
 }
