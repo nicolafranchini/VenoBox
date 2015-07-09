@@ -15,7 +15,7 @@
         evitacontent, evitanext, evitaprev, extraCss, figliall, framewidth, frameheight, 
         infinigall, items, keyNavigationDisabled, margine, numeratio, overlayColor, overlay, 
         prima, title, thisgall, thenext, theprev, type, 
-        finH, sonH, nextok, prevok;
+        finH, sonH, nextok, prevok, prev, next;
 
     $.fn.extend({
         //plugin name - venobox
@@ -78,6 +78,22 @@
                     content = $('.vbox-content');
                     blocknum = $('.vbox-num');
                     blocktitle = $('.vbox-title');
+                    
+                    prev = $('.vbox-prev');
+                    next = $('.vbox-next');
+
+                    var gall = obj.data('gall');
+                    if (gall) {
+                        if ($('[data-gall="' + gall + '"]').length == 1) {
+                            prev.addClass('vbox-hidden');
+                            next.addClass('vbox-hidden');
+                            keyNavigationDisabled = true;
+                        } else {
+                            prev.removeClass('vbox-hidden');
+                            next.removeClass('vbox-hidden');
+                            keyNavigationDisabled = false;
+                        }
+                    }
 
                     content.html('');
                     content.css('opacity', '0');
