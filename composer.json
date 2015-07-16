@@ -1,0 +1,25 @@
+{
+    "name": "postyou/venobox",
+    "description": "Responsive jQuery modal window plugin",
+    "version": "1.5.3",
+    "keywords": [
+        "lightbox",
+        "responsive",
+        "modal",
+        "popup"
+    ],
+    "license": "MIT License",
+    "authors": [
+        {
+            "name": "Nicola Franchini",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/nicolafranchini/VenoBox/issues?direction=desc&sort=created&state=open",
+        "source": "https://github.com/nicolafranchini/VenoBox/issues"
+    },
+    "require": {
+        "components/jquery": "~2.0"
+    }
+}
