@@ -364,7 +364,7 @@
     function loadVimeo(){
       var pezzi = dest.split('/');
       var videoid = pezzi[pezzi.length-1];
-      content.html('<iframe class="venoframe" src="//player.vimeo.com/video/'+videoid+'"></iframe>');
+      content.html('<iframe width="500" height="281" class="venoframe" webkitallowfullscreen mozallowfullscreen allowfullscreen frameborder="0" src="https://player.vimeo.com/video/'+videoid+'"></iframe>');
       updateoverlay();
     }
 
