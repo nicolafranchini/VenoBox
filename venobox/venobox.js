@@ -1,6 +1,6 @@
 /*
  * VenoBox - jQuery Plugin
- * version: 1.5.3
+ * version: 1.6
  * @requires jQuery
  *
  * Examples at http://lab.veno.it/venobox/
@@ -11,7 +11,7 @@
  */
 (function($){
 
-    var bgcolor, blocknum, blocktitle, border, core, container, content, dest, 
+    var autoplay, bgcolor, blocknum, blocktitle, border, core, container, content, dest, 
         evitacontent, evitanext, evitaprev, extraCss, figliall, framewidth, frameheight, 
         infinigall, items, keyNavigationDisabled, margine, numeratio, overlayColor, overlay, 
         prima, title, thisgall, thenext, theprev, type, 
@@ -60,12 +60,16 @@
                     overlayColor = obj.data('overlay');
                     framewidth = obj.data('framewidth');
                     frameheight = obj.data('frameheight');
+                    // set data-autoplay="true" for vimeo and youtube videos - thanx @zehfernandes
+                    autoplay = obj.data('autoplay') || false; 
                     border = obj.data('border');
                     bgcolor = obj.data('bgcolor');
                     nextok = false;
                     prevok = false;
                     keyNavigationDisabled = false;
-                    dest = obj.attr('href');
+
+                    // set a different url to be loaded via ajax using data-href="" - thanx @pixeline
+                    dest = obj.data('href') || obj.attr('href');
                     extraCss = obj.data( 'css' ) || "";
 
                     $('body').addClass('vbox-open');
@@ -96,9 +100,9 @@
                       }else if (obj.data('type') == 'ajax'){
                         loadAjax();
                       }else if (obj.data('type') == 'vimeo'){
-                        loadVimeo();
+                        loadVimeo(autoplay);
                       }else if (obj.data('type') == 'youtube'){
-                        loadYoutube();
+                        loadYoutube(autoplay);
                       } else {
                         content.html('<img src="'+dest+'">');
                         preloadFirst();
@@ -114,7 +118,7 @@
 
                       items = $('.vbox-item[data-gall="' + thisgall + '"]');
 
-                      if(items.length > 0 && numeratio === true){
+                      if(items.length > 1 && numeratio === true){
                         blocknum.html(items.index(obj)+1 + ' / ' + items.length);
                         blocknum.show();
                       }else{
@@ -132,7 +136,7 @@
                         blocktitle.hide();
                       }
 
-                      if (items.length > 0 && infinigall === true) {
+                      if (items.length > 1 && infinigall === true) {
 
                         nextok = true;
                         prevok = true;
@@ -180,8 +184,9 @@
                         frameheight = theprev.data('frameheight');
                         border = theprev.data('border');
                         bgcolor = theprev.data('bgcolor');
+                        dest = theprev.data('href') || theprev.attr('href');
 
-                        dest = theprev.attr('href');
+                        autoplay = theprev.data('autoplay');
 
                         if(theprev.attr(option.titleattr)){
                           title = theprev.attr(option.titleattr);
@@ -204,9 +209,9 @@
                           } else if (theprev.data('type') == 'ajax'){
                             loadAjax();
                           } else if (theprev.data('type') == 'youtube'){
-                            loadYoutube();
+                            loadYoutube(autoplay);
                           } else if (theprev.data('type') == 'vimeo'){
-                            loadVimeo();
+                            loadVimeo(autoplay);
                           }else{
                             content.html('<img src="'+dest+'">');
                             preloadFirst();
@@ -232,7 +237,8 @@
                         frameheight = thenext.data('frameheight');
                         border = thenext.data('border');
                         bgcolor = thenext.data('bgcolor');
-                        dest = thenext.attr('href');
+                        dest = thenext.data('href') || thenext.attr('href');
+                        autoplay = thenext.data('autoplay');
 
                         if(thenext.attr(option.titleattr)){
                           title = thenext.attr(option.titleattr);
@@ -255,9 +261,9 @@
                           } else if (thenext.data('type') == 'ajax'){
                             loadAjax();
                           } else if (thenext.data('type') == 'youtube'){
-                            loadYoutube();
+                            loadYoutube(autoplay);
                           } else if (thenext.data('type') == 'vimeo'){
-                            loadVimeo();
+                            loadVimeo(autoplay);
                           }else{
                             content.html('<img src="'+dest+'">');
                             preloadFirst();
@@ -361,18 +367,20 @@
     }
 
     /* -------- LOAD VIMEO -------- */
-    function loadVimeo(){
+    function loadVimeo(autoplay){
       var pezzi = dest.split('/');
       var videoid = pezzi[pezzi.length-1];
-      content.html('<iframe class="venoframe" src="//player.vimeo.com/video/'+videoid+'"></iframe>');
+      var stringAutoplay = autoplay ? "?autoplay=1" : "";
+      content.html('<iframe class="venoframe" webkitallowfullscreen mozallowfullscreen allowfullscreen frameborder="0" src="//player.vimeo.com/video/'+videoid+stringAutoplay+'"></iframe>');
       updateoverlay();
     }
 
     /* -------- LOAD YOUTUBE -------- */
-    function loadYoutube(){
+    function loadYoutube(autoplay){
       var pezzi = dest.split('/');
       var videoid = pezzi[pezzi.length-1];
-      content.html('<iframe class="venoframe" allowfullscreen src="//www.youtube.com/embed/'+videoid+'"></iframe>');
+      var stringAutoplay = autoplay ? "?autoplay=1" : "";
+      content.html('<iframe class="venoframe" webkitallowfullscreen mozallowfullscreen allowfullscreen src="//www.youtube.com/embed/'+videoid+stringAutoplay+'"></iframe>');
       updateoverlay();
     }
 
