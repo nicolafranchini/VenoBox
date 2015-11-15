@@ -5,7 +5,10 @@
     "Nicola Franchini"
   ],
   "description": "Responsive jQuery modal window plugin",
-  "main": "venobox/venobox.min.js",
+  "main": [
+    "venobox/venobox.min.js",
+    "venobox/venobox.css",
+  ],
   "keywords": [
     "lightbox",
     "responsive",
