@@ -377,13 +377,20 @@
 
     /* -------- LOAD YOUTUBE -------- */
     function loadYoutube(autoplay){
-      var pezzi = dest.split('/');
-      var videoid = pezzi[pezzi.length-1];
+	  var videoid = youtube_parser(dest);
       var stringAutoplay = autoplay ? "?autoplay=1" : "";
       content.html('<iframe class="venoframe" webkitallowfullscreen mozallowfullscreen allowfullscreen src="//www.youtube.com/embed/'+videoid+stringAutoplay+'"></iframe>');
       updateoverlay();
     }
 
+    /* -------- GET YOUTUBE ID -------- */
+	function youtube_parser(url){
+	    // from http://stackoverflow.com/a/8260383/1066234
+	    var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+		var match = url.match(regExp);
+		return (match&&match[7].length==11)? match[7] : false;
+	}
+	
     /* -------- LOAD INLINE -------- */
     function loadInline(){
       content.html('<div class="vbox-inline">'+$(dest).html()+'</div>');
