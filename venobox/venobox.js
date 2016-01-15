@@ -322,7 +322,7 @@
                     }
 
                     /* -------- CLOSE CLICK -------- */
-                    var closeclickclass = '.vbox-close, .vbox-overlay';
+                    var closeclickclass = '.vbox-overlay';
                     if(!obj.data('overlayclose')){
                         closeclickclass = '.vbox-close';    // close only on X
                     }
