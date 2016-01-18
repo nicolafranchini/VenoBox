@@ -11,7 +11,7 @@
  */
 (function($){
 
-    var autoplay, bgcolor, blocknum, blocktitle, border, core, container, content, dest, 
+    var autoplay, bgcolor, blocknum, blocktitle, border, core, container, content,trigger dest, 
         evitacontent, evitanext, evitaprev, extraCss, figliall, framewidth, frameheight, 
         infinigall, items, keyNavigationDisabled, margine, numeratio, overlayColor, overlay, 
         prima, title, thisgall, thenext, theprev, type, 
@@ -69,7 +69,7 @@
                     e.preventDefault();
                     pre_open_callback = obj.data('pre_open_callback');
                     if(typeof pre_open_callback  != 'undefined' && $.isFunction(pre_open_callback)){
-                        var rtn=pre_open_callback();
+                        var rtn=pre_open_callback($(obj));
                         if(rtn!=undefined && !rtn)
                             return;
                     }
@@ -332,7 +332,7 @@
 
                     function closeVbox(){
                       if(typeof pre_close_callback  != 'undefined' && $.isFunction(pre_close_callback)){
-                            var rtn=pre_close_callback();
+                            var rtn=pre_close_callback(trigger,overlay,container,content,blocknum,blocktitle);
                             if(rtn!=undefined && !rtn){
                                 return;
                             }
@@ -346,7 +346,7 @@
                           keyNavigationDisabled = false;
                           obj.focus();
                           if(typeof post_close_callback  != 'undefined' && $.isFunction(post_close_callback))
-                              post_close_callback();
+                              post_close_callback(trigger,overlay,container,content,blocknum,blocktitle);
                         });
                     }
 
@@ -451,7 +451,7 @@
       if(typeof post_open_callback  != 'undefined' && $.isFunction(post_open_callback))
             content.animate({
                 'opacity': '1'
-            },'slow',post_open_callback);
+            },'slow',post_open_callback(trigger,overlay,container,content,blocknum,blocktitle));
         else
             content.animate({
                 'opacity': '1'
@@ -462,7 +462,7 @@
     function updateoverlayresize(){
       if($('.vbox-content').length){
           if(typeof post_resize_callback  != 'undefined' && $.isFunction(post_resize_callback))
-                post_resize_callback();
+                post_resize_callback(trigger,overlay,container,content,blocknum,blocktitle);
         sonH = content.height();
         finH = $(window).height();
 
