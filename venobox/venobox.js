@@ -350,7 +350,19 @@
       cache: false
       }).done(function( msg ) {
           content.html('<div class="vbox-inline">'+ msg +'</div>');
-          updateoverlay(true);
+          var imgs=content.find("img");
+            var len=imgs.length;
+            var count=0;
+            if(len>0)
+                imgs.each(function(i,elem){
+                    $(this).one("load",function(){
+                        count++;
+                        if(count==len)
+                            updateoverlay(true);
+                    });
+                });
+            else
+                updateoverlay(true);
 
       }).fail(function() {
           content.html('<div class="vbox-inline"><p>Error retrieving contents, please retry</div>');
