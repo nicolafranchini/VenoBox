@@ -32,11 +32,11 @@
               numeratio: false,
               infinigall: false,
               overlayclose: true, // disable overlay click-close - thanx @martybalandis 
-              pre_open_callback: undefined,
-              post_open_callback: undefined,
-              pre_close_callback: undefined,
-			  post_close_callback: undefined,
-              post_resize_callback: undefined
+              pre_open_callback: function(){return true;},
+              post_open_callback: function(){},
+              pre_close_callback: function(){return true;},
+              post_close_callback: function(){},
+              post_resize_callback: function(){}
           };
 
           var option = $.extend(defaults, options);
@@ -67,12 +67,12 @@
                   obj.click(function(e){
                     e.stopPropagation();
                     e.preventDefault();
+                    
                     pre_open_callback = obj.data('pre_open_callback');
-                    if(typeof pre_open_callback  != 'undefined' && $.isFunction(pre_open_callback)){
-                        var rtn=pre_open_callback($(obj));
-                        if(rtn!=undefined && !rtn)
-                            return;
-                    }
+                    var rtn=pre_open_callback($(obj));
+                      if(rtn!=undefined && !rtn)
+                       return;
+                    
                     obj = $(this);
                     overlayColor = obj.data('overlay');
                     framewidth = obj.data('framewidth');
@@ -331,12 +331,9 @@
                     /* -------- CLOSE VBOX -------- */
 
                     function closeVbox(){
-                      if(typeof pre_close_callback  != 'undefined' && $.isFunction(pre_close_callback)){
-                            var rtn=pre_close_callback(trigger,overlay,container,content,blocknum,blocktitle);
-                            if(rtn!=undefined && !rtn){
-                                return;
-                            }
-                        }
+                        var rtn=pre_close_callback(trigger,overlay,container,content,blocknum,blocktitle);
+                        if(rtn!=undefined && !rtn)
+                           return;
                         
                       $('body').removeClass('vbox-open');
                       $('body').unbind('keydown', escapeHandler);
@@ -345,8 +342,7 @@
                           overlay.remove();
                           keyNavigationDisabled = false;
                           obj.focus();
-                          if(typeof post_close_callback  != 'undefined' && $.isFunction(post_close_callback))
-                              post_close_callback(trigger,overlay,container,content,blocknum,blocktitle);
+                          post_close_callback(trigger,overlay,container,content,blocknum,blocktitle);
                         });
                     }
 
@@ -448,21 +444,15 @@
         content.css('margin-top', '40px');
         content.css('margin-bottom', '40px');
       }
-      if(typeof post_open_callback  != 'undefined' && $.isFunction(post_open_callback))
-            content.animate({
+      content.animate({
                 'opacity': '1'
             },'slow',post_open_callback(trigger,overlay,container,content,blocknum,blocktitle));
-        else
-            content.animate({
-                'opacity': '1'
-            },'slow');
     }
 
     /* -------- CENTER ON RESIZE -------- */
     function updateoverlayresize(){
       if($('.vbox-content').length){
-          if(typeof post_resize_callback  != 'undefined' && $.isFunction(post_resize_callback))
-                post_resize_callback(trigger,overlay,container,content,blocknum,blocktitle);
+        post_resize_callback(trigger,overlay,container,content,blocknum,blocktitle);
         sonH = content.height();
         finH = $(window).height();
 
