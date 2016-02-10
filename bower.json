@@ -7,7 +7,7 @@
   "description": "Responsive jQuery modal window plugin",
   "main": [
     "venobox/venobox.min.js",
-    "venobox/venobox.css",
+    "venobox/venobox.css"
   ],
   "keywords": [
     "lightbox",
