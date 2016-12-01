@@ -15,7 +15,8 @@
         evitacontent, evitanext, evitaprev, extraCss, figliall, framewidth, frameheight, 
         infinigall, items, keyNavigationDisabled, margine, numeratio, overlayColor, overlay, 
         prima, title, thisgall, thenext, theprev, type, 
-        finH, sonH, nextok, prevok;
+        finH, sonH, nextok, prevok,
+        pre_open_callback,post_open_callback,pre_close_callback,post_close_callback,post_resize_callback;
 
     $.fn.extend({
         //plugin name - venobox
@@ -30,7 +31,12 @@
               titleattr: 'title', // specific attribute to get a title (e.g. [data-title]) - thanx @mendezcode
               numeratio: false,
               infinigall: false,
-              overlayclose: true // disable overlay click-close - thanx @martybalandis 
+              overlayclose: true, // disable overlay click-close - thanx @martybalandis 
+              pre_open_callback: undefined,
+              post_open_callback: undefined,
+              pre_close_callback: undefined,
+			  post_close_callback: undefined,
+              post_resize_callback: undefined
           };
 
           var option = $.extend(defaults, options);
@@ -51,11 +57,22 @@
                   obj.data('numeratio', option.numeratio);
                   obj.data('infinigall', option.infinigall);
                   obj.data('overlayclose', option.overlayclose);
+                  obj.data('pre_open_callback', option.pre_open_callback);
+                  obj.data('post_open_callback', option.post_open_callback);
+                  obj.data('pre_close_callback', option.pre_close_callback);
+                  obj.data('post_close_callback', option.post_close_callback);
+                  obj.data('post_resize_callback', option.post_resize_callback);
                   obj.data('venobox', true);
 
                   obj.click(function(e){
                     e.stopPropagation();
                     e.preventDefault();
+                    pre_open_callback = obj.data('pre_open_callback');
+                    if(typeof pre_open_callback  != 'undefined' && $.isFunction(pre_open_callback)){
+                        var rtn=pre_open_callback();
+                        if(rtn!=undefined && !rtn)
+                            return;
+                    }
                     obj = $(this);
                     overlayColor = obj.data('overlay');
                     framewidth = obj.data('framewidth');
@@ -67,6 +84,10 @@
                     nextok = false;
                     prevok = false;
                     keyNavigationDisabled = false;
+                    post_open_callback = obj.data('post_open_callback');
+                    pre_close_callback = obj.data('pre_close_callback');
+                    post_close_callback = obj.data('post_close_callback');
+                    post_resize_callback = obj.data('post_resize_callback');
 
                     // set a different url to be loaded via ajax using data-href="" - thanx @pixeline
                     dest = obj.data('href') || obj.attr('href');
@@ -310,7 +331,13 @@
                     /* -------- CLOSE VBOX -------- */
 
                     function closeVbox(){
-                      
+                      if(typeof pre_close_callback  != 'undefined' && $.isFunction(pre_close_callback)){
+                            var rtn=pre_close_callback();
+                            if(rtn!=undefined && !rtn){
+                                return;
+                            }
+                        }
+                        
                       $('body').removeClass('vbox-open');
                       $('body').unbind('keydown', escapeHandler);
 
@@ -318,11 +345,13 @@
                           overlay.remove();
                           keyNavigationDisabled = false;
                           obj.focus();
+                          if(typeof post_close_callback  != 'undefined' && $.isFunction(post_close_callback))
+                              post_close_callback();
                         });
                     }
 
                     /* -------- CLOSE CLICK -------- */
-                    var closeclickclass = '.vbox-close, .vbox-overlay';
+                    var closeclickclass = '.vbox-overlay';
                     if(!obj.data('overlayclose')){
                         closeclickclass = '.vbox-close';    // close only on X
                     }
@@ -419,14 +448,21 @@
         content.css('margin-top', '40px');
         content.css('margin-bottom', '40px');
       }
-      content.animate({
-        'opacity': '1'
-      },'slow');
+      if(typeof post_open_callback  != 'undefined' && $.isFunction(post_open_callback))
+            content.animate({
+                'opacity': '1'
+            },'slow',post_open_callback);
+        else
+            content.animate({
+                'opacity': '1'
+            },'slow');
     }
 
     /* -------- CENTER ON RESIZE -------- */
     function updateoverlayresize(){
       if($('.vbox-content').length){
+          if(typeof post_resize_callback  != 'undefined' && $.isFunction(post_resize_callback))
+                post_resize_callback();
         sonH = content.height();
         finH = $(window).height();
 
