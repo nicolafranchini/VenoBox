@@ -8,10 +8,6 @@ The big difference compared to many others plugins like this is that VenoBox cal
 
 Demo: http://lab.veno.it/venobox/
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 931c91f14cc3b4a5866957e2517d2de7eb53b3c3
 ## Quick start
 
 ### Install
@@ -23,7 +19,6 @@ This package can be installed with:
 
 Or download the [latest release](https://github.com/nicolafranchini/VenoBox/releases).
 
-<<<<<<< HEAD
 License: released under the MIT License
 =======
 #### Static HTML
@@ -70,4 +65,3 @@ $(document).ready(function(){
 The full documentation is available at http://lab.veno.it/venobox/
 
 License: released under the MIT License
->>>>>>> 931c91f14cc3b4a5866957e2517d2de7eb53b3c3
