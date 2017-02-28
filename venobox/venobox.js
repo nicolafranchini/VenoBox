@@ -45,6 +45,7 @@
               numerationColor : '#d2d2d2',
               numerationBackground : '#161617',
               arrowsColor : '#B6B6B6',
+              autoplay : false, // By default autoplay set to false
               pre_open_callback: function(){ return true; }, // Callbacks - thanx @garyee
               post_open_callback: function(){},
               pre_close_callback: function(){ return true; },
@@ -90,7 +91,7 @@
                     framewidth = obj.data('framewidth');
                     frameheight = obj.data('frameheight');
                     // set data-autoplay="true" for vimeo and youtube videos - thanx @zehfernandes
-                    autoplay = obj.data('autoplay') || false; 
+                    autoplay = obj.data('autoplay') || option.autoplay; 
                     border = obj.data('border');
                     bgcolor = obj.data('bgcolor');
                     nextok = false;
