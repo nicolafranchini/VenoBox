@@ -1,9 +1,9 @@
 /*
  * VenoBox - jQuery Plugin
- * version: 1.7.0
+ * version: 1.7.1
  * @requires jQuery
  *
- * Examples at http://lab.veno.it/venobox/
+ * Examples at http://veno.es/venobox/
  * License: MIT License
  * License URI: https://github.com/nicolafranchini/VenoBox/blob/master/LICENSE
  * Copyright 2013-2017 Nicola Franchini - @nicolafranchini
@@ -25,26 +25,27 @@
 
           // default option
           var defaults = {
+              arrowsColor : '#B6B6B6',
+              autoplay : false, // same as data-autoplay - thanks @codibit
+              bgcolor: '#fff',
+              border: '0',
+              closeBackground : '#161617',
+              closeColor : '#d2d2d2',
               framewidth: '',
               frameheight: '',
-              border: '0',
-              bgcolor: '#fff',
-              titleattr: 'title', // specific attribute to get a title (e.g. [data-title]) - thanx @mendezcode
+              infinigall: false,
               numeratio: false,
-              infinigall: true,
-              overlayClose: true, // disable overlay click-close - thanx @martybalandis
-              spinner : 'three-bounce', // available: 'rotating-plane' | 'double-bounce' | 'wave' | 'wandering-cubes' | 'spinner-pulse' | 'three-bounce' | 'cube-grid'
-              spinColor : '#d2d2d2',
-              overlayColor : 'rgba(255,255,255,0.85)',
-              titlePosition : 'top', // 'top' || 'bottom'
-              titleColor: '#d2d2d2',
-              titleBackground: '#161617',
-              closeColor : '#d2d2d2',
-              closeBackground : '#161617',
-              numerationPosition : 'top', // 'top' || 'bottom'
-              numerationColor : '#d2d2d2',
               numerationBackground : '#161617',
-              arrowsColor : '#B6B6B6',
+              numerationColor : '#d2d2d2',
+              numerationPosition : 'top', // 'top' || 'bottom'
+              overlayClose: true, // disable overlay click-close - thanx @martybalandis
+              overlayColor : 'rgba(23,23,23,0.85)',
+              spinner : 'double-bounce', // available: 'rotating-plane' | 'double-bounce' | 'wave' | 'wandering-cubes' | 'spinner-pulse' | 'three-bounce' | 'cube-grid'
+              spinColor : '#d2d2d2',              
+              titleattr: 'title', // specific attribute to get a title (e.g. [data-title]) - thanx @mendezcode
+              titleBackground: '#161617',
+              titleColor: '#d2d2d2',
+              titlePosition : 'top', // 'top' || 'bottom'
               pre_open_callback: function(){ return true; }, // Callbacks - thanx @garyee
               post_open_callback: function(){},
               pre_close_callback: function(){ return true; },
@@ -69,13 +70,14 @@
                   obj.data('bgcolor', option.bgcolor);
                   obj.data('numeratio', option.numeratio);
                   obj.data('infinigall', option.infinigall);
+                  obj.data('overlaycolor', option.overlayColor)
 
                   obj.data('venobox', true);
 
                   post_open_callback = option.post_open_callback;
                   post_resize_callback = option.post_resize_callback;
 
-                  obj.click(function(e){
+                  obj.on('click', function(e){
                     // e.stopPropagation();
                     e.preventDefault();
 
@@ -86,11 +88,12 @@
                       return;
                     }
 
-                    overlayColor = obj.data('overlay') || option.overlayColor;
+                    overlayColor = obj.data('overlay') || obj.data('overlaycolor');
+
                     framewidth = obj.data('framewidth');
                     frameheight = obj.data('frameheight');
                     // set data-autoplay="true" for vimeo and youtube videos - thanx @zehfernandes
-                    autoplay = obj.data('autoplay') || false; 
+                    autoplay = obj.data('autoplay') || option.autoplay; 
                     border = obj.data('border');
                     bgcolor = obj.data('bgcolor');
                     nextok = false;
@@ -278,7 +281,7 @@
                       }
                     }
                     
-                     /* -------- NAVIGATION CODE -------- */
+                    /* -------- NAVIGATION CODE -------- */
                     var gallnav = {
                       
                       prev: function() {
@@ -289,7 +292,7 @@
                           keyNavigationDisabled = true;
                         }
 
-                        overlayColor = theprev.data('overlay') || option.overlayColor;
+                        overlayColor = theprev.data('overlay') || theprev.data('overlaycolor');
 
                         framewidth = theprev.data('framewidth');
                         frameheight = theprev.data('frameheight');
@@ -338,7 +341,7 @@
                           keyNavigationDisabled = true;
                         }
 
-                        overlayColor = thenext.data('overlay') || option.overlayColor;
+                        overlayColor = thenext.data('overlay') || thenext.data('overlaycolor');
 
                         framewidth = thenext.data('framewidth');
                         frameheight = thenext.data('frameheight');
@@ -460,7 +463,7 @@
 
     /* -------- LOAD IFRAME -------- */
     function loadIframe(){
-      content.html('<div class="venoframe-container"><iframe class="venoframe" src="'+dest+'"></iframe></div>');
+      content.html('<iframe class="venoframe" src="'+dest+'"></iframe>');
     //  $('.venoframe').load(function(){ // valid only for iFrames in same domain
       updateoverlay();
     //  });
@@ -470,6 +473,8 @@
     function loadVid(autoplay, host){
 
       var player, videoid;
+
+      // set rel=0 to hide related videos at the end of YT + optional autoplay
       var stringAutoplay = autoplay ? "?rel=0&autoplay=1" : "?rel=0";
 
       if (host == 'vimeo') {
@@ -480,7 +485,7 @@
         player = 'https://www.youtube.com/embed/';
         videoid = YouTubeGetID(dest);       
       }
-      content.html('<iframe class="venoframe" webkitallowfullscreen mozallowfullscreen allowfullscreen frameborder="0" src="'+player+videoid+stringAutoplay+'"></iframe>');
+      content.html('<iframe class="venoframe vbvid" webkitallowfullscreen mozallowfullscreen allowfullscreen frameborder="0" src="'+player+videoid+stringAutoplay+'"></iframe>');
       updateoverlay();
     }
 
@@ -544,13 +549,13 @@
         sonH = content.outerHeight();
         finH = $(window).height();
 
-        if(sonH+80 < finH){
-          margine = (finH - sonH)/2 -10;
+        if(sonH+30 < finH){
+          margine = (finH - sonH)/2;
           content.css('margin-top', margine);
           content.css('margin-bottom', margine);
         }else{
-          content.css('margin-top', '40px');
-          content.css('margin-bottom', '40px');
+          content.css('margin-top', '30px');
+          content.css('margin-bottom', '30px');
         }
         post_resize_callback(content,blocknum,blocktitle); 
     }

@@ -1,7 +1,7 @@
 {
     "name": "nicolafranchini/venobox",
     "description": "Responsive jQuery modal window plugin",
-    "version": "1.7.0",
+    "version": "1.7.1",
     "keywords": [
         "lightbox",
         "responsive",

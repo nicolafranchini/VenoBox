@@ -1,6 +1,6 @@
 {
   "name": "venobox",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "authors": [
     "Nicola Franchini"
   ],
@@ -16,7 +16,7 @@
     "popup"
   ],
   "license": "MIT License",
-  "homepage": "http://lab.veno.it/venobox/",
+  "homepage": "http://veno.es/venobox/",
   "ignore": [
     "**/.*",
     "node_modules",

@@ -6,7 +6,7 @@ Just another responsive jQuery lightbox plugin, suitable for images, inline cont
 
 The big difference compared to many others plugins like this is that VenoBox calculates the max width of the image displayed and preserves its height if is taller than the window (so in small devices you can scroll down the content, avoiding vertical microscopic resized images).
 
-Demo: http://lab.veno.it/venobox/
+Demo: http://veno.es/venobox/
 
 ## Quick start
 
@@ -62,6 +62,6 @@ $(document).ready(function(){
 
 ## Documentation
 
-The full documentation is available at http://lab.veno.it/venobox/
+The full documentation is available at http://veno.es/venobox/
 
 License: released under the MIT License
