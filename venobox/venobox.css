@@ -19,7 +19,7 @@
 }
 
 .vbox-preloader{
-    position:fixed; 
+    position:absolute; 
     left: 0;
     right: 0;
     top: 0;
@@ -102,10 +102,10 @@
     display: block;
 }
 .vbox-prev{
-    left: 10px;
+    left: 15px;
 }
 .vbox-next{
-    right: 10px;
+    right: 15px;
 }
 .vbox-prev span{
     left: 10px;

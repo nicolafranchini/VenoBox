@@ -1,6 +1,6 @@
 {
   "name": "venobox",
-  "version": "1.7.1",
+  "version": "1.7.2",
   "authors": [
     "Nicola Franchini"
   ],
@@ -22,9 +22,11 @@
     "node_modules",
     "bower_components",
     "bower.json",
+    "composer.json",
+    "package.json",
     "README.md"
   ],
   "dependencies": { 
-    "jquery": "latest"
+    "jquery": ">=1.7.0"
   }
 }

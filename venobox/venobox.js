@@ -1,7 +1,7 @@
 /*
  * VenoBox - jQuery Plugin
- * version: 1.7.1
- * @requires jQuery
+ * version: 1.7.2
+ * @requires jQuery >= 1.7.0
  *
  * Examples at http://veno.es/venobox/
  * License: MIT License
@@ -70,12 +70,13 @@
                   obj.data('bgcolor', option.bgcolor);
                   obj.data('numeratio', option.numeratio);
                   obj.data('infinigall', option.infinigall);
-                  obj.data('overlaycolor', option.overlayColor)
-
-                  obj.data('venobox', true);
+                  obj.data('overlaycolor', option.overlayColor);
+                  obj.data('titleattr', option.titleattr);
 
                   post_open_callback = option.post_open_callback;
                   post_resize_callback = option.post_resize_callback;
+
+                  obj.data('venobox', true);
 
                   obj.on('click', function(e){
                     // e.stopPropagation();
@@ -84,7 +85,7 @@
                     obj = $(this);
 
                     var rtn = option.pre_open_callback(obj);
-                    if(rtn != undefined && !rtn) {
+                    if (rtn != undefined && !rtn) {
                       return;
                     }
 
@@ -102,7 +103,8 @@
 
                     // set a different url to be loaded via ajax using data-href="" - thanx @pixeline
                     dest = obj.data('href') || obj.attr('href');
-                    extraCss = obj.data( 'css' ) || "";
+                    extraCss = obj.data( 'css' ) || '';
+                    title = obj.attr(obj.data('titleattr')) || '';
 
                     $('body').addClass('vbox-open');
 
@@ -159,7 +161,6 @@
                             break;
                     }
                     preloader += '</div>';
-
 
                     navigation = '<a class="vbox-next"><span>next</span></a><a class="vbox-prev"><span>prev</span></a>';
                     vbheader = '<div class="vbox-title"></div><div class="vbox-num">0/0</div><div class="vbox-close">&times;</div>';
@@ -225,28 +226,25 @@
 
                     /* -------- CHECK NEXT / PREV -------- */
                     function checknav(){
-
                       thisgall = obj.data('vbgall');
                       numeratio = obj.data('numeratio');
                       infinigall = obj.data('infinigall');
 
                       items = $('.vbox-item[data-vbgall="' + thisgall + '"]');
 
-                      if(items.length > 1 && numeratio === true){
+                      if (items.length > 1 && numeratio === true) {
                         blocknum.html(items.index(obj)+1 + ' / ' + items.length);
                         blocknum.show();
-                      }else{
+                      } else {
                         blocknum.hide();
                       }
 
                       thenext = items.eq( items.index(obj) + 1 );
                       theprev = items.eq( items.index(obj) - 1 );
 
-                      if(obj.attr(option.titleattr)){
-                        title = obj.attr(option.titleattr);
+                      if (title !== '') {
                         blocktitle.show();
-                      }else{
-                        title = '';
+                      } else {
                         blocktitle.hide();
                       }
 
@@ -302,11 +300,7 @@
 
                         autoplay = theprev.data('autoplay');
 
-                        if(theprev.attr(option.titleattr)){
-                          title = theprev.attr(option.titleattr);
-                        }else{
-                          title = '';
-                        }
+                        title = theprev.attr(theprev.data('titleattr')) || '';
 
                         content.animate({ opacity:0}, 500, function(){
                           
@@ -350,15 +344,11 @@
                         dest = thenext.data('href') || thenext.attr('href');
                         autoplay = thenext.data('autoplay');
 
-                        if(thenext.attr(option.titleattr)){
-                          title = thenext.attr(option.titleattr);
-                        }else{
-                          title = '';
-                        }
+                        title = thenext.attr(thenext.data('titleattr')) || '';
 
                         content.animate({ opacity:0}, 500, function(){
                           
-                          overlay.css('background',overlayColor);
+                          overlay.css('background', overlayColor);
 
                           if (thenext.data('vbtype') == 'iframe') {
                             loadIframe();
