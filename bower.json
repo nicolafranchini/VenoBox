@@ -6,7 +6,7 @@
   ],
   "description": "Responsive jQuery modal window plugin",
   "main": [
-    "venobox/venobox.min.js",
+    "venobox/venobox.js",
     "venobox/venobox.css"
   ],
   "keywords": [
@@ -21,7 +21,6 @@
     "**/.*",
     "node_modules",
     "bower_components",
-    "bower.json",
     "composer.json",
     "package.json",
     "README.md"
