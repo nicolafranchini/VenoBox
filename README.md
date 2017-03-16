@@ -26,11 +26,7 @@ License: released under the MIT License
 Put the required stylesheet at the [top](https://developer.yahoo.com/performance/rules.html#css_top) of your markup:
 
 ```html
-<link rel="stylesheet" href="/node_modules/venobox/venobox/venobox.css" />
-```
-
-```html
-<link rel="stylesheet" href="/bower_components/venobox/venobox/venobox.css" />
+<link rel="stylesheet" href="/venobox/venobox/venobox.css" />
 ```
 
 Put the script at the [bottom](https://developer.yahoo.com/performance/rules.html#js_bottom) of your markup right after jQuery:
