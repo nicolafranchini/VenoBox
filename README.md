@@ -36,14 +36,10 @@ Put the required stylesheet at the [top](https://developer.yahoo.com/performance
 Put the script at the [bottom](https://developer.yahoo.com/performance/rules.html#js_bottom) of your markup right after jQuery:
 
 ```html
-<script src="/node_modules/jquery/dist/jquery.js"></script>
-<script src="/node_modules/venobox/venobox/venobox.min.js"></script>
+<script src="/jquery/dist/jquery.js"></script>
+<script src="/venobox/venobox.min.js"></script>
 ```
 
-```html
-<script src="/bower_components/jquery/dist/jquery.js"></script>
-<script src="/bower_components/venobox/venobox/venobox.min.js"></script>
-```
 ### Usage
 
 Insert one or more links with its custom class

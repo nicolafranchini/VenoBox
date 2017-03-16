@@ -5,7 +5,7 @@
   "main": "venobox/venobox.min.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/nicolafranchini/VenoBox.git"
+    "url": "git+https://github.com/nicolafranchini/VenoBox.git"
   },
   "keywords": [
     "jQuery",
@@ -19,10 +19,7 @@
     "jquery-plugin",
     "ecosystem:jquery"
   ],
-  "author": {
-    "name" : "Nicola Franchini",
-    "url": "http://veno.es/"
-  },
+  "author": "Nicola Franchini (http://veno.es/)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/nicolafranchini/VenoBox/issues"

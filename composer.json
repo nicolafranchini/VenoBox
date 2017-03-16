@@ -6,7 +6,10 @@
         "lightbox",
         "responsive",
         "modal",
-        "popup"
+        "popup",
+        "jquery-plugin",
+        "ecosystem:jquery",
+        "jQuery"
     ],
     "license": "MIT License",
     "authors": [
