@@ -13,9 +13,9 @@ Demo: http://veno.es/venobox/
 ### Install
 
 This package can be installed with:
-
 - [npm](https://www.npmjs.com/package/venobox): `npm install venobox`
 - [bower](https://bower.io/search/?q=venobox): `bower install venobox`
+- [composer](https://packagist.org/packages/nicolafranchini/venobox): `composer require nicolafranchini/venobox`
 
 Or download the [latest release](https://github.com/nicolafranchini/VenoBox/releases).
 
