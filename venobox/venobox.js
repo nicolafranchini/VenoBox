@@ -1,6 +1,6 @@
 /*
  * VenoBox - jQuery Plugin
- * version: 1.7.2
+ * version: 1.7.3
  * @requires jQuery >= 1.7.0
  *
  * Examples at http://veno.es/venobox/
@@ -226,11 +226,11 @@
 
                     /* -------- CHECK NEXT / PREV -------- */
                     function checknav(){
-                      thisgall = obj.data('vbgall');
+                      thisgall = obj.data('gall');
                       numeratio = obj.data('numeratio');
                       infinigall = obj.data('infinigall');
 
-                      items = $('.vbox-item[data-vbgall="' + thisgall + '"]');
+                      items = $('.vbox-item[data-gall="' + thisgall + '"]');
 
                       if (items.length > 1 && numeratio === true) {
                         blocknum.html(items.index(obj)+1 + ' / ' + items.length);
