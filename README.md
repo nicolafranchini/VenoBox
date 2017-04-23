@@ -20,7 +20,6 @@ This package can be installed with:
 
 Or download the [latest release](https://github.com/nicolafranchini/VenoBox/releases).
 
-License: released under the MIT License
 =======
 #### Static HTML
 
