@@ -1,5 +1,5 @@
 {
-  "name": "VenoBox",
+  "name": "venobox",
   "version": "1.8.0",
   "description": "Responsive jQuery modal window plugin",
   "main": "venobox/venobox.min.js",
