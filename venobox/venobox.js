@@ -1,6 +1,6 @@
 /*
  * VenoBox - jQuery Plugin
- * version: 1.7.3
+ * version: 1.8.0
  * @requires jQuery >= 1.7.0
  *
  * Examples at http://veno.es/venobox/
@@ -14,16 +14,15 @@
     var autoplay, bgcolor, blocknum, blocktitle, border, core, container, content, dest, 
         evitacontent, evitanext, evitaprev, extraCss, figliall, framewidth, frameheight, 
         infinigall, items, keyNavigationDisabled, margine, numeratio, overlayColor, overlay, 
-        prima, title, thisgall, thenext, theprev, type, finH, sonH, nextok, prevok, preloader, 
+        prima, title, thisgall, thenext, theprev, type, nextok, prevok, preloader, 
         navigation, spinner, titlePosition, titleColor, titleBackground, closeColor, closeBackground,
-        numerationPosition, numerationColor, numerationBackground,
-        pre_open_callback, post_open_callback, pre_close_callback, post_close_callback, post_resize_callback;
+        numerationPosition, numerationColor, numerationBackground, obj, gallIndex;
 
     $.fn.extend({
         //plugin name - venobox
         venobox: function(options) {
-
-          // default option
+          var plugin = this;
+          // default options
           var defaults = {
               arrowsColor : '#B6B6B6',
               autoplay : false, // same as data-autoplay - thanks @codibit
@@ -34,6 +33,9 @@
               framewidth: '',
               frameheight: '',
               infinigall: false,
+              htmlClose : '&times;',
+              htmlNext : '<span>Next</span>',
+              htmlPrev : '<span>Prev</span>',
               numeratio: false,
               numerationBackground : '#161617',
               numerationColor : '#d2d2d2',
@@ -46,23 +48,32 @@
               titleBackground: '#161617',
               titleColor: '#d2d2d2',
               titlePosition : 'top', // 'top' || 'bottom'
-              pre_open_callback: function(){ return true; }, // Callbacks - thanx @garyee
-              post_open_callback: function(){},
-              pre_close_callback: function(){ return true; },
-              post_close_callback: function(){},
-              post_resize_callback: function(){}
+              cb_pre_open: function(){ return true; }, // Callbacks - thanx @garyee
+              cb_post_open: function(){},
+              cb_pre_close: function(){ return true; },
+              cb_post_close: function(){},
+              cb_post_resize: function(){},
+              cb_after_nav: function(){},
+              cb_init: function(){}
           };
 
           var option = $.extend(defaults, options);
 
+            // callback plugin initialization
+            option.cb_init(plugin); 
+
             return this.each(function() {
-                  var obj = $(this);
+                  obj = $(this);
 
                   // Prevent double initialization - thanx @matthistuff
-                  if(obj.data('venobox')) {
+                  if (obj.data('venobox')) {
                     return true;
                   }
 
+                  // method to be used outside the plugin
+                  plugin.VBclose = function() {
+                      closeVbox();
+                  }
                   obj.addClass('vbox-item');
                   obj.data('framewidth', option.framewidth);
                   obj.data('frameheight', option.frameheight);
@@ -73,20 +84,26 @@
                   obj.data('overlaycolor', option.overlayColor);
                   obj.data('titleattr', option.titleattr);
 
-                  post_open_callback = option.post_open_callback;
-                  post_resize_callback = option.post_resize_callback;
-
                   obj.data('venobox', true);
 
                   obj.on('click', function(e){
-                    // e.stopPropagation();
-                    e.preventDefault();
 
+                    e.preventDefault();
                     obj = $(this);
 
-                    var rtn = option.pre_open_callback(obj);
-                    if (rtn != undefined && !rtn) {
-                      return;
+                    // callback plugin initialization
+                    var cb_pre_open = option.cb_pre_open(obj);
+
+                    if (cb_pre_open === false) {
+                      return false;
+                    }
+
+                    // methods to be used outside the plugin
+                    plugin.VBnext = function() {
+                        navigateGall(thenext);
+                    }
+                    plugin.VBprev = function() {
+                        navigateGall(theprev);
                     }
 
                     overlayColor = obj.data('overlay') || obj.data('overlaycolor');
@@ -101,73 +118,71 @@
                     prevok = false;
                     keyNavigationDisabled = false;
 
-                    // set a different url to be loaded via ajax using data-href="" - thanx @pixeline
+                    // set a different url to be loaded using data-href="" - thanx @pixeline
                     dest = obj.data('href') || obj.attr('href');
                     extraCss = obj.data( 'css' ) || '';
                     title = obj.attr(obj.data('titleattr')) || '';
-
-                    $('body').addClass('vbox-open');
 
                     preloader = '<div class="vbox-preloader">';
 
                     switch (option.spinner) {
 
-                        case 'rotating-plane':
-                            preloader += '<div class="sk-rotating-plane"></div>';
-                            break;
-                        case 'double-bounce':
-                            preloader += '<div class="sk-double-bounce">'
-                            + '<div class="sk-child sk-double-bounce1"></div>'
-                            + '<div class="sk-child sk-double-bounce2"></div>'
-                            + '</div>';
-                            break;
-                        case 'wave':
-                            preloader += '<div class="sk-wave">'
-                            + '<div class="sk-rect sk-rect1"></div>'
-                            + '<div class="sk-rect sk-rect2"></div>'
-                            + '<div class="sk-rect sk-rect3"></div>'
-                            + '<div class="sk-rect sk-rect4"></div>'
-                            + '<div class="sk-rect sk-rect5"></div>'
-                            + '</div>';
-                            break;
-                        case 'wandering-cubes':
-                            preloader += '<div class="sk-wandering-cubes">'
-                            + '<div class="sk-cube sk-cube1"></div>'
-                            + '<div class="sk-cube sk-cube2"></div>'
-                            + '</div>';
-                            break;
-                          case 'spinner-pulse':
-                            preloader += '<div class="sk-spinner sk-spinner-pulse"></div>';
-                            break;
-                        case 'three-bounce':
-                            preloader += '<div class="sk-three-bounce">'
-                            + '<div class="sk-child sk-bounce1"></div>'
-                            + '<div class="sk-child sk-bounce2"></div>'
-                            + '<div class="sk-child sk-bounce3"></div>'
-                            + '</div>';
-                            break;
-                        case 'cube-grid':
-                            preloader += '<div class="sk-cube-grid">'
-                            + '<div class="sk-cube sk-cube1"></div>'
-                            + '<div class="sk-cube sk-cube2"></div>'
-                            + '<div class="sk-cube sk-cube3"></div>'
-                            + '<div class="sk-cube sk-cube4"></div>'
-                            + '<div class="sk-cube sk-cube5"></div>'
-                            + '<div class="sk-cube sk-cube6"></div>'
-                            + '<div class="sk-cube sk-cube7"></div>'
-                            + '<div class="sk-cube sk-cube8"></div>'
-                            + '<div class="sk-cube sk-cube9"></div>'
-                            + '</div>';
-                            break;
+                      case 'rotating-plane':
+                          preloader += '<div class="sk-rotating-plane"></div>';
+                          break;
+                      case 'double-bounce':
+                          preloader += '<div class="sk-double-bounce">'
+                          + '<div class="sk-child sk-double-bounce1"></div>'
+                          + '<div class="sk-child sk-double-bounce2"></div>'
+                          + '</div>';
+                          break;
+                      case 'wave':
+                          preloader += '<div class="sk-wave">'
+                          + '<div class="sk-rect sk-rect1"></div>'
+                          + '<div class="sk-rect sk-rect2"></div>'
+                          + '<div class="sk-rect sk-rect3"></div>'
+                          + '<div class="sk-rect sk-rect4"></div>'
+                          + '<div class="sk-rect sk-rect5"></div>'
+                          + '</div>';
+                          break;
+                      case 'wandering-cubes':
+                          preloader += '<div class="sk-wandering-cubes">'
+                          + '<div class="sk-cube sk-cube1"></div>'
+                          + '<div class="sk-cube sk-cube2"></div>'
+                          + '</div>';
+                          break;
+                        case 'spinner-pulse':
+                          preloader += '<div class="sk-spinner sk-spinner-pulse"></div>';
+                          break;
+                      case 'three-bounce':
+                          preloader += '<div class="sk-three-bounce">'
+                          + '<div class="sk-child sk-bounce1"></div>'
+                          + '<div class="sk-child sk-bounce2"></div>'
+                          + '<div class="sk-child sk-bounce3"></div>'
+                          + '</div>';
+                          break;
+                      case 'cube-grid':
+                          preloader += '<div class="sk-cube-grid">'
+                          + '<div class="sk-cube sk-cube1"></div>'
+                          + '<div class="sk-cube sk-cube2"></div>'
+                          + '<div class="sk-cube sk-cube3"></div>'
+                          + '<div class="sk-cube sk-cube4"></div>'
+                          + '<div class="sk-cube sk-cube5"></div>'
+                          + '<div class="sk-cube sk-cube6"></div>'
+                          + '<div class="sk-cube sk-cube7"></div>'
+                          + '<div class="sk-cube sk-cube8"></div>'
+                          + '<div class="sk-cube sk-cube9"></div>'
+                          + '</div>';
+                          break;
                     }
                     preloader += '</div>';
 
-                    navigation = '<a class="vbox-next"><span>next</span></a><a class="vbox-prev"><span>prev</span></a>';
-                    vbheader = '<div class="vbox-title"></div><div class="vbox-num">0/0</div><div class="vbox-close">&times;</div>';
+                    navigation = '<a class="vbox-next">' + option.htmlNext + '</a><a class="vbox-prev">' + option.htmlPrev + '</a>';
+                    vbheader = '<div class="vbox-title"></div><div class="vbox-num">0/0</div><div class="vbox-close">' + option.htmlClose + '</div>';
                     core = '<div class="vbox-overlay ' + extraCss + '" style="background:'+ overlayColor +'">'
                     + preloader + '<div class="vbox-container"><div class="vbox-content"></div></div>' + vbheader + navigation + '</div>';
 
-                    $('body').append(core);
+                    $('body').append('<div class="ghostoverlay"></div>').append(core).addClass('vbox-open');
 
                     $('.vbox-preloader .sk-child, .vbox-preloader .sk-rotating-plane, .vbox-preloader .sk-rect, .vbox-preloader .sk-cube, .vbox-preloader .sk-spinner-pulse').css('background-color', option.spinColor);
 
@@ -199,7 +214,6 @@
                       'border-right-color' : option.arrowsColor
                     });
 
-
                     content.html('');
                     content.css('opacity', '0');
 
@@ -208,352 +222,485 @@
                     // fade in overlay
                     overlay.animate({opacity:1}, 250, function(){
     
-                      if(obj.data('vbtype') == 'iframe'){
+                      if (obj.data('vbtype') == 'iframe') {
                         loadIframe();
-                      }else if (obj.data('vbtype') == 'inline'){
+                      } else if (obj.data('vbtype') == 'inline') {
                         loadInline();
-                      }else if (obj.data('vbtype') == 'ajax'){
+                      } else if (obj.data('vbtype') == 'ajax') {
                         loadAjax();
-                      }else if (obj.data('vbtype') == 'vimeo'){
-                        loadVid(autoplay, 'vimeo');
-                      }else if (obj.data('vbtype') == 'youtube'){
-                        loadVid(autoplay, 'youtube');
+                      } else if (obj.data('vbtype') == 'video' || obj.data('vbtype') == 'vimeo' || obj.data('vbtype') == 'youtube') {
+                        loadVid(autoplay);
                       } else {
                         content.html('<img src="'+dest+'">');
                         preloadFirst();
                       }
+
+                      option.cb_post_open(obj, gallIndex, thenext, theprev)
+
                     });
 
-                    /* -------- CHECK NEXT / PREV -------- */
-                    function checknav(){
-                      thisgall = obj.data('gall');
-                      numeratio = obj.data('numeratio');
-                      infinigall = obj.data('infinigall');
-
-                      items = $('.vbox-item[data-gall="' + thisgall + '"]');
-
-                      if (items.length > 1 && numeratio === true) {
-                        blocknum.html(items.index(obj)+1 + ' / ' + items.length);
-                        blocknum.show();
-                      } else {
-                        blocknum.hide();
-                      }
-
-                      thenext = items.eq( items.index(obj) + 1 );
-                      theprev = items.eq( items.index(obj) - 1 );
-
-                      if (title !== '') {
-                        blocktitle.show();
-                      } else {
-                        blocktitle.hide();
-                      }
-
-                      if (items.length > 1 && infinigall === true) {
-
-                        nextok = true;
-                        prevok = true;
-
-                        if(thenext.length < 1 ){
-                          thenext = items.eq(0);
-                        }
-                        if(items.index(obj) < 1 ){
-                          theprev = items.eq( items.index(items.length) );
-                        }
-
-                      } else {
-
-                        if(thenext.length > 0 ){
-                          $('.vbox-next').css('display', 'block');
-                          nextok = true;
-                        }else{
-                          $('.vbox-next').css('display', 'none');
-                          nextok = false;
-                        }
-                        if(items.index(obj) > 0 ){
-                          $('.vbox-prev').css('display', 'block');
-                          prevok = true;
-                        }else{
-                          $('.vbox-prev').css('display', 'none');
-                          prevok = false;
-                        }
-                      }
-                    }
-                    
-                    /* -------- NAVIGATION CODE -------- */
-                    var gallnav = {
-                      
-                      prev: function() {
-
-                        if (keyNavigationDisabled) {
-                          return;
-                        } else {
-                          keyNavigationDisabled = true;
-                        }
-
-                        overlayColor = theprev.data('overlay') || theprev.data('overlaycolor');
-
-                        framewidth = theprev.data('framewidth');
-                        frameheight = theprev.data('frameheight');
-                        border = theprev.data('border');
-                        bgcolor = theprev.data('bgcolor');
-                        dest = theprev.data('href') || theprev.attr('href');
-
-                        autoplay = theprev.data('autoplay');
-
-                        title = theprev.attr(theprev.data('titleattr')) || '';
-
-                        content.animate({ opacity:0}, 500, function(){
-                          
-                          overlay.css('background',overlayColor);
-
-                          if (theprev.data('vbtype') == 'iframe') {
-                            loadIframe();
-                          } else if (theprev.data('vbtype') == 'inline'){
-                            loadInline();
-                          } else if (theprev.data('vbtype') == 'ajax'){
-                            loadAjax();
-                          } else if (theprev.data('vbtype') == 'youtube'){
-                            loadVid(autoplay, 'youtube');
-                          } else if (theprev.data('vbtype') == 'vimeo'){
-                            loadVid(autoplay, 'vimeo');
-                          }else{
-                            content.html('<img src="'+dest+'">');
-                            preloadFirst();
-                          }
-                          obj = theprev;
-                          checknav();
-                          keyNavigationDisabled = false;
-                        });
-
-                      },
-
-                      next: function() {
-                        
-                        if (keyNavigationDisabled) {
-                          return;
-                        } else {
-                          keyNavigationDisabled = true;
-                        }
-
-                        overlayColor = thenext.data('overlay') || thenext.data('overlaycolor');
-
-                        framewidth = thenext.data('framewidth');
-                        frameheight = thenext.data('frameheight');
-                        border = thenext.data('border');
-                        bgcolor = thenext.data('bgcolor');
-                        dest = thenext.data('href') || thenext.attr('href');
-                        autoplay = thenext.data('autoplay');
-
-                        title = thenext.attr(thenext.data('titleattr')) || '';
-
-                        content.animate({ opacity:0}, 500, function(){
-                          
-                          overlay.css('background', overlayColor);
-
-                          if (thenext.data('vbtype') == 'iframe') {
-                            loadIframe();
-                          } else if (thenext.data('vbtype') == 'inline'){
-                            loadInline();
-                          } else if (thenext.data('vbtype') == 'ajax'){
-                            loadAjax();
-                          } else if (thenext.data('vbtype') == 'youtube'){
-                            loadVid(autoplay, 'youtube');
-                          } else if (thenext.data('vbtype') == 'vimeo'){
-                            loadVid(autoplay, 'vimeo');
-                          }else{
-                            content.html('<img src="'+dest+'">');
-                            preloadFirst();
-                          }
-                          obj = thenext;
-                          checknav();
-                          keyNavigationDisabled = false;
-                        });
-                      }
-                    };
-
-                    /* -------- NAVIGATE WITH ARROW KEYS -------- */
-                    $('body').keydown(function(e) {
-                      if(e.keyCode == 37 && prevok == true) { // left
-                        gallnav.prev();
-                      }
-
-                      if(e.keyCode == 39 && nextok == true) { // right
-                        gallnav.next();
-                      }
-                    });
+                    /* -------- KEYBOARD ACTIONS -------- */
+                    $('body').keydown(keyboardHandler);
 
                     /* -------- PREVGALL -------- */
-                    $('.vbox-prev').click(function(){
-                      gallnav.prev();
+                    $('.vbox-prev').on('click', function(){
+                        navigateGall(theprev);
+
                     });
-                    
                     /* -------- NEXTGALL -------- */
-                    $('.vbox-next').click(function(){
-                      gallnav.next();
+                    $('.vbox-next').on('click', function(){
+                        navigateGall(thenext);
                     });
                     
-                    /* -------- ESCAPE HANDLER -------- */
-                    function escapeHandler(e) {
-                      if(e.keyCode === 27) {
-                        closeVbox();
-                      }
-                    }
-
-                    /* -------- CLOSE VBOX -------- */
-                    function closeVbox(){
-
-                      var rtn = option.pre_close_callback(obj, content, blocknum, blocktitle);
-                      if(rtn!=undefined && !rtn) {
-                        return;
-                      }
-
-                      $('body').removeClass('vbox-open');
-                      $('body').off('keydown', escapeHandler);
-                      overlay.animate({opacity:0}, 500, function(){
-                        overlay.remove();
-                        keyNavigationDisabled = false;
-                        obj.focus();
-
-                        option.post_close_callback(obj,content,blocknum,blocktitle); 
-                      });
-                    }
-
-                    /* -------- CLOSE CLICK -------- */
-                    var closeclickclass = '.vbox-overlay';
-                    if(!option.overlayClose){
-                        closeclickclass = '.vbox-close';    // close only on X
-                    }
-
-                    $(closeclickclass).click(function(e){
-                      if ($(e.target).is('.vbox-overlay') || $(e.target).is('.vbox-content') || $(e.target).is('.vbox-close') || $(e.target).is('.vbox-preloader')) {
-                         closeVbox();
-                      }
-                    })
-                    $('body').keydown(escapeHandler);
                     return false;
+
+                  }); // click
+
+                  /* -------- CHECK NEXT / PREV -------- */
+                  function checknav(){
+
+                    thisgall = obj.data('gall');
+                    numeratio = obj.data('numeratio');
+                    infinigall = obj.data('infinigall');
+
+                    items = $('.vbox-item[data-gall="' + thisgall + '"]');
+
+                    thenext = items.eq( items.index(obj) + 1 );
+                    theprev = items.eq( items.index(obj) - 1 );
+
+                    // update gall numeration
+                    if (items.length > 1) {
+                      gallIndex = items.index(obj)+1;
+                      blocknum.html(gallIndex + ' / ' + items.length);
+                    } else {
+                      gallIndex = 1;
+                    }
+                    if (numeratio === true) {
+                      blocknum.show();
+                    } else {
+                      blocknum.hide();
+                    }
+
+                    // update title
+                    if (title !== '') {
+                      blocktitle.show();
+                    } else {
+                      blocktitle.hide();
+                    }
+
+                    // update navigation arrows
+                    if (!thenext.length && infinigall !== true) {
+                      $('.vbox-next').css('display', 'none');
+                      nextok = false;
+                    } else {
+                      $('.vbox-next').css('display', 'block');
+                      nextok = true;
+                    }
+
+                    if (items.index(obj) > 0 || infinigall === true) {
+                      $('.vbox-prev').css('display', 'block');
+                      prevok = true;
+                    } else {
+                      $('.vbox-prev').css('display', 'none');
+                      prevok = false;
+                    }
+                    // activate swipe
+                    if (prevok === true || nextok === true) {
+                      content.on(TouchMouseEvent.DOWN, onDownEvent);
+                      content.on(TouchMouseEvent.MOVE, onMoveEvent);
+                      content.on(TouchMouseEvent.UP, onUpEvent);
+                    }
+
+                  }
+
+                  /* -------- gallery navigation -------- */
+                  function navigateGall(destination) {
+
+                      if (destination.length < 1) {
+                        return false;
+                      }
+                      if (keyNavigationDisabled) {
+                        return false;
+                      } else {
+                        keyNavigationDisabled = true;
+                      }
+
+                      overlayColor = destination.data('overlay') || destination.data('overlaycolor');
+
+                      framewidth = destination.data('framewidth');
+                      frameheight = destination.data('frameheight');
+                      border = destination.data('border');
+                      bgcolor = destination.data('bgcolor');
+                      dest = destination.data('href') || destination.attr('href');
+
+                      autoplay = destination.data('autoplay');
+
+                      title = destination.attr(destination.data('titleattr')) || '';
+
+                      // swipe out item
+                      if (destination === theprev) {
+                        content.addClass('animated').addClass('swipe-right')
+                      }
+                      if (destination === thenext) {
+                        content.addClass('animated').addClass('swipe-left')
+                      }
+                      content.animate({ 
+                        opacity : 0,
+                      }, 500, function(){
+                        
+                        overlay.css('background',overlayColor);
+
+                        content
+                        .removeClass('animated')
+                        .removeClass('swipe-left')
+                        .removeClass('swipe-right')
+                        .css({'margin-left': 0,'margin-right': 0});
+
+                        if (destination.data('vbtype') == 'iframe') {
+                          loadIframe();
+                        } else if (destination.data('vbtype') == 'inline') {
+                          loadInline();
+                        } else if (destination.data('vbtype') == 'ajax') {
+                          loadAjax();
+                        } else if (destination.data('vbtype') == 'video' 
+                          || destination.data('vbtype') == 'vimeo' 
+                          || destination.data('vbtype') == 'youtube'
+                          ) {
+                          loadVid(autoplay);
+                        } else {
+                          content.html('<img src="'+dest+'">');
+                          preloadFirst();
+                        }
+                        obj = destination;
+                        checknav();
+                        keyNavigationDisabled = false;
+                        option.cb_after_nav(obj, gallIndex, thenext, theprev);
+                      });
+                  }
+
+                  /* -------- KEYBOARD HANDLER -------- */
+                  function keyboardHandler(e) {
+                    if (e.keyCode === 27) { // esc
+                      closeVbox();
+                    }
+
+                    if (e.keyCode == 37 && prevok === true) { // left
+                      navigateGall(theprev);
+                    }
+
+                    if (e.keyCode == 39 && nextok === true) { // right
+                      navigateGall(thenext);
+                    }
+                  }
+
+                  /* -------- CLOSE VBOX -------- */
+                  function closeVbox(){
+ 
+                    var cb_pre_close = option.cb_pre_close(obj, gallIndex, thenext, theprev);
+
+                    if (cb_pre_close === false) {
+                      return false;
+                    }
+
+                    $('body').off('keydown', keyboardHandler).removeClass('vbox-open');;
+                    obj.focus();
+                    overlay.animate({opacity:0}, 500, function(){
+                      overlay.remove();
+                      keyNavigationDisabled = false;
+                      option.cb_post_close(); 
+                    });
+                  }
+
+                  /* -------- CLOSE CLICK -------- */
+                  var closeclickclass = '.vbox-overlay';
+                  if(!option.overlayClose){
+                      closeclickclass = '.vbox-close'; // close only on X
+                  }
+
+                  $(document).on('click', closeclickclass, function(e){
+                    if ($(e.target).is('.vbox-overlay') 
+                      || $(e.target).is('.vbox-content') 
+                      || $(e.target).is('.vbox-close') 
+                      || $(e.target).is('.vbox-preloader')
+                    ) {
+                       closeVbox();
+                    }
                   });
-            });
-        }
-    });
 
-    /* -------- LOAD AJAX -------- */
-    function loadAjax(){
-      $.ajax({
-      url: dest,
-      cache: false
-      }).done(function( msg ) {
-          content.html('<div class="vbox-inline">'+ msg +'</div>');
-          preloadFirst();
+              var startX = null;
+              var endX = null;
 
-      }).fail(function() {
-          content.html('<div class="vbox-inline"><p>Error retrieving contents, please retry</div>');
-          updateoverlay();
-      })
-    }
+              var diff = 0;
+              var threshold = 50;
+              startouch = false;
 
-    /* -------- LOAD IFRAME -------- */
-    function loadIframe(){
-      content.html('<iframe class="venoframe" src="'+dest+'"></iframe>');
-    //  $('.venoframe').load(function(){ // valid only for iFrames in same domain
-      updateoverlay();
-    //  });
-    }
+              function onDownEvent(e){
+                content.addClass('animated');
+                startY = e.pageY;
+                startX = e.pageX;
+                startouch = true;
+              }
 
-    /* -------- LOAD VIDEO -------- */
-    function loadVid(autoplay, host){
+              function onMoveEvent(e){
+                if (startouch === true) {
+                  endX = e.pageX;
+                  endY = e.pageY;
 
-      var player, videoid;
+                  diffX = endX - startX;
+                  diffY = endY - startY;
+                  
+                  var absdiffX = Math.abs(diffX);
+                  var absdiffY = Math.abs(diffY);
 
-      // set rel=0 to hide related videos at the end of YT + optional autoplay
-      var stringAutoplay = autoplay ? "?rel=0&autoplay=1" : "?rel=0";
+                  if ((absdiffX > absdiffY) && (absdiffX <= 100)) {
+                    e.preventDefault();
+                    content.css('margin-left', diffX);
+                  }
+                }
+              }
 
-      if (host == 'vimeo') {
-        player = 'https://player.vimeo.com/video/';
-        var pezzi = dest.split('/');
-        videoid = pezzi[pezzi.length-1];
-      } else {
-        player = 'https://www.youtube.com/embed/';
-        videoid = YouTubeGetID(dest);       
-      }
-      content.html('<iframe class="venoframe vbvid" webkitallowfullscreen mozallowfullscreen allowfullscreen frameborder="0" src="'+player+videoid+stringAutoplay+'"></iframe>');
-      updateoverlay();
-    }
+              function onUpEvent(e){
+                if (startouch === true) {
+                  startouch = false;
+                  var dir = 'none';
+                  var subject = obj;
+                  var change = false;
+                  diff = endX - startX;
 
-    /**
-    * Get YouTube ID from various YouTube URL
-    * @author: takien
-    * @url: https://gist.github.com/takien/4077195
-    */
-    function YouTubeGetID(url){
-      var ID = '';
-      url = url.replace(/(>|<)/gi,'').split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/);
-      if(url[2] !== undefined) {
-        ID = url[2].split(/[^0-9a-z_\-]/i);
-        ID = ID[0];
-      }
-      else {
-        ID = url;
-      }
-      return ID;
-    }
+                  if (diff < 0 && nextok === true) {
+                      subject = thenext;
+                      change = true;
+                  }
+                  if (diff > 0 && prevok === true) {
+                      subject = theprev;
+                      change = true;
+                  }
+                  if (Math.abs(diff) >= threshold && change === true) {
+                      navigateGall(subject);
+                  } else {
+                    content.css({'margin-left': 0,'margin-right': 0});
+                  }
+                }
+              }
 
-    /* -------- LOAD INLINE -------- */
-    function loadInline(){
-      content.html('<div class="vbox-inline">'+$(dest).html()+'</div>');
-      updateoverlay();
-    }
+              /* == GLOBAL DECLERATIONS == */
+              TouchMouseEvent = {
+                  DOWN: "touchmousedown",
+                  UP: "touchmouseup",
+                  MOVE: "touchmousemove"
+              }
+             
+              /* == EVENT LISTENERS == */
+              var onMouseEvent = function(event) {
+                  var type;
+                  switch (event.type) {
+                      case "mousedown": type = TouchMouseEvent.DOWN; break;
+                      case "mouseup":   type = TouchMouseEvent.UP;   break;
+                      case "mouseout":   type = TouchMouseEvent.UP;   break;
+                      case "mousemove": type = TouchMouseEvent.MOVE; break;
+                      default: 
+                          return;
+                  }
+                  var touchMouseEvent = normalizeEvent(type, event, event.pageX, event.pageY);      
+                  $(event.target).trigger(touchMouseEvent); 
+              }
+              
+              var onTouchEvent = function(event) {
+                  var type;
+                  switch (event.type) {
+                      case "touchstart": type = TouchMouseEvent.DOWN; break;
+                      case "touchend":   type = TouchMouseEvent.UP;   break;
+                      case "touchmove":  type = TouchMouseEvent.MOVE; break;
+                      default: 
+                          return;
+                  }
+                  
+                  var touch = event.originalEvent.touches[0];
+                  var touchMouseEvent;
+                  
+                  if (type == TouchMouseEvent.UP) {
+                       touchMouseEvent = normalizeEvent(type, event, null, null);
+                  } else { 
+                      touchMouseEvent = normalizeEvent(type, event, touch.pageX, touch.pageY);
+                  }
+                  $(event.target).trigger(touchMouseEvent); 
+              }
+              
+              /* == NORMALIZE == */
+              var normalizeEvent = function(type, original, x, y) {
+                  return $.Event(type, {
+                      pageX: x,
+                      pageY: y,
+                      originalEvent: original
+                  });
+              }
+              
+              /* == LISTEN TO ORIGINAL EVENT == */
+              if ("ontouchstart" in window) {
+                  $(document).on("touchstart", onTouchEvent);
+                  $(document).on("touchmove", onTouchEvent);
+                  $(document).on("touchend", onTouchEvent); 
+              } else {
+                  $(document).on("mousedown", onMouseEvent);
+                  $(document).on("mouseup", onMouseEvent);
+                  $(document).on("mouseout", onMouseEvent);
+                  $(document).on("mousemove", onMouseEvent);
+              }
 
-    /* -------- PRELOAD IMAGE -------- */
-    function preloadFirst(){
-      images = $('.vbox-content').find('img');
+              /* -------- LOAD AJAX -------- */
+              function loadAjax(){
+                $.ajax({
+                url: dest,
+                cache: false
+                }).done(function( msg ) {
+                    content.html('<div class="vbox-inline">'+ msg +'</div>');
+                    preloadFirst();
 
-      if (images.length) {
-        images.each(function(){
-          $(this).one('load', function() {
-            updateoverlay();
-          });
-        });
-      } else {
-        updateoverlay();
-      }
-    }
+                }).fail(function() {
+                    content.html('<div class="vbox-inline"><p>Error retrieving contents, please retry</div>');
+                    updateoverlay();
+                })
+              }
 
-    /* -------- CENTER ON LOAD -------- */
-    function updateoverlay(){
+              /* -------- LOAD IFRAME -------- */
+              function loadIframe(){
+                content.html('<iframe class="venoframe" src="'+dest+'"></iframe>');
+              //  $('.venoframe').load(function(){ // valid only for iFrames in same domain
+                updateoverlay();
+              //  });
+              }
 
-      blocktitle.html(title);
-      content.find(">:first-child").addClass('figlio');
-      $('.figlio').css('width', framewidth).css('height', frameheight).css('padding', border).css('background', bgcolor);
+              /* -------- LOAD VIDEOs -------- */
+              function loadVid(autoplay){
 
-      updateol(sonH, finH);
+                var player, videoid;
+                var videoObj = parseVideo(dest);
 
-      content.animate({
-          'opacity': '1'
-        },'slow', post_open_callback(content,blocknum,blocktitle)
-      )
-    }
+                // set rel=0 to hide related videos at the end of YT + optional autoplay
+                var stringAutoplay = autoplay ? "?rel=0&autoplay=1" : "?rel=0";
+                var queryvars = stringAutoplay + getUrlParameter(dest);
+                
+                if (videoObj.type == 'vimeo') {
+                  player = 'https://player.vimeo.com/video/';
+                } else if (videoObj.type == 'youtube') {
+                  player = 'https://www.youtube.com/embed/';
+                }
+                content.html('<iframe class="venoframe vbvid" webkitallowfullscreen mozallowfullscreen allowfullscreen frameborder="0" src="'+player+videoObj.id+queryvars+'"></iframe>');
+                updateoverlay();
+              }
 
-    /* -------- CENTER FRAME -------- */
-    function updateol(){
+              /**
+              * parse Youtube or Vimeo videos and get host & ID
+              */
+              function parseVideo (url) {
+                url.match(/(http:|https:|)\/\/(player.|www.)?(vimeo\.com|youtu(be\.com|\.be|be\.googleapis\.com))\/(video\/|embed\/|watch\?v=|v\/)?([A-Za-z0-9._%-]*)(\&\S+)?/);
 
-        sonH = content.outerHeight();
-        finH = $(window).height();
+                if (RegExp.$3.indexOf('youtu') > -1) {
+                    var type = 'youtube';
+                } else if (RegExp.$3.indexOf('vimeo') > -1) {
+                    var type = 'vimeo';
+                }
+                return {
+                    type: type,
+                    id: RegExp.$6
+                };
+              }
 
-        if(sonH+30 < finH){
-          margine = (finH - sonH)/2;
-          content.css('margin-top', margine);
-          content.css('margin-bottom', margine);
-        }else{
-          content.css('margin-top', '30px');
-          content.css('margin-bottom', '30px');
-        }
-        post_resize_callback(content,blocknum,blocktitle); 
-    }
+              /**
+              * get additional video url parameters
+              */
+              function getUrlParameter(name) {
+                var result = '';
+                var sPageURL = decodeURIComponent(name);
+                var firstsplit = sPageURL.split('?');
 
-    $(window).resize(function(){
-      if($('.vbox-content').length){
-        setTimeout(updateol(), 800);
-      }
-    });
+                if (firstsplit[1] !== undefined) {
+                  var sURLVariables = firstsplit[1].split('&');
+                  var sParameterName;
+                  var i;
+                  for (i = 0; i < sURLVariables.length; i++) {
+                      sParameterName = sURLVariables[i].split('=');
+                      result = result + '&'+ sParameterName[0]+'='+ sParameterName[1];
+                  }
+                }
+                return encodeURI(result);
+              };
+
+              /* -------- LOAD INLINE -------- */
+              function loadInline(){
+                content.html('<div class="vbox-inline">'+$(dest).html()+'</div>');
+                updateoverlay();
+              }
+
+              /* -------- PRELOAD IMAGE -------- */
+              function preloadFirst(){
+                images = content.find('img');
+
+                if (images.length) {
+                  images.each(function(){
+                    $(this).one('load', function() {
+                      updateoverlay();
+                    });
+                  });
+                } else {
+                  updateoverlay();
+                }
+              }
+
+              /* -------- FADE-IN THE NEW CONTENT -------- */
+              function updateoverlay(){
+
+                blocktitle.html(title);
+                
+                content.find(">:first-child").addClass('figlio')
+                .css({
+                  'width': framewidth, 
+                  'height': frameheight, 
+                  'padding': border, 
+                  'background': bgcolor
+                });
+
+                $('img.figlio').on('dragstart', function(event) { 
+                  event.preventDefault(); 
+                });
+
+                updateOL();
+
+                content.animate({
+                    'opacity': '1'
+                  },'slow', function(){
+
+                  })
+              }
+
+              /* -------- CENTER FRAME -------- */
+              function updateOL(){
+
+                  var sonH = content.outerHeight();
+                  var finH = $(window).height();
+
+                  if (sonH + 60 < finH) {
+                    margine = (finH - sonH)/2;
+                    content.css('margin-top', margine);
+                    content.css('margin-bottom', margine);
+                  } else {
+                    margine = '30px';
+                    content.css('margin-top', margine);
+                    content.css('margin-bottom', margine);
+                  }
+                  option.cb_post_resize(); 
+              }
+
+              $(window).resize(function(){
+                if($('.vbox-content').length){
+                  setTimeout(updateOL(), 800);
+                }
+              });
+
+            }); // each
+
+        } // venobox
+
+    }); // extend
 
 })(jQuery);

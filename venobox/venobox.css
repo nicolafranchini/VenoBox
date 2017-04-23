@@ -4,35 +4,28 @@
     -webkit-box-sizing:border-box;
     -moz-box-sizing:border-box;
     box-sizing:border-box;
+
 }
-.vbox-overlay{ 
-    width: 100%;
-    height: 100%;
+.vbox-overlay{
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-align-items: center;
+    align-items: center;
     position: fixed;
-    top: 0;
     left: 0;
+    top: 0;
     bottom: 0;
+    right: 0;
     z-index: 1040;
-    opacity: 0;
-    overflow-x: hidden;
-    overflow-y: auto;
+    -webkit-transform:translateZ(1000px);
+    transform: translateZ(1000px);
+    transform-style: preserve-3d;
 }
 
-.vbox-preloader{
-    position:absolute; 
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom:0;
-    display: -webkit-flex;
-    -webkit-justify-content: center;
-    -webkit-align-items: center;
-    -webkit-align-content: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
-}
 /* ----- navigation ----- */
 .vbox-title{
     width: 100%;
@@ -123,7 +116,7 @@
 .vbox-inline{
     width: 420px;
     height: 315px;
-    height: 80vh;
+    height: 70vh;
     padding: 10px;
     background: #fff;
     margin: 0 auto;
@@ -137,7 +130,7 @@
     border: none;
     width: 100%;
     height: 260px;
-    height: 80vh;
+    height: 70vh;
 }
 .venoframe.vbvid{
     height: 260px;
@@ -146,7 +139,7 @@
     .venoframe, .vbox-inline{
         width: 90%;
         height: 360px;
-        height: 80vh;
+        height: 70vh;
     }
     .venoframe.vbvid{
         width: 640px;
@@ -158,7 +151,7 @@
         max-width: 1200px;
         width: 80%;
         height: 540px;
-        height: 80vh;
+        height: 70vh;
     }
     .venoframe.vbvid{
         width: 960px;
@@ -173,13 +166,20 @@ or at least read this note: http://i.imgur.com/7C0ws9e.gif
     overflow: hidden;
 }
 .vbox-container{
-    position: relative;
-    background: #000;
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    overflow-scrolling: touch;
+    -webkit-overflow-scrolling: touch;
+    z-index: 20;
+    max-height: 100%;
+
 }
+
 .vbox-content{
     text-align: center;
     float: left;
@@ -197,8 +197,28 @@ or at least read this note: http://i.imgur.com/7C0ws9e.gif
     max-width: 100%;
     text-align: initial;
 }
-.vbox-content {
-    -webkit-overflow-scrolling:touch;
+img.figlio{
+    -webkit-user-select: none;
+-khtml-user-select: none;
+-moz-user-select: none;
+-o-user-select: none;
+user-select: none;
+}
+.vbox-content.swipe-left{
+    margin-left: -200px !important;
+}
+.vbox-content.swipe-right{
+    margin-left: 200px !important;
+}
+.animated{
+    webkit-transition: margin 300ms ease-out;
+    transition: margin 300ms ease-out;
+}
+.animate-in{
+    opacity: 1;
+}
+.animate-out{
+    opacity: 0;
 }
 /* ---------- preloader ----------
  * SPINKIT 
