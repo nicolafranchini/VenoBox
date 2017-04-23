@@ -20,7 +20,6 @@ This package can be installed with:
 
 Or download the [latest release](https://github.com/nicolafranchini/VenoBox/releases).
 
-=======
 #### Static HTML
 
 Put the required stylesheet at the [top](https://developer.yahoo.com/performance/rules.html#css_top) of your markup:
