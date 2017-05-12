@@ -10,7 +10,7 @@
  *
  */
 (function($){
-
+  'use strict';
     var autoplay, bgcolor, blocknum, blocktitle, border, core, container, content, dest, 
         evitacontent, evitanext, evitaprev, extraCss, figliall, framewidth, frameheight, 
         infinigall, items, keyNavigationDisabled, margine, numeratio, overlayColor, overlay, 
