@@ -1,6 +1,6 @@
 /*
  * VenoBox - jQuery Plugin
- * version: 1.8.0
+ * version: 1.8.1
  * @requires jQuery >= 1.7.0
  *
  * Examples at http://veno.es/venobox/
@@ -10,13 +10,14 @@
  *
  */
 (function($){
-
+    "use strict";
     var autoplay, bgcolor, blocknum, blocktitle, border, core, container, content, dest, 
         evitacontent, evitanext, evitaprev, extraCss, figliall, framewidth, frameheight, 
         infinigall, items, keyNavigationDisabled, margine, numeratio, overlayColor, overlay, 
         prima, title, thisgall, thenext, theprev, type, nextok, prevok, preloader, 
         navigation, spinner, titlePosition, titleColor, titleBackground, closeColor, closeBackground,
-        numerationPosition, numerationColor, numerationBackground, obj, gallIndex;
+        numerationPosition, numerationColor, numerationBackground, obj, gallIndex, 
+        startouch, vbheader, images, startY, startX, endY, endX, diff, diffX, diffY, threshold;
 
     $.fn.extend({
         //plugin name - venobox
@@ -182,7 +183,7 @@
                     core = '<div class="vbox-overlay ' + extraCss + '" style="background:'+ overlayColor +'">'
                     + preloader + '<div class="vbox-container"><div class="vbox-content"></div></div>' + vbheader + navigation + '</div>';
 
-                    $('body').append('<div class="ghostoverlay"></div>').append(core).addClass('vbox-open');
+                    $('body').append(core).addClass('vbox-open');
 
                     $('.vbox-preloader .sk-child, .vbox-preloader .sk-rotating-plane, .vbox-preloader .sk-rect, .vbox-preloader .sk-cube, .vbox-preloader .sk-spinner-pulse').css('background-color', option.spinColor);
 
@@ -216,6 +217,7 @@
 
                     content.html('');
                     content.css('opacity', '0');
+                    overlay.css('opacity', '0');
 
                     checknav();
 
@@ -234,9 +236,7 @@
                         content.html('<img src="'+dest+'">');
                         preloadFirst();
                       }
-
                       option.cb_post_open(obj, gallIndex, thenext, theprev)
-
                     });
 
                     /* -------- KEYBOARD ACTIONS -------- */
@@ -402,8 +402,10 @@
                       return false;
                     }
 
-                    $('body').off('keydown', keyboardHandler).removeClass('vbox-open');;
+                    $('body').off('keydown', keyboardHandler).removeClass('vbox-open');
+
                     obj.focus();
+                    
                     overlay.animate({opacity:0}, 500, function(){
                       overlay.remove();
                       keyNavigationDisabled = false;
@@ -427,17 +429,17 @@
                     }
                   });
 
-              var startX = null;
-              var endX = null;
+              startX = 0;
+              endX = 0;
 
-              var diff = 0;
-              var threshold = 50;
+              diff = 0;
+              threshold = 50;
               startouch = false;
 
               function onDownEvent(e){
                 content.addClass('animated');
-                startY = e.pageY;
-                startX = e.pageX;
+                startY = endY = e.pageY;
+                startX = endX = e.pageX;
                 startouch = true;
               }
 
@@ -475,6 +477,7 @@
                       subject = theprev;
                       change = true;
                   }
+
                   if (Math.abs(diff) >= threshold && change === true) {
                       navigateGall(subject);
                   } else {
@@ -484,7 +487,7 @@
               }
 
               /* == GLOBAL DECLERATIONS == */
-              TouchMouseEvent = {
+              var TouchMouseEvent = {
                   DOWN: "touchmousedown",
                   UP: "touchmouseup",
                   MOVE: "touchmousemove"
