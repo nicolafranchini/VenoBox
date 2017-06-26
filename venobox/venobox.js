@@ -1,6 +1,6 @@
 /*
  * VenoBox - jQuery Plugin
- * version: 1.8.1
+ * version: 1.8.2
  * @requires jQuery >= 1.7.0
  *
  * Examples at http://veno.es/venobox/
@@ -267,6 +267,10 @@
 
                     thenext = items.eq( items.index(obj) + 1 );
                     theprev = items.eq( items.index(obj) - 1 );
+
+                    if (!thenext.length && infinigall === true) {
+                      thenext = items.eq(0);
+                    }
 
                     // update gall numeration
                     if (items.length > 1) {
