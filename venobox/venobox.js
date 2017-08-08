@@ -1,6 +1,6 @@
 /*
  * VenoBox - jQuery Plugin
- * version: 1.8.2
+ * version: 1.8.3
  * @requires jQuery >= 1.7.0
  *
  * Examples at http://veno.es/venobox/
@@ -43,7 +43,7 @@
               numerationPosition : 'top', // 'top' || 'bottom'
               overlayClose: true, // disable overlay click-close - thanx @martybalandis
               overlayColor : 'rgba(23,23,23,0.85)',
-              spinner : 'double-bounce', // available: 'rotating-plane' | 'double-bounce' | 'wave' | 'wandering-cubes' | 'spinner-pulse' | 'three-bounce' | 'cube-grid'
+              spinner : 'double-bounce', // available: 'rotating-plane' | 'double-bounce' | 'wave' | 'wandering-cubes' | 'spinner-pulse' | 'three-bounce' | 'cube-grid' | 'chasing-dots' | 'circle' | 'fading-circle' | 'folding-cube'
               spinColor : '#d2d2d2',              
               titleattr: 'title', // specific attribute to get a title (e.g. [data-title]) - thanx @mendezcode
               titleBackground: '#161617',
@@ -175,6 +175,52 @@
                           + '<div class="sk-cube sk-cube9"></div>'
                           + '</div>';
                           break;
+                      case 'chasing-dots':
+                          preloader+= '<div class="sk-chasing-dots">'
+                          + '<div class="sk-child sk-dot1"></div>'
+                          + '<div class="sk-child sk-dot2"></div>'
+                          + '</div>'
+                          break;
+                      case 'circle':
+                          preloader+= '<div class="sk-circle">'
+                          + '<div class="sk-circle1 sk-child"></div>'
+                          + '<div class="sk-circle2 sk-child"></div>'
+                          + '<div class="sk-circle3 sk-child"></div>'
+                          + '<div class="sk-circle4 sk-child"></div>'
+                          + '<div class="sk-circle5 sk-child"></div>'
+                          + '<div class="sk-circle6 sk-child"></div>'
+                          + '<div class="sk-circle7 sk-child"></div>'
+                          + '<div class="sk-circle8 sk-child"></div>'
+                          + '<div class="sk-circle9 sk-child"></div>'
+                          + '<div class="sk-circle10 sk-child"></div>'
+                          + '<div class="sk-circle11 sk-child"></div>'
+                          + '<div class="sk-circle12 sk-child"></div>'
+                          + '</div>'
+                          break;
+                      case 'fading-circle':
+                          preloader+= '<div class="sk-fading-circle">'
+                          + '<div class="sk-circle1 sk-circle"></div>'
+                          + '<div class="sk-circle2 sk-circle"></div>'
+                          + '<div class="sk-circle3 sk-circle"></div>'
+                          + '<div class="sk-circle4 sk-circle"></div>'
+                          + '<div class="sk-circle5 sk-circle"></div>'
+                          + '<div class="sk-circle6 sk-circle"></div>'
+                          + '<div class="sk-circle7 sk-circle"></div>'
+                          + '<div class="sk-circle8 sk-circle"></div>'
+                          + '<div class="sk-circle9 sk-circle"></div>'
+                          + '<div class="sk-circle10 sk-circle"></div>'
+                          + '<div class="sk-circle11 sk-circle"></div>'
+                          + '<div class="sk-circle12 sk-circle"></div>'
+                          + '</div>'
+                          break;
+                      case 'folding-cube':
+                          preloader+= '<div class="sk-folding-cube">'
+                          + '<div class="sk-cube1 sk-cube"></div>'
+                          + '<div class="sk-cube2 sk-cube"></div>'
+                          + '<div class="sk-cube4 sk-cube"></div>'
+                          + '<div class="sk-cube3 sk-cube"></div>'
+                          + '</div>'
+                          break;
                     }
                     preloader += '</div>';
 
@@ -185,7 +231,7 @@
 
                     $('body').append(core).addClass('vbox-open');
 
-                    $('.vbox-preloader .sk-child, .vbox-preloader .sk-rotating-plane, .vbox-preloader .sk-rect, .vbox-preloader .sk-cube, .vbox-preloader .sk-spinner-pulse').css('background-color', option.spinColor);
+                    $('.vbox-preloader div:not(.sk-circle) .sk-child, .vbox-preloader .sk-rotating-plane, .vbox-preloader .sk-rect, .vbox-preloader div:not(.sk-folding-cube) .sk-cube, .vbox-preloader .sk-spinner-pulse').css('background-color', option.spinColor);
 
                     overlay = $('.vbox-overlay');
                     container = $('.vbox-container');
