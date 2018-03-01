@@ -423,7 +423,7 @@
                       closeclickclass = '.vbox-close'; // close only on X
                   }
 
-                  $(document).on('click', closeclickclass, function(e){
+                  $('body').on('click', closeclickclass, function(e){
                     if ($(e.target).is('.vbox-overlay') 
                       || $(e.target).is('.vbox-content') 
                       || $(e.target).is('.vbox-close') 
