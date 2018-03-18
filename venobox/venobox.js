@@ -14,9 +14,9 @@
 
 (function($){
     "use strict";
-    var autoplay, bgcolor, blocknum, blocktitle, border, core, container, content, dest, extraCss, 
-        framewidth, frameheight, infinigall, items, keyNavigationDisabled, margine, numeratio, 
-        overlayColor, overlay, title, thisgall, thenext, theprev, nextok, prevok, preloader, navigation, 
+    var autoplay, bgcolor, blocknum, blocktitle, border, core, container, content, dest, extraCss,
+        framewidth, frameheight, infinigall, items, keyNavigationDisabled, margine, numeratio,
+        overlayColor, overlay, title, thisgall, thenext, theprev, nextok, prevok, preloader, navigation,
         obj, gallIndex, startouch, vbheader, images, startY, startX, endY, endX, diff, diffX, diffY, threshold;
 
     $.fn.extend({
@@ -25,14 +25,14 @@
             var plugin = this;
             // default options
             var defaults = {
-                arrowsColor : "#B6B6B6",
+                arrowsColor : '#B6B6B6',
                 autoplay : false, // same as data-autoplay - thanks @codibit
-                bgcolor: "#fff",
+                bgcolor: '#fff',
                 border: '0',
-                closeBackground : "#161617",
+                closeBackground : '#161617',
                 closeColor : "#d2d2d2",
-                framewidth: "",
-                frameheight: "",
+                framewidth: '',
+                frameheight: '',
                 infinigall: false,
                 htmlClose : '&times;',
                 htmlNext : '<span>Next</span>',
@@ -44,7 +44,7 @@
                 overlayClose: true, // disable overlay click-close - thanx @martybalandis
                 overlayColor : 'rgba(23,23,23,0.85)',
                 spinner : 'double-bounce', // available: 'rotating-plane' | 'double-bounce' | 'wave' | 'wandering-cubes' | 'spinner-pulse' | 'three-bounce' | 'cube-grid'
-                spinColor : '#d2d2d2',              
+                spinColor : '#d2d2d2',
                 titleattr: 'title', // specific attribute to get a title (e.g. [data-title]) - thanx @mendezcode
                 titleBackground: '#161617',
                 titleColor: '#d2d2d2',
@@ -61,7 +61,7 @@
             var option = $.extend(defaults, options);
 
             // callback plugin initialization
-            option.cb_init(plugin); 
+            option.cb_init(plugin);
 
             return this.each(function() {
                 obj = $(this);
@@ -223,7 +223,7 @@
 
                     // fade in overlay
                     overlay.animate({opacity:1}, 250, function(){
-    
+
                         if (obj.data('vbtype') == 'iframe') {
                           loadIframe();
                         } else if (obj.data('vbtype') == 'inline') {
@@ -250,7 +250,7 @@
                     $('.vbox-next').on('click', function(){
                         navigateGall(thenext);
                     });
-                    
+
                     return false;
 
                 }); // click
@@ -347,10 +347,10 @@
                     if (destination === thenext) {
                       content.addClass('animated').addClass('swipe-left');
                     }
-                    content.animate({ 
+                    content.animate({
                       opacity : 0,
                     }, 500, function(){
-                      
+
                       overlay.css('background',overlayColor);
 
                       content
@@ -398,7 +398,7 @@
 
                 /* -------- CLOSE VBOX -------- */
                 function closeVbox(){
- 
+
                     var cb_pre_close = option.cb_pre_close(obj, gallIndex, thenext, theprev);
 
                     if (cb_pre_close === false) {
@@ -408,11 +408,11 @@
                     $('body').off('keydown', keyboardHandler).removeClass('vbox-open');
 
                     obj.focus();
-                    
+
                     overlay.animate({opacity:0}, 500, function(){
                       overlay.remove();
                       keyNavigationDisabled = false;
-                      option.cb_post_close(); 
+                      option.cb_post_close();
                     });
                 }
 
@@ -422,7 +422,7 @@
                     closeclickclass = '.vbox-close'; // close only on X
                 }
 
-                $(document).on('click', closeclickclass, function(e){
+                $('body').on('click', closeclickclass, function(e){
                     if ($(e.target).is('.vbox-overlay') ||
                       $(e.target).is('.vbox-content') ||
                       $(e.target).is('.vbox-close') ||
@@ -453,7 +453,7 @@
 
                         diffX = endX - startX;
                         diffY = endY - startY;
-                        
+
                         var absdiffX = Math.abs(diffX);
                         var absdiffY = Math.abs(diffY);
 
@@ -494,7 +494,7 @@
                     UP: "touchmouseup",
                     MOVE: "touchmousemove"
                 };
-               
+
                 /* == EVENT LISTENERS == */
                 var onMouseEvent = function(event) {
                     var type;
@@ -503,34 +503,34 @@
                         case "mouseup":   type = TouchMouseEvent.UP;   break;
                         case "mouseout":   type = TouchMouseEvent.UP;   break;
                         case "mousemove": type = TouchMouseEvent.MOVE; break;
-                        default: 
+                        default:
                             return;
                     }
-                    var touchMouseEvent = normalizeEvent(type, event, event.pageX, event.pageY);      
-                    $(event.target).trigger(touchMouseEvent); 
+                    var touchMouseEvent = normalizeEvent(type, event, event.pageX, event.pageY);
+                    $(event.target).trigger(touchMouseEvent);
                 };
-                
+
                 var onTouchEvent = function(event) {
                     var type;
                     switch (event.type) {
                         case "touchstart": type = TouchMouseEvent.DOWN; break;
                         case "touchend":   type = TouchMouseEvent.UP;   break;
                         case "touchmove":  type = TouchMouseEvent.MOVE; break;
-                        default: 
+                        default:
                             return;
                     }
-                    
+
                     var touch = event.originalEvent.touches[0];
                     var touchMouseEvent;
-                    
+
                     if (type == TouchMouseEvent.UP) {
                          touchMouseEvent = normalizeEvent(type, event, null, null);
-                    } else { 
+                    } else {
                         touchMouseEvent = normalizeEvent(type, event, touch.pageX, touch.pageY);
                     }
-                    $(event.target).trigger(touchMouseEvent); 
+                    $(event.target).trigger(touchMouseEvent);
                 };
-                
+
                 /* == NORMALIZE == */
                 var normalizeEvent = function(type, original, x, y) {
                     return $.Event(type, {
@@ -539,12 +539,12 @@
                         originalEvent: original
                     });
                 };
-              
+
                 /* == LISTEN TO ORIGINAL EVENT == */
                 if ("ontouchstart" in window) {
                     $(document).on("touchstart", onTouchEvent);
                     $(document).on("touchmove", onTouchEvent);
-                    $(document).on("touchend", onTouchEvent); 
+                    $(document).on("touchend", onTouchEvent);
                 } else {
                     $(document).on("mousedown", onMouseEvent);
                     $(document).on("mouseup", onMouseEvent);
@@ -584,7 +584,7 @@
                     // set rel=0 to hide related videos at the end of YT + optional autoplay
                     var stringAutoplay = autoplay ? "?rel=0&autoplay=1" : "?rel=0";
                     var queryvars = stringAutoplay + getUrlParameter(dest);
-                    
+
                     if (videoObj.type == 'vimeo') {
                       player = 'https://player.vimeo.com/video/';
                     } else if (videoObj.type == 'youtube') {
