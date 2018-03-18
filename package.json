@@ -5,7 +5,7 @@
   "main": "venobox/venobox.min.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nicolafranchini/VenoBox.git"
+    "url": "https://github.com/nicolafranchini/VenoBox.git"
   },
   "keywords": [
     "jQuery",

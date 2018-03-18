@@ -10,7 +10,7 @@
         "jquery-plugin",
         "jQuery"
     ],
-    "license": "MIT License",
+    "license": "MIT",
     "authors": [
         {
             "name": "Nicola Franchini",
