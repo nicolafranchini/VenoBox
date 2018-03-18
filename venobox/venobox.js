@@ -44,7 +44,7 @@
                 numerationPosition : 'top', // 'top' || 'bottom'
                 overlayClose: true, // disable overlay click-close - thanx @martybalandis
                 overlayColor : 'rgba(23,23,23,0.85)',
-                spinner : 'double-bounce', // available: 'rotating-plane' | 'double-bounce' | 'wave' | 'wandering-cubes' | 'spinner-pulse' | 'three-bounce' | 'circle' | 'cube-grid' | 'fading-circle' | 'folding-cube'
+                spinner : 'double-bounce', // available: 'rotating-plane' | 'double-bounce' | 'wave' | 'wandering-cubes' | 'spinner-pulse' | 'chasing-dots' | 'three-bounce' | 'circle' | 'cube-grid' | 'fading-circle' | 'folding-cube'
                 spinColor : '#d2d2d2',
                 titleattr: 'title', // specific attribute to get a title (e.g. [data-title]) - thanx @mendezcode
                 titleBackground: '#161617',
@@ -65,6 +65,7 @@
             option.cb_init(plugin);
 
             return this.each(function() {
+
                 obj = $(this);
 
                 // Prevent double initialization - thanx @matthistuff
@@ -88,109 +89,6 @@
                 obj.data('titleattr', option.titleattr);
 
                 obj.data('venobox', true);
-
-                preloader = '<div class="vbox-preloader">';
-
-                switch (option.spinner) {
-
-                    case 'rotating-plane':
-                        preloader += '<div class="sk-rotating-plane"></div>';
-                        break;
-                    case 'double-bounce':
-                        preloader += '<div class="sk-double-bounce">'+
-                        '<div class="sk-child sk-double-bounce1"></div>'+
-                        '<div class="sk-child sk-double-bounce2"></div>'+
-                        '</div>';
-                        break;
-                    case 'wave':
-                        preloader += '<div class="sk-wave">'+
-                        '<div class="sk-rect sk-rect1"></div>'+
-                        '<div class="sk-rect sk-rect2"></div>'+
-                        '<div class="sk-rect sk-rect3"></div>'+
-                        '<div class="sk-rect sk-rect4"></div>'+
-                        '<div class="sk-rect sk-rect5"></div>'+
-                        '</div>';
-                        break;
-                    case 'wandering-cubes':
-                        preloader += '<div class="sk-wandering-cubes">'+
-                        '<div class="sk-cube sk-cube1"></div>'+
-                        '<div class="sk-cube sk-cube2"></div>'+
-                        '</div>';
-                        break;
-                      case 'spinner-pulse':
-                        preloader += '<div class="sk-spinner sk-spinner-pulse"></div>';
-                        break;
-                    case 'chasing-dots':
-                        preloader += '<div class="sk-chasing-dots">'+
-                        '<div class="sk-child sk-dot1"></div>'+
-                        '<div class="sk-child sk-dot2"></div>'+
-                        '</div>';
-                        break;
-                    case 'three-bounce':
-                        preloader += '<div class="sk-three-bounce">'+
-                        '<div class="sk-child sk-bounce1"></div>'+
-                        '<div class="sk-child sk-bounce2"></div>'+
-                        '<div class="sk-child sk-bounce3"></div>'+
-                        '</div>';
-                        break;
-                    case 'circle':
-                        preloader += '<div class="sk-circle">'+
-                        '<div class="sk-circle1 sk-child"></div>'+
-                        '<div class="sk-circle2 sk-child"></div>'+
-                        '<div class="sk-circle3 sk-child"></div>'+
-                        '<div class="sk-circle4 sk-child"></div>'+
-                        '<div class="sk-circle5 sk-child"></div>'+
-                        '<div class="sk-circle6 sk-child"></div>'+
-                        '<div class="sk-circle7 sk-child"></div>'+
-                        '<div class="sk-circle8 sk-child"></div>'+
-                        '<div class="sk-circle9 sk-child"></div>'+
-                        '<div class="sk-circle10 sk-child"></div>'+
-                        '<div class="sk-circle11 sk-child"></div>'+
-                        '<div class="sk-circle12 sk-child"></div>'+
-                        '</div>';
-                        break;
-                    case 'cube-grid':
-                        preloader += '<div class="sk-cube-grid">'+
-                        '<div class="sk-cube sk-cube1"></div>'+
-                        '<div class="sk-cube sk-cube2"></div>'+
-                        '<div class="sk-cube sk-cube3"></div>'+
-                        '<div class="sk-cube sk-cube4"></div>'+
-                        '<div class="sk-cube sk-cube5"></div>'+
-                        '<div class="sk-cube sk-cube6"></div>'+
-                        '<div class="sk-cube sk-cube7"></div>'+
-                        '<div class="sk-cube sk-cube8"></div>'+
-                        '<div class="sk-cube sk-cube9"></div>'+
-                        '</div>';
-                        break;
-                    case 'fading-circle':
-                        preloader += '<div class="sk-fading-circle">'+
-                        '<div class="sk-circle1 sk-circle"></div>'+
-                        '<div class="sk-circle2 sk-circle"></div>'+
-                        '<div class="sk-circle3 sk-circle"></div>'+
-                        '<div class="sk-circle4 sk-circle"></div>'+
-                        '<div class="sk-circle5 sk-circle"></div>'+
-                        '<div class="sk-circle6 sk-circle"></div>'+
-                        '<div class="sk-circle7 sk-circle"></div>'+
-                        '<div class="sk-circle8 sk-circle"></div>'+
-                        '<div class="sk-circle9 sk-circle"></div>'+
-                        '<div class="sk-circle10 sk-circle"></div>'+
-                        '<div class="sk-circle11 sk-circle"></div>'+
-                        '<div class="sk-circle12 sk-circle"></div>'+
-                        '</div>';
-                        break;
-                    case 'folding-cube':
-                        preloader += '<div class="sk-folding-cube">'+
-                        '<div class="sk-cube1 sk-cube"></div>'+
-                        '<div class="sk-cube2 sk-cube"></div>'+
-                        '<div class="sk-cube4 sk-cube"></div>'+
-                        '<div class="sk-cube3 sk-cube"></div>'+
-                        '</div>';
-                        break;
-                }
-                preloader += '</div>';
-
-                navigation = '<a class="vbox-next">' + option.htmlNext + '</a><a class="vbox-prev">' + option.htmlPrev + '</a>';
-                vbheader = '<div class="vbox-title"></div><div class="vbox-num">0/0</div><div class="vbox-close">' + option.htmlClose + '</div>';
 
                 obj.on('click', function(e){
 
@@ -228,6 +126,109 @@
                     dest = obj.data('href') || obj.attr('href');
                     extraCss = obj.data( 'css' ) || '';
                     title = obj.attr(obj.data('titleattr')) || '';
+
+                    preloader = '<div class="vbox-preloader">';
+
+                    switch (option.spinner) {
+
+                        case 'rotating-plane':
+                            preloader += '<div class="sk-rotating-plane"></div>';
+                            break;
+                        case 'double-bounce':
+                            preloader += '<div class="sk-double-bounce">'+
+                            '<div class="sk-child sk-double-bounce1"></div>'+
+                            '<div class="sk-child sk-double-bounce2"></div>'+
+                            '</div>';
+                            break;
+                        case 'wave':
+                            preloader += '<div class="sk-wave">'+
+                            '<div class="sk-rect sk-rect1"></div>'+
+                            '<div class="sk-rect sk-rect2"></div>'+
+                            '<div class="sk-rect sk-rect3"></div>'+
+                            '<div class="sk-rect sk-rect4"></div>'+
+                            '<div class="sk-rect sk-rect5"></div>'+
+                            '</div>';
+                            break;
+                        case 'wandering-cubes':
+                            preloader += '<div class="sk-wandering-cubes">'+
+                            '<div class="sk-cube sk-cube1"></div>'+
+                            '<div class="sk-cube sk-cube2"></div>'+
+                            '</div>';
+                            break;
+                          case 'spinner-pulse':
+                            preloader += '<div class="sk-spinner sk-spinner-pulse"></div>';
+                            break;
+                        case 'chasing-dots':
+                            preloader += '<div class="sk-chasing-dots">'+
+                            '<div class="sk-child sk-dot1"></div>'+
+                            '<div class="sk-child sk-dot2"></div>'+
+                            '</div>';
+                            break;
+                        case 'three-bounce':
+                            preloader += '<div class="sk-three-bounce">'+
+                            '<div class="sk-child sk-bounce1"></div>'+
+                            '<div class="sk-child sk-bounce2"></div>'+
+                            '<div class="sk-child sk-bounce3"></div>'+
+                            '</div>';
+                            break;
+                        case 'circle':
+                            preloader += '<div class="sk-circle">'+
+                            '<div class="sk-circle1 sk-child"></div>'+
+                            '<div class="sk-circle2 sk-child"></div>'+
+                            '<div class="sk-circle3 sk-child"></div>'+
+                            '<div class="sk-circle4 sk-child"></div>'+
+                            '<div class="sk-circle5 sk-child"></div>'+
+                            '<div class="sk-circle6 sk-child"></div>'+
+                            '<div class="sk-circle7 sk-child"></div>'+
+                            '<div class="sk-circle8 sk-child"></div>'+
+                            '<div class="sk-circle9 sk-child"></div>'+
+                            '<div class="sk-circle10 sk-child"></div>'+
+                            '<div class="sk-circle11 sk-child"></div>'+
+                            '<div class="sk-circle12 sk-child"></div>'+
+                            '</div>';
+                            break;
+                        case 'cube-grid':
+                            preloader += '<div class="sk-cube-grid">'+
+                            '<div class="sk-cube sk-cube1"></div>'+
+                            '<div class="sk-cube sk-cube2"></div>'+
+                            '<div class="sk-cube sk-cube3"></div>'+
+                            '<div class="sk-cube sk-cube4"></div>'+
+                            '<div class="sk-cube sk-cube5"></div>'+
+                            '<div class="sk-cube sk-cube6"></div>'+
+                            '<div class="sk-cube sk-cube7"></div>'+
+                            '<div class="sk-cube sk-cube8"></div>'+
+                            '<div class="sk-cube sk-cube9"></div>'+
+                            '</div>';
+                            break;
+                        case 'fading-circle':
+                            preloader += '<div class="sk-fading-circle">'+
+                            '<div class="sk-circle1 sk-circle"></div>'+
+                            '<div class="sk-circle2 sk-circle"></div>'+
+                            '<div class="sk-circle3 sk-circle"></div>'+
+                            '<div class="sk-circle4 sk-circle"></div>'+
+                            '<div class="sk-circle5 sk-circle"></div>'+
+                            '<div class="sk-circle6 sk-circle"></div>'+
+                            '<div class="sk-circle7 sk-circle"></div>'+
+                            '<div class="sk-circle8 sk-circle"></div>'+
+                            '<div class="sk-circle9 sk-circle"></div>'+
+                            '<div class="sk-circle10 sk-circle"></div>'+
+                            '<div class="sk-circle11 sk-circle"></div>'+
+                            '<div class="sk-circle12 sk-circle"></div>'+
+                            '</div>';
+                            break;
+                        case 'folding-cube':
+                            preloader += '<div class="sk-folding-cube">'+
+                            '<div class="sk-cube1 sk-cube"></div>'+
+                            '<div class="sk-cube2 sk-cube"></div>'+
+                            '<div class="sk-cube4 sk-cube"></div>'+
+                            '<div class="sk-cube3 sk-cube"></div>'+
+                            '</div>';
+                            break;
+                    }
+                    preloader += '</div>';
+
+                    navigation = '<a class="vbox-next">' + option.htmlNext + '</a><a class="vbox-prev">' + option.htmlPrev + '</a>';
+                    vbheader = '<div class="vbox-title"></div><div class="vbox-num">0/0</div><div class="vbox-close">' + option.htmlClose + '</div>';
 
                     core = '<div class="vbox-overlay ' + extraCss + '" style="background:'+ overlayColor +'">'+
                     preloader + '<div class="vbox-container"><div class="vbox-content"></div></div>' + vbheader + navigation + '</div>';
