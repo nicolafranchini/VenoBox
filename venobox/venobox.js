@@ -15,8 +15,8 @@
 (function($){
     "use strict";
     var autoplay, bgcolor, blocknum, blocktitle, border, core, container, content, dest, extraCss,
-        framewidth, frameheight, infinigall, items, keyNavigationDisabled, margine, numeratio,
-        overlayColor, overlay, title, thisgall, thenext, theprev, nextok, prevok, preloader, navigation,
+        framewidth, frameheight, gallItems, infinigall, items, keyNavigationDisabled, margine, numeratio,
+        overlayColor, overlay, title, thisgall, thenext, theprev, nextok, prevok, preloader, $preloader, navigation,
         obj, gallIndex, startouch, vbheader, images, startY, startX, endY, endX, diff, diffX, diffY, threshold;
 
     $.fn.extend({
@@ -33,6 +33,7 @@
                 closeColor : "#d2d2d2",
                 framewidth: '',
                 frameheight: '',
+                gallItems: false,
                 infinigall: false,
                 htmlClose : '&times;',
                 htmlNext : '<span>Next</span>',
@@ -43,7 +44,7 @@
                 numerationPosition : 'top', // 'top' || 'bottom'
                 overlayClose: true, // disable overlay click-close - thanx @martybalandis
                 overlayColor : 'rgba(23,23,23,0.85)',
-                spinner : 'double-bounce', // available: 'rotating-plane' | 'double-bounce' | 'wave' | 'wandering-cubes' | 'spinner-pulse' | 'three-bounce' | 'cube-grid'
+                spinner : 'double-bounce', // available: 'rotating-plane' | 'double-bounce' | 'wave' | 'wandering-cubes' | 'spinner-pulse' | 'three-bounce' | 'circle' | 'cube-grid' | 'fading-circle' | 'folding-cube'
                 spinColor : '#d2d2d2',
                 titleattr: 'title', // specific attribute to get a title (e.g. [data-title]) - thanx @mendezcode
                 titleBackground: '#161617',
@@ -81,11 +82,115 @@
                 obj.data('border', option.border);
                 obj.data('bgcolor', option.bgcolor);
                 obj.data('numeratio', option.numeratio);
+                obj.data('gallItems', option.gallItems);
                 obj.data('infinigall', option.infinigall);
                 obj.data('overlaycolor', option.overlayColor);
                 obj.data('titleattr', option.titleattr);
 
                 obj.data('venobox', true);
+
+                preloader = '<div class="vbox-preloader">';
+
+                switch (option.spinner) {
+
+                    case 'rotating-plane':
+                        preloader += '<div class="sk-rotating-plane"></div>';
+                        break;
+                    case 'double-bounce':
+                        preloader += '<div class="sk-double-bounce">'+
+                        '<div class="sk-child sk-double-bounce1"></div>'+
+                        '<div class="sk-child sk-double-bounce2"></div>'+
+                        '</div>';
+                        break;
+                    case 'wave':
+                        preloader += '<div class="sk-wave">'+
+                        '<div class="sk-rect sk-rect1"></div>'+
+                        '<div class="sk-rect sk-rect2"></div>'+
+                        '<div class="sk-rect sk-rect3"></div>'+
+                        '<div class="sk-rect sk-rect4"></div>'+
+                        '<div class="sk-rect sk-rect5"></div>'+
+                        '</div>';
+                        break;
+                    case 'wandering-cubes':
+                        preloader += '<div class="sk-wandering-cubes">'+
+                        '<div class="sk-cube sk-cube1"></div>'+
+                        '<div class="sk-cube sk-cube2"></div>'+
+                        '</div>';
+                        break;
+                      case 'spinner-pulse':
+                        preloader += '<div class="sk-spinner sk-spinner-pulse"></div>';
+                        break;
+                    case 'chasing-dots':
+                        preloader += '<div class="sk-chasing-dots">'+
+                        '<div class="sk-child sk-dot1"></div>'+
+                        '<div class="sk-child sk-dot2"></div>'+
+                        '</div>';
+                        break;
+                    case 'three-bounce':
+                        preloader += '<div class="sk-three-bounce">'+
+                        '<div class="sk-child sk-bounce1"></div>'+
+                        '<div class="sk-child sk-bounce2"></div>'+
+                        '<div class="sk-child sk-bounce3"></div>'+
+                        '</div>';
+                        break;
+                    case 'circle':
+                        preloader += '<div class="sk-circle">'+
+                        '<div class="sk-circle1 sk-child"></div>'+
+                        '<div class="sk-circle2 sk-child"></div>'+
+                        '<div class="sk-circle3 sk-child"></div>'+
+                        '<div class="sk-circle4 sk-child"></div>'+
+                        '<div class="sk-circle5 sk-child"></div>'+
+                        '<div class="sk-circle6 sk-child"></div>'+
+                        '<div class="sk-circle7 sk-child"></div>'+
+                        '<div class="sk-circle8 sk-child"></div>'+
+                        '<div class="sk-circle9 sk-child"></div>'+
+                        '<div class="sk-circle10 sk-child"></div>'+
+                        '<div class="sk-circle11 sk-child"></div>'+
+                        '<div class="sk-circle12 sk-child"></div>'+
+                        '</div>';
+                        break;
+                    case 'cube-grid':
+                        preloader += '<div class="sk-cube-grid">'+
+                        '<div class="sk-cube sk-cube1"></div>'+
+                        '<div class="sk-cube sk-cube2"></div>'+
+                        '<div class="sk-cube sk-cube3"></div>'+
+                        '<div class="sk-cube sk-cube4"></div>'+
+                        '<div class="sk-cube sk-cube5"></div>'+
+                        '<div class="sk-cube sk-cube6"></div>'+
+                        '<div class="sk-cube sk-cube7"></div>'+
+                        '<div class="sk-cube sk-cube8"></div>'+
+                        '<div class="sk-cube sk-cube9"></div>'+
+                        '</div>';
+                        break;
+                    case 'fading-circle':
+                        preloader += '<div class="sk-fading-circle">'+
+                        '<div class="sk-circle1 sk-circle"></div>'+
+                        '<div class="sk-circle2 sk-circle"></div>'+
+                        '<div class="sk-circle3 sk-circle"></div>'+
+                        '<div class="sk-circle4 sk-circle"></div>'+
+                        '<div class="sk-circle5 sk-circle"></div>'+
+                        '<div class="sk-circle6 sk-circle"></div>'+
+                        '<div class="sk-circle7 sk-circle"></div>'+
+                        '<div class="sk-circle8 sk-circle"></div>'+
+                        '<div class="sk-circle9 sk-circle"></div>'+
+                        '<div class="sk-circle10 sk-circle"></div>'+
+                        '<div class="sk-circle11 sk-circle"></div>'+
+                        '<div class="sk-circle12 sk-circle"></div>'+
+                        '</div>';
+                        break;
+                    case 'folding-cube':
+                        preloader += '<div class="sk-folding-cube">'+
+                        '<div class="sk-cube1 sk-cube"></div>'+
+                        '<div class="sk-cube2 sk-cube"></div>'+
+                        '<div class="sk-cube4 sk-cube"></div>'+
+                        '<div class="sk-cube3 sk-cube"></div>'+
+                        '</div>';
+                        break;
+                }
+                preloader += '</div>';
+
+                navigation = '<a class="vbox-next">' + option.htmlNext + '</a><a class="vbox-prev">' + option.htmlPrev + '</a>';
+                vbheader = '<div class="vbox-title"></div><div class="vbox-num">0/0</div><div class="vbox-close">' + option.htmlClose + '</div>';
 
                 obj.on('click', function(e){
 
@@ -124,74 +229,21 @@
                     extraCss = obj.data( 'css' ) || '';
                     title = obj.attr(obj.data('titleattr')) || '';
 
-                    preloader = '<div class="vbox-preloader">';
-
-                    switch (option.spinner) {
-
-                        case 'rotating-plane':
-                            preloader += '<div class="sk-rotating-plane"></div>';
-                            break;
-                        case 'double-bounce':
-                            preloader += '<div class="sk-double-bounce">'+
-                            '<div class="sk-child sk-double-bounce1"></div>'+
-                            '<div class="sk-child sk-double-bounce2"></div>'+
-                            '</div>';
-                            break;
-                        case 'wave':
-                            preloader += '<div class="sk-wave">'+
-                            '<div class="sk-rect sk-rect1"></div>'+
-                            '<div class="sk-rect sk-rect2"></div>'+
-                            '<div class="sk-rect sk-rect3"></div>'+
-                            '<div class="sk-rect sk-rect4"></div>'+
-                            '<div class="sk-rect sk-rect5"></div>'+
-                            '</div>';
-                            break;
-                        case 'wandering-cubes':
-                            preloader += '<div class="sk-wandering-cubes">'+
-                            '<div class="sk-cube sk-cube1"></div>'+
-                            '<div class="sk-cube sk-cube2"></div>'+
-                            '</div>';
-                            break;
-                          case 'spinner-pulse':
-                            preloader += '<div class="sk-spinner sk-spinner-pulse"></div>';
-                            break;
-                        case 'three-bounce':
-                            preloader += '<div class="sk-three-bounce">'+
-                            '<div class="sk-child sk-bounce1"></div>'+
-                            '<div class="sk-child sk-bounce2"></div>'+
-                            '<div class="sk-child sk-bounce3"></div>'+
-                            '</div>';
-                            break;
-                        case 'cube-grid':
-                            preloader += '<div class="sk-cube-grid">'+
-                            '<div class="sk-cube sk-cube1"></div>'+
-                            '<div class="sk-cube sk-cube2"></div>'+
-                            '<div class="sk-cube sk-cube3"></div>'+
-                            '<div class="sk-cube sk-cube4"></div>'+
-                            '<div class="sk-cube sk-cube5"></div>'+
-                            '<div class="sk-cube sk-cube6"></div>'+
-                            '<div class="sk-cube sk-cube7"></div>'+
-                            '<div class="sk-cube sk-cube8"></div>'+
-                            '<div class="sk-cube sk-cube9"></div>'+
-                            '</div>';
-                            break;
-                    }
-                    preloader += '</div>';
-
-                    navigation = '<a class="vbox-next">' + option.htmlNext + '</a><a class="vbox-prev">' + option.htmlPrev + '</a>';
-                    vbheader = '<div class="vbox-title"></div><div class="vbox-num">0/0</div><div class="vbox-close">' + option.htmlClose + '</div>';
                     core = '<div class="vbox-overlay ' + extraCss + '" style="background:'+ overlayColor +'">'+
                     preloader + '<div class="vbox-container"><div class="vbox-content"></div></div>' + vbheader + navigation + '</div>';
 
                     $('body').append(core).addClass('vbox-open');
 
-                    $('.vbox-preloader .sk-child, .vbox-preloader .sk-rotating-plane, .vbox-preloader .sk-rect, .vbox-preloader .sk-cube, .vbox-preloader .sk-spinner-pulse').css('background-color', option.spinColor);
+                    $('.vbox-preloader div:not(.sk-circle) .sk-child, .vbox-preloader .sk-rotating-plane, .vbox-preloader .sk-rect, .vbox-preloader div:not(.sk-folding-cube) .sk-cube, .vbox-preloader .sk-spinner-pulse').css('background-color', option.spinColor); 
 
                     overlay = $('.vbox-overlay');
                     container = $('.vbox-container');
                     content = $('.vbox-content');
                     blocknum = $('.vbox-num');
                     blocktitle = $('.vbox-title');
+                    $preloader = $('.vbox-preloader');
+
+                    $preloader.show();
 
                     blocktitle.css(option.titlePosition, '-1px');
                     blocktitle.css({
@@ -230,7 +282,7 @@
                           loadInline();
                         } else if (obj.data('vbtype') == 'ajax') {
                           loadAjax();
-                        } else if (obj.data('vbtype') == 'video' || obj.data('vbtype') == 'vimeo' || obj.data('vbtype') == 'youtube') {
+                        } else if (obj.data('vbtype') == 'video') {
                           loadVid(autoplay);
                         } else {
                           content.html('<img src="'+dest+'">');
@@ -260,9 +312,14 @@
 
                     thisgall = obj.data('gall');
                     numeratio = obj.data('numeratio');
+                    gallItems = obj.data('gallItems');
                     infinigall = obj.data('infinigall');
 
-                    items = $('.vbox-item[data-gall="' + thisgall + '"]');
+                    if (gallItems) {
+                        items = gallItems;
+                    } else {
+                        items = $('.vbox-item[data-gall="' + thisgall + '"]');
+                    }
 
                     thenext = items.eq( items.index(obj) + 1 );
                     theprev = items.eq( items.index(obj) - 1 );
@@ -313,7 +370,6 @@
                       content.on(TouchMouseEvent.MOVE, onMoveEvent);
                       content.on(TouchMouseEvent.UP, onUpEvent);
                     }
-
                 }
 
                 /* -------- gallery navigation -------- */
@@ -324,9 +380,8 @@
                     }
                     if (keyNavigationDisabled) {
                       return false;
-                    } else {
-                      keyNavigationDisabled = true;
                     }
+                    keyNavigationDisabled = true;
 
                     overlayColor = destination.data('overlay') || destination.data('overlaycolor');
 
@@ -347,6 +402,9 @@
                     if (destination === thenext) {
                       content.addClass('animated').addClass('swipe-left');
                     }
+
+                    $preloader.show();
+
                     content.animate({
                       opacity : 0,
                     }, 500, function(){
@@ -365,10 +423,7 @@
                         loadInline();
                       } else if (destination.data('vbtype') == 'ajax') {
                         loadAjax();
-                      } else if (destination.data('vbtype') == 'video' ||
-                        destination.data('vbtype') == 'vimeo' ||
-                        destination.data('vbtype') == 'youtube'
-                        ) {
+                      } else if (destination.data('vbtype') == 'video') {
                         loadVid(autoplay);
                       } else {
                         content.html('<img src="'+dest+'">');
@@ -658,14 +713,14 @@
                     blocktitle.html(title);
                     
                     content.find(">:first-child").addClass('figlio').css({
-                        'width': framewidth, 
-                        'height': frameheight, 
-                        'padding': border, 
+                        'width': framewidth,
+                        'height': frameheight,
+                        'padding': border,
                         'background': bgcolor
                     });
 
-                    $('img.figlio').on('dragstart', function(event) { 
-                        event.preventDefault(); 
+                    $('img.figlio').on('dragstart', function(event) {
+                        event.preventDefault();
                     });
 
                     updateOL();
@@ -673,7 +728,7 @@
                     content.animate({
                         'opacity': '1'
                     },'slow', function(){
-
+                        $preloader.hide();
                     });
                 }
 
@@ -690,7 +745,7 @@
                     }
                     content.css('margin-top', margine);
                     content.css('margin-bottom', margine);
-                    option.cb_post_resize(); 
+                    option.cb_post_resize();
                 }
 
                 $(window).resize(function(){
