@@ -1,6 +1,6 @@
 {
   "name": "venobox",
-  "version": "1.8.3",
+  "version": "1.8.4",
   "description": "Responsive jQuery modal window plugin",
   "main": "venobox/venobox.min.js",
   "repository": {
@@ -24,8 +24,14 @@
   "bugs": {
     "url": "https://github.com/nicolafranchini/VenoBox/issues"
   },
-  "dependencies": {
+  "peerDependencies": {
     "jquery": ">=1.7.0"
   },
-  "homepage": "https://github.com/nicolafranchini/VenoBox#readme"
+  "homepage": "https://github.com/nicolafranchini/VenoBox#readme",
+  "devDependencies": {
+    "uglify-js": "^3.4.5"
+  },
+  "scripts": {
+    "build": "uglifyjs ./venobox/venobox.js -o ./venobox/venobox.min.js --comments -c -m"
+  }
 }
