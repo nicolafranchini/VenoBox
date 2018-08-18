@@ -4,7 +4,10 @@
     -webkit-box-sizing:border-box;
     -moz-box-sizing:border-box;
     box-sizing:border-box;
-
+}
+.vbox-overlay * { 
+    -webkit-backface-visibility: visible;
+    backface-visibility: visible;
 }
 .vbox-overlay{
     display: -webkit-flex;

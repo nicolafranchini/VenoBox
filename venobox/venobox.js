@@ -1,6 +1,6 @@
 /*
  * VenoBox - jQuery Plugin
- * version: 1.8.3
+ * version: 1.8.4
  * @requires jQuery >= 1.7.0
  *
  * Examples at http://veno.es/venobox/
@@ -235,7 +235,7 @@
 
                     $('body').append(core).addClass('vbox-open');
 
-                    $('.vbox-preloader div:not(.sk-circle) .sk-child, .vbox-preloader .sk-rotating-plane, .vbox-preloader .sk-rect, .vbox-preloader div:not(.sk-folding-cube) .sk-cube, .vbox-preloader .sk-spinner-pulse').css('background-color', option.spinColor); 
+                    $('.vbox-preloader div:not(.sk-circle) .sk-child, .vbox-preloader .sk-rotating-plane, .vbox-preloader .sk-rect, .vbox-preloader div:not(.sk-folding-cube) .sk-cube, .vbox-preloader .sk-spinner-pulse').css('background-color', option.spinColor);
 
                     overlay = $('.vbox-overlay');
                     container = $('.vbox-container');
@@ -478,11 +478,12 @@
                     closeclickclass = '.vbox-close'; // close only on X
                 }
 
-                $('body').on('click', closeclickclass, function(e){
+                $('body').on('click touchstart', closeclickclass, function(e){
                     if ($(e.target).is('.vbox-overlay') ||
-                      $(e.target).is('.vbox-content') ||
-                      $(e.target).is('.vbox-close') ||
-                      $(e.target).is('.vbox-preloader')
+						$(e.target).is('.vbox-content') ||
+						$(e.target).is('.vbox-close') ||
+						$(e.target).is('.vbox-preloader') ||
+						$(e.target).is('.vbox-container')
                     ) {
                         closeVbox();
                     }
@@ -646,7 +647,7 @@
                     } else if (videoObj.type == 'youtube') {
                       player = 'https://www.youtube.com/embed/';
                     }
-                    content.html('<iframe class="venoframe vbvid" webkitallowfullscreen mozallowfullscreen allowfullscreen frameborder="0" src="'+player+videoObj.id+queryvars+'"></iframe>');
+                    content.html('<iframe class="venoframe vbvid" webkitallowfullscreen mozallowfullscreen allowfullscreen allow="autoplay" frameborder="0" src="'+player+videoObj.id+queryvars+'"></iframe>');
                     updateoverlay();
                 }
 
@@ -712,7 +713,7 @@
                 function updateoverlay(){
 
                     blocktitle.html(title);
-                    
+
                     content.find(">:first-child").addClass('figlio').css({
                         'width': framewidth,
                         'height': frameheight,
