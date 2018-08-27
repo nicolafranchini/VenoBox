@@ -18,10 +18,10 @@ This package can be installed with:
 - [composer](https://packagist.org/packages/nicolafranchini/venobox): `composer require nicolafranchini/venobox`
 - [yarn](https://yarnpkg.com/en/package/venobox): `yarn add venobox`
 
-Or download the [latest release](https://github.com/nicolafranchini/VenoBox/releases).
-
-
 ### Static HTML
+
+Download the [latest release](https://github.com/nicolafranchini/VenoBox/releases)
+or get the sources from [CDNJS](https://cdnjs.com/libraries/venobox)
 
 Put the required stylesheet at the [top](https://developer.yahoo.com/performance/rules.html#css_top) of your markup:
 
@@ -32,10 +32,9 @@ Put the required stylesheet at the [top](https://developer.yahoo.com/performance
 Put the script at the [bottom](https://developer.yahoo.com/performance/rules.html#js_bottom) of your markup right after jQuery:
 
 ```html
-<script src="/jquery/dist/jquery.js"></script>
-<script src="/venobox/venobox.min.js"></script>
+<script src="jquery.js"></script>
+<script src="venobox/venobox.min.js"></script>
 ```
-or get the sources from [CDNJS] (https://cdnjs.com/libraries/venobox)
 
 
 ### Usage
