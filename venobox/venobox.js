@@ -1,6 +1,6 @@
 /*
  * VenoBox - jQuery Plugin
- * version: 1.8.4
+ * version: 1.8.5
  * @requires jQuery >= 1.7.0
  *
  * Examples at http://veno.es/venobox/
@@ -56,6 +56,7 @@
                 cb_post_close: function(){},
                 cb_post_resize: function(){},
                 cb_after_nav: function(){},
+                cb_content_loaded: function(){},
                 cb_init: function(){}
             };
 
@@ -732,6 +733,7 @@
                     },'slow', function(){
                         $preloader.hide();
                     });
+                    option.cb_content_loaded(obj, gallIndex, thenext, theprev);
                 }
 
                 /* -------- CENTER FRAME -------- */
