@@ -35,6 +35,8 @@ Put the script at the [bottom](https://developer.yahoo.com/performance/rules.htm
 <script src="/jquery/dist/jquery.js"></script>
 <script src="/venobox/venobox.min.js"></script>
 ```
+or get the sources from [CDNJS] (https://cdnjs.com/libraries/venobox)
+
 
 ### Usage
 
