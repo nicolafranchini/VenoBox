@@ -3,9 +3,15 @@
   "version": "1.8.5",
   "description": "Responsive jQuery modal window plugin",
   "main": "venobox/venobox.min.js",
+  "style": [
+    "venobox/venobox.css"
+  ],
+  "dependencies": {
+    "jquery": ">=1.7.0"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/nicolafranchini/VenoBox.git"
+    "url": "git+https://github.com/nicolafranchini/VenoBox.git"
   },
   "keywords": [
     "jQuery",
@@ -23,9 +29,6 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/nicolafranchini/VenoBox/issues"
-  },
-  "dependencies": {
-    "jquery": ">=1.7.0"
   },
   "homepage": "https://github.com/nicolafranchini/VenoBox#readme"
 }

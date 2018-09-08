@@ -19,9 +19,23 @@
     ],
     "support": {
         "issues": "https://github.com/nicolafranchini/VenoBox/issues?direction=desc&sort=created&state=open",
-        "source": "https://github.com/nicolafranchini/VenoBox/issues"
+        "source": "https://github.com/nicolafranchini/VenoBox/releases"
     },
     "require": {
         "components/jquery": ">=1.7.0"
+    },
+    "extra": {
+        "component": {
+            "scripts": [
+                "venobox/venobox.min.js"
+            ],
+            "styles": [
+                "venobox/venobox.css"
+            ],
+            "files": [
+                "venobox/venobox.min.js",
+                "venobox/venobox.css"
+            ]
+        }
     }
 }
