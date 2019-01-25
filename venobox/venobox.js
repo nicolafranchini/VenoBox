@@ -331,7 +331,7 @@
                     }
 
                     // update gall numeration
-                    if (items.length > 1) {
+                    if (items.length >= 1) {
                       gallIndex = items.index(obj)+1;
                       blocknum.html(gallIndex + ' / ' + items.length);
                     } else {
