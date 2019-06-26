@@ -395,7 +395,7 @@
 
                     autoplay = destination.data('autoplay');
 
-                    title = destination.attr(destination.data('titleattr')) || '';
+                    title = (destination.data('titleattr') && destination.attr(destination.data('titleattr'))) || '';
 
                     // swipe out item
                     if (destination === theprev) {
