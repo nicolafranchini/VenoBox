@@ -195,12 +195,12 @@ or at least read this note: http://i.imgur.com/7C0ws9e.gif
     max-width: 100%;
     height: auto;
 }
-.figlio{
+.vbox-figlio{
     box-shadow: 0 0 12px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
     max-width: 100%;
     text-align: initial;
 }
-img.figlio{
+img.vbox-figlio{
     -webkit-user-select: none;
 -khtml-user-select: none;
 -moz-user-select: none;
@@ -213,16 +213,11 @@ user-select: none;
 .vbox-content.swipe-right{
     margin-left: 200px !important;
 }
-.animated{
+.vbox-animated{
     webkit-transition: margin 300ms ease-out;
     transition: margin 300ms ease-out;
 }
-.animate-in{
-    opacity: 1;
-}
-.animate-out{
-    opacity: 0;
-}
+
 /* ---------- preloader ----------
  * SPINKIT 
  * http://tobiasahlin.com/spinkit/
