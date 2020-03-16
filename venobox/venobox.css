@@ -23,7 +23,7 @@
     top: 0;
     bottom: 0;
     right: 0;
-    z-index: 1040;
+    z-index: 999999;
     -webkit-transform:translateZ(1000px);
     transform: translateZ(1000px);
     transform-style: preserve-3d;
@@ -42,7 +42,7 @@
     position: fixed;
     display: none;
     left: 0;
-    z-index: 1050;
+    z-index: 99;
 }
 .vbox-close{
     cursor: pointer;
@@ -58,7 +58,7 @@
     font-size: 24px;
     line-height: 1;
     text-align: center;
-    z-index: 1050;
+    z-index: 99;
 }
 .vbox-num{
     cursor: pointer;
@@ -71,7 +71,7 @@
     font-size: 12px;
     padding: 6px 10px;
     display: none;
-    z-index: 1050;
+    z-index: 99;
 }
 /* ----- navigation ARROWS ----- */
 .vbox-next, .vbox-prev{
@@ -83,7 +83,7 @@
     display: block;
     width: 45px;
     height: 45px;
-    z-index: 1050;
+    z-index: 99;
 }
 .vbox-next span, .vbox-prev span{
     position: relative;

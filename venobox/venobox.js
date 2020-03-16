@@ -323,6 +323,10 @@
                         items = $('.vbox-item[data-gall="' + thisgall + '"]');
                     }
 
+                    if (items.length < 2) {
+                        infinigall = false;
+                    }
+
                     thenext = items.eq( items.index(obj) + 1 );
                     theprev = items.eq( items.index(obj) - 1 );
 
