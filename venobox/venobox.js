@@ -325,6 +325,7 @@
 
                     if (items.length < 2) {
                         infinigall = false;
+                        numeratio = false;
                     }
 
                     thenext = items.eq( items.index(obj) + 1 );
