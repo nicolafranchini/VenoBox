@@ -26,7 +26,7 @@ or get the sources from [CDNJS](https://cdnjs.com/libraries/venobox)
 Put the required stylesheet at the [top](https://developer.yahoo.com/performance/rules.html#css_top) of your markup:
 
 ```html
-<link rel="stylesheet" href="/venobox/venobox.css" />
+<link rel="stylesheet" href="/venobox/venobox.min.css" />
 ```
 
 Put the script at the [bottom](https://developer.yahoo.com/performance/rules.html#js_bottom) of your markup right after jQuery:
