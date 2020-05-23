@@ -1,6 +1,6 @@
 /*
  * VenoBox - jQuery Plugin
- * version: 1.8.9
+ * version: 1.9.0
  * @requires jQuery >= 1.7.0
  *
  * Examples at http://veno.es/venobox/
@@ -57,7 +57,7 @@
                 titleBackground: '#161617',
                 titleColor: '#d2d2d2',
                 titlePosition : 'top', // 'top' || 'bottom'
-                share: [ 'facebook', 'twitter', 'linkedin', 'pinterest', 'download' ], 
+                share: [], // ['facebook', 'twitter', 'linkedin', 'pinterest', 'download']
                 cb_pre_open: function(){ return true; }, // Callbacks - thanx @garyee
                 cb_post_open: function(){},
                 cb_pre_close: function(){ return true; },
@@ -769,6 +769,9 @@
                     $('img.vbox-figlio').on('dragstart', function(event) {
                         event.preventDefault();
                     });
+
+                    // reset content scroll
+                    container.scrollTop(0);
 
                     updateOL();
 
