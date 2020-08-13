@@ -1,6 +1,6 @@
 {
   "name": "venobox",
-  "version": "1.9.0",
+  "version": "1.9.1",
   "description": "Responsive jQuery modal window plugin",
   "main": "venobox/venobox.min.js",
   "style": [
