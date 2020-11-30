@@ -681,19 +681,25 @@
                 /* -------- LOAD VIDEOs -------- */
                 function loadVid(autoplay){
 
-                    var player;
-                    var videoObj = parseVideo(dest);
+                    // check if it's a video file
+                    if (dest.search(/.+\.mp4|og[gv]|webp/) !== -1) {
+                        var stringAutoplay = autoplay ? " autoplay" : "";
+                        content.html('<div class="venoframe vbvid"><video src="' + dest + '"' + stringAutoplay + ' controls>Your browser does not support the video tag.</video></div>');
+                    } else {
+                        var player;
+                        var videoObj = parseVideo(dest);
 
-                    // set rel=0 to hide related videos at the end of YT + optional autoplay
-                    var stringAutoplay = autoplay ? "?rel=0&autoplay=1" : "?rel=0";
-                    var queryvars = stringAutoplay + getUrlParameter(dest);
+                        // set rel=0 to hide related videos at the end of YT + optional autoplay
+                        var stringAutoplay = autoplay ? "?rel=0&autoplay=1" : "?rel=0";
+                        var queryvars = stringAutoplay + getUrlParameter(dest);
 
-                    if (videoObj.type == 'vimeo') {
-                      player = 'https://player.vimeo.com/video/';
-                    } else if (videoObj.type == 'youtube') {
-                      player = 'https://www.youtube.com/embed/';
+                        if (videoObj.type == 'vimeo') {
+                        player = 'https://player.vimeo.com/video/';
+                        } else if (videoObj.type == 'youtube') {
+                        player = 'https://www.youtube.com/embed/';
+                        }
+                        content.html('<iframe class="venoframe vbvid" webkitallowfullscreen mozallowfullscreen allowfullscreen allow="autoplay" frameborder="0" src="'+player+videoObj.id+queryvars+'"></iframe>');
                     }
-                    content.html('<iframe class="venoframe vbvid" webkitallowfullscreen mozallowfullscreen allowfullscreen allow="autoplay" frameborder="0" src="'+player+videoObj.id+queryvars+'"></iframe>');
                     updateoverlay();
                 }
 
