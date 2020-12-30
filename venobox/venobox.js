@@ -1,12 +1,12 @@
 /*
  * VenoBox - jQuery Plugin
- * version: 1.9.1
+ * version: 1.9.2
  * @requires jQuery >= 1.7.0
  *
  * Examples at http://veno.es/venobox/
  * License: MIT License
  * License URI: https://github.com/nicolafranchini/VenoBox/blob/master/LICENSE
- * Copyright 2013-2020 Nicola Franchini - @nicolafranchini
+ * Copyright 2013-2021 Nicola Franchini - @nicolafranchini
  *
  */
 
@@ -111,6 +111,9 @@
                     if (cb_pre_open === false) {
                       return false;
                     }
+
+                    // Remove focus from link to avoid multiple calls with enter key
+                    obj.blur();
 
                     // methods to be used outside the plugin
                     plugin.VBnext = function() {
