@@ -15,7 +15,7 @@
 (function($){
     "use strict";
     var autoplay, bgcolor, blockleft, blocknum, blockshare, blocktitle, border, core, container, content, dest, extraCss,
-        framewidth, frameheight, gallItems, infinigall, items, keyNavigationDisabled, margine, numeratio,
+        framewidth, frameheight, gallItems, infinigall, items, keyNavigationDisabled, margine, noArrows, numeratio,
         overlayColor, overlay, title, thisgall, thenext, theprev, nextok, prevok, preloader, $preloader, navigation,
         obj, gallIndex, startouch, vbheader, images, startY, startX, endY, endX, diff, diffX, diffY, threshold,
         share, sharelinks, vbfooter, sharepos;
@@ -33,6 +33,7 @@
             // default options
             var defaults = {
                 arrowsColor : '#B6B6B6',
+                noArrows: false,
                 autoplay : false, // same as data-autoplay - thanks @codibit
                 bgcolor: '#fff',
                 border: '0',
@@ -94,6 +95,7 @@
                 obj.data('numeratio', option.numeratio);
                 obj.data('gallItems', option.gallItems);
                 obj.data('infinigall', option.infinigall);
+                obj.data('noArrows', option.noArrows);
                 obj.data('overlaycolor', option.overlayColor);
                 obj.data('titleattr', option.titleattr);
                 obj.data('share', option.share);
@@ -346,6 +348,7 @@
                     gallItems = obj.data('gallItems');
                     infinigall = obj.data('infinigall');
                     share = obj.data('share');
+                    noArrows = obj.data('noArrows');
                     blockshare.html('');
                     if ( obj.data('vbtype') !== 'iframe' && obj.data('vbtype') !== 'inline' && obj.data('vbtype') !== 'ajax' ) {
                         sharelinks = { 
@@ -414,6 +417,12 @@
                       $('.vbox-prev').css('display', 'none');
                       prevok = false;
                     }
+
+                     if (noArrows == true) {
+                      $('.vbox-prev, .vbox-next ').css('display', 'none');
+                      prevok = false; 
+                    }
+                    
                     // activate swipe
                     if (prevok === true || nextok === true) {
                       content.on(TouchMouseEvent.DOWN, onDownEvent);
