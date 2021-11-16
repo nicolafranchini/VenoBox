@@ -1,17 +1,16 @@
-/*
+/**
  * VenoBox - jQuery Plugin
- * version: 1.9.3
- * @requires jQuery >= 1.7.0
- *
- * Examples at http://veno.es/venobox/
- * License: MIT License
- * License URI: https://github.com/nicolafranchini/VenoBox/blob/master/LICENSE
+ * version: 1.9.4
  * Copyright 2013-2021 Nicola Franchini - @nicolafranchini
- *
+ * @license: https://github.com/nicolafranchini/VenoBox/blob/master/LICENSE
+ */
+/**
+ * License: MIT License
+ * @requires jQuery >= 1.7.0
+ * Examples at http://veno.es/venobox/
  */
 
 /* global jQuery */
-
 (function($){
     "use strict";
     var autoplay, bgcolor, blockleft, blocknum, blockshare, blocktitle, border, core, container, content, dest, extraCss,
@@ -32,32 +31,33 @@
             var plugin = this;
             // default options
             var defaults = {
-                arrowsColor : '#B6B6B6',
+                arrowsColor: '#B6B6B6',
                 noArrows: false,
                 autoplay : false, // same as data-autoplay - thanks @codibit
                 bgcolor: '#fff',
                 border: '0',
                 closeBackground : 'transparent',
-                closeColor : "#d2d2d2",
+                closeColor: "#d2d2d2",
                 framewidth: '',
                 frameheight: '',
                 gallItems: false,
                 infinigall: false,
-                htmlClose : '&times;',
-                htmlNext : '<span>Next</span>',
-                htmlPrev : '<span>Prev</span>',
+                htmlClose: '&times;',
+                htmlNext: '<span>Next</span>',
+                htmlPrev: '<span>Prev</span>',
+                navSpeed: 500,
                 numeratio: false,
-                numerationBackground : '#161617',
-                numerationColor : '#d2d2d2',
-                numerationPosition : 'top', // 'top' || 'bottom'
+                numerationBackground: '#161617',
+                numerationColor: '#d2d2d2',
+                numerationPosition: 'top', // 'top' || 'bottom'
                 overlayClose: true, // disable overlay click-close - thanx @martybalandis
-                overlayColor : 'rgba(23,23,23,0.85)',
-                spinner : 'double-bounce', // available: 'rotating-plane' | 'double-bounce' | 'wave' | 'wandering-cubes' | 'spinner-pulse' | 'chasing-dots' | 'three-bounce' | 'circle' | 'cube-grid' | 'fading-circle' | 'folding-cube'
+                overlayColor: 'rgba(23,23,23,0.85)',
+                spinner: 'double-bounce', // available: 'rotating-plane' | 'double-bounce' | 'wave' | 'wandering-cubes' | 'spinner-pulse' | 'chasing-dots' | 'three-bounce' | 'circle' | 'cube-grid' | 'fading-circle' | 'folding-cube'
                 spinColor : '#d2d2d2',
                 titleattr: 'title', // specific attribute to get a title (e.g. [data-title]) - thanx @mendezcode
                 titleBackground: '#161617',
                 titleColor: '#d2d2d2',
-                titlePosition : 'top', // 'top' || 'bottom'
+                titlePosition: 'top', // 'top' || 'bottom'
                 share: [], // ['facebook', 'twitter', 'linkedin', 'pinterest', 'download']
                 cb_pre_open: function(){ return true; }, // Callbacks - thanx @garyee
                 cb_post_open: function(){},
@@ -466,7 +466,7 @@
 
                     content.animate({
                       opacity : 0,
-                    }, 500, function(){
+                    }, option.navSpeed, function(){
 
                         overlay.css('background',overlayColor);
 
@@ -788,11 +788,10 @@
                     updateOL();
 
                     content.animate({
-                        'opacity': '1'
-                    },'slow', function(){
+                        opacity: 1
+                    }, option.navSpeed, function(){
                         $preloader.hide();
                     });
-
                     option.cb_content_loaded(obj, gallIndex, thenext, theprev);
                 }
 

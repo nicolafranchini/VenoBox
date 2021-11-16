@@ -55,6 +55,6 @@ $(document).ready(function(){
 
 ## Documentation
 
-The full documentation is available at http://veno.es/venobox/
+The full documentation is available at https://veno.es/venobox/
 
 License: released under the MIT License

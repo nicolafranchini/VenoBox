@@ -1,6 +1,6 @@
 {
   "name": "venobox",
-  "version": "1.9.3",
+  "version": "1.9.4",
   "description": "Responsive jQuery modal window plugin",
   "main": "venobox/venobox.min.js",
   "style": [
@@ -25,7 +25,7 @@
     "jquery-plugin",
     "ecosystem:jquery"
   ],
-  "author": "Nicola Franchini (http://veno.es/)",
+  "author": "Nicola Franchini (https://veno.es/)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/nicolafranchini/VenoBox/issues"
