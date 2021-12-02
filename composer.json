@@ -1,14 +1,14 @@
 {
     "name": "nicolafranchini/venobox",
-    "description": "Responsive jQuery modal window plugin",
-    "version": "1.9.4",
+    "description": "Responsive JavaScript modal window plugin",
+    "version": "2.0.0",
     "keywords": [
         "lightbox",
         "responsive",
         "modal",
         "popup",
-        "jquery-plugin",
-        "jQuery"
+        "VanillaJS",
+        "javascript"
     ],
     "license": "MIT",
     "authors": [
@@ -21,20 +21,17 @@
         "issues": "https://github.com/nicolafranchini/VenoBox/issues?direction=desc&sort=created&state=open",
         "source": "https://github.com/nicolafranchini/VenoBox/releases"
     },
-    "require": {
-        "components/jquery": ">=1.7.0"
-    },
     "extra": {
         "component": {
             "scripts": [
-                "venobox/venobox.min.js"
+                "dist/venobox.min.js"
             ],
             "styles": [
-                "venobox/venobox.min.css"
+                "dist/venobox.min.css"
             ],
             "files": [
-                "venobox/venobox.min.js",
-                "venobox/venobox.min.css"
+                "dist/venobox.min.js",
+                "dist/venobox.min.css"
             ]
         }
     }

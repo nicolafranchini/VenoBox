@@ -1,20 +1,16 @@
 {
   "name": "venobox",
-  "version": "1.9.4",
-  "description": "Responsive jQuery modal window plugin",
-  "main": "venobox/venobox.min.js",
+  "version": "2.0.0",
+  "description": "Responsive javascript modal window plugin",
+  "main": "dist/venobox.min.js",
   "style": [
-    "venobox/venobox.min.css"
+    "dist/venobox.min.css"
   ],
-  "dependencies": {
-    "jquery": ">=1.7.0"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nicolafranchini/VenoBox.git"
   },
   "keywords": [
-    "jQuery",
     "lightbox",
     "modal",
     "responsive",
@@ -22,6 +18,7 @@
     "popup",
     "window",
     "ui",
+    "vanillaJS",
     "jquery-plugin",
     "ecosystem:jquery"
   ],
