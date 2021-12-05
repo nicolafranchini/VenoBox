@@ -66,7 +66,26 @@
     width: var(--vbox-share-width);
     border-radius: var(--vbox-share-radius);
 }
+.vbox-share button.vbox-share-mobile,
+.vbox-share button.vbox-share-mobile:hover,
+.vbox-share button.vbox-share-mobile:active,
+.vbox-share button.vbox-share-mobile:focus{
+    border: none !important;
+    background: none !important;
+    box-shadow: none !important;
+    color: inherit !important;
+    padding: 6px .35em;
+    outline: none;
+}
+.vbox-share a{
+    color: inherit !important;
+    padding: 6px .35em;
+}
 
+.vbox-share svg{
+    z-index: 10;
+    vertical-align: middle;
+}
 /* ----- navigation ----- */
 .vbox-close{
     cursor: pointer;
@@ -123,14 +142,6 @@
 }
 .vbox-bottom{
     bottom: 0;
-}
-.vbox-share a{
-    color: inherit !important;
-    padding: 6px .35em;
-}
-.vbox-share svg{
-    z-index: 10;
-    vertical-align: middle;
 }
 
 /* ----- Navigation arrows ----- */
@@ -255,14 +266,16 @@
     box-shadow: 0 0 12px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
     max-width: 100%;
     text-align: initial;
-    cursor: grab;
 }
-img.vbox-child{
+.vbox-child img{
     -webkit-user-select: none;
     -khtml-user-select: none;
     -moz-user-select: none;
     -o-user-select: none;
     user-select: none;
+}
+.vbox-grab .vbox-child img{
+    cursor: grab;
 }
 .vbox-content.swipe-left{
     margin-left: -200px !important;
@@ -270,16 +283,35 @@ img.vbox-child{
 .vbox-content.swipe-right{
     margin-left: 200px !important;
 }
+.vbox-preloader{
+    -webkit-transform: translateZ(0);
+    -moz-transform: translateZ(0);
+    -o-transform: translateZ(0);
+    transform: translateZ(0);
+}
 .vbox-preloader .vbox-preloader-inner{
     opacity: 1;
     transition: opacity 200ms;
 }
-.vbox-preloader.vbox-hidden{
+.vbox-hidden{
     display: none;
 }
 .vbox-preloader.vbox-hidden .vbox-preloader-inner{
     opacity: 0;
 }
+.vbox-backdrop{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+     -webkit-transform: translateZ(-1px);
+    -moz-transform: translateZ(-1px);
+    -o-transform: translateZ(-1px);
+    transform: translateZ(-1px);
+    z-index: 0;
+}
+
 /* ---------- preloader ----------
  * http://tobiasahlin.com/spinkit/
 -------------------------------- */

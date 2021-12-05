@@ -25,7 +25,7 @@
 
     let blocknum, blockshare, blocktitle, core, container, content,
         infinigall, items, navigationDisabled, margine, numeratio,
-        overlay, title, thisgall, thenext, theprev, nextok, prevok, elPreloader, elPreloaderInner,
+        overlay, backdrop, title, thisgall, thenext, theprev, nextok, prevok, elPreloader, elPreloaderInner,
         gallIndex, startouch, images, startY, startX, endY, endX, diff, diffX, diffY, threshold,
         share, sharelinks, shareArray, sharepos, newcontent, imgLoader, current_item, current_index,
         set_maxWidth, set_overlayColor, set_ratio, set_autoplay, set_href;
@@ -38,7 +38,7 @@
     const linkedinIcon = svgOpen + '<path d="M1.9,0C0.9,0,0,0.9,0,1.9v12.2c0,1,0.9,1.9,1.9,1.9h12.2c1,0,1.9-0.9,1.9-1.9V1.9c0-1-0.9-1.9-1.9-1.9H1.9z M1.9,0.8h12.2 c0.6,0,1.1,0.5,1.1,1.1v12.2c0,0.6-0.5,1.1-1.1,1.1H1.9c-0.6,0-1.1-0.5-1.1-1.1V1.9C0.8,1.3,1.3,0.8,1.9,0.8z M3.8,2.7 C3.4,2.7,3,2.8,2.7,3C2.5,3.3,2.3,3.6,2.3,4c0,0.7,0.6,1.3,1.4,1.3c0,0,0,0,0,0c0,0,0.1,0,0.1,0c0.9,0,1.5-0.6,1.5-1.3c0,0,0,0,0,0 C5.3,3.2,4.6,2.7,3.8,2.7z M3.8,3.4c0.5,0,0.7,0.2,0.8,0.6c0,0.3-0.2,0.6-0.8,0.6C3.3,4.6,3,4.3,3,4c0-0.2,0.1-0.3,0.2-0.4 C3.3,3.5,3.5,3.4,3.8,3.4z M2.7,5.7c-0.2,0-0.4,0.2-0.4,0.4v7.2c0,0.2,0.2,0.4,0.4,0.4H5c0.2,0,0.4-0.2,0.4-0.4v-2.2v-5 c0-0.2-0.2-0.4-0.4-0.4H2.7z M6.1,5.7c-0.2,0-0.4,0.2-0.4,0.4v7.2c0,0.2,0.2,0.4,0.4,0.4h2.3c0.2,0,0.4-0.2,0.4-0.4V9.5 c0-0.3,0.1-0.6,0.2-0.8s0.3-0.3,0.7-0.3c0.4,0,0.6,0.1,0.7,0.3c0.2,0.2,0.2,0.5,0.2,0.8v3.8c0,0.2,0.2,0.4,0.4,0.4h2.3 c0.2,0,0.4-0.2,0.4-0.4V9.2c0-1.1-0.3-2-0.9-2.6c-0.6-0.6-1.4-0.9-2.2-0.9C9.8,5.7,9.2,6,8.8,6.3V6.1c0-0.2-0.2-0.4-0.4-0.4H6.1z M3,6.5h1.5v4.6V13H3V6.5z M6.5,6.5H8v0.6c0,0.2,0.2,0.4,0.4,0.4c0.1,0,0.2-0.1,0.3-0.2c0,0,0.6-0.8,1.9-0.8c0.7,0,1.2,0.2,1.7,0.7 C12.7,7.6,13,8.3,13,9.2V13h-1.5V9.5c0-0.4-0.1-0.9-0.4-1.3c-0.3-0.4-0.7-0.6-1.3-0.6c-0.6,0-1.1,0.3-1.3,0.6C8.1,8.6,8,9.1,8,9.5 V13H6.5V6.5z"/>' + svgClose;
     const downloadIcon = svgOpen + '<path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/><path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>' + svgClose;
     const emailIcon = svgOpen + '<path id="Mail" d="M14.5,2h-13C0.7,2,0,2.7,0,3.5v9C0,13.3,0.7,14,1.5,14h13c0.8,0,1.5-0.7,1.5-1.5v-9C16,2.7,15.3,2,14.5,2z M15.5,12.3l-4.7-4.7l4.7-3V12.3z M1.5,2.5h13c0.6,0,1,0.4,1,1v0.4L8.6,8.3c-0.4,0.2-0.8,0.2-1.2,0L0.5,3.6V3.5 C0.5,2.9,0.9,2.5,1.5,2.5z M0.5,4.2l4.8,3.3l-4.8,4.8V4.2z M14.5,13.5h-13c-0.4,0-0.8-0.3-0.9-0.6l5.1-5.1l1.4,1C7.4,8.9,7.7,9,8,9 c0.3,0,0.6-0.1,0.9-0.3l1.5-0.9l5.1,5.1C15.3,13.2,14.9,13.5,14.5,13.5z"/>' + svgClose;
-
+    const shareIcon = svgOpen + '  <path fill-rule="evenodd" d="M3.5 6a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5h-2a.5.5 0 0 1 0-1h2A1.5 1.5 0 0 1 14 6.5v8a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 14.5v-8A1.5 1.5 0 0 1 3.5 5h2a.5.5 0 0 1 0 1h-2z"/><path fill-rule="evenodd" d="M7.646.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 1.707V10.5a.5.5 0 0 1-1 0V1.707L5.354 3.854a.5.5 0 1 1-.708-.708l3-3z"/>' + svgClose;
     const imagesHolder = document.createElement('div');
 
     const spinners = {
@@ -65,6 +65,8 @@
         infinigall: false,
         maxWidth: '1200px',
         navigation: true,
+        navKeyboard: true,
+        navTouch: true,
         navSpeed: 300,
         numeration: false,
         overlayClose: true,
@@ -294,7 +296,9 @@
                     return false;
                 }
             }
+            
             document.body.removeEventListener('keydown', keyboardHandler);
+
             document.body.classList.remove('vbox-open');
             current_item.focus();
             animate({
@@ -581,6 +585,22 @@
             }
         };
 
+
+        var setMobileShare = function(href){
+            if (navigator.canShare) {
+                const shareData = {
+                    url: href
+                };
+                blockshare.insertAdjacentHTML('beforeend', '<button type="button" class="vbox-share-mobile">'+shareIcon+'</button>');
+                let mobileShareBtn = blockshare.querySelector('.vbox-share-mobile');
+                mobileShareBtn.addEventListener('click', function(e){
+                    e.preventDefault();
+                    navigator.share(shareData);
+
+                });
+            }
+        };
+
         /**
          * Check navigation
          * @param {object} el Current item
@@ -607,11 +627,12 @@
                     facebook  : '<a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u='+el.href+'">'+fbIcon+'</a>', 
                     twitter   : '<a target="_blank" href="https://twitter.com/intent/tweet?text='+title+'&url='+el.href+'">'+twitterIcon+'</a>', 
                     linkedin  : '<a target="_blank" href="https://www.linkedin.com/sharing/share-offsite/?url='+el.href+'">'+linkedinIcon+'</a>',
-                    download  : '<a target="_blank" href="'+el.href+'">'+downloadIcon+'</a>',
+                    download  : '<a target="_blank" href="'+el.href+'" download>'+downloadIcon+'</a>',
                     email     : '<a target="_blank" href="mailto:?body='+el.href+'">'+emailIcon+'</a>'
                 };
 
                 if (share.length) {
+                    setMobileShare(el.href);
                     forEach(share, function(prop) {
                         blockshare.insertAdjacentHTML('beforeend', sharelinks[prop]);
                     });   
@@ -646,16 +667,16 @@
                 gallIndex = 1;
             }
             if (numeratio) {
-                blocknum.style.display = 'block';
+                blocknum.classList.remove('vbox-hidden');
             } else {
-                blocknum.style.display = 'none';
+                blocknum.classList.add('vbox-hidden');
             }
 
             // Update title
             if (title !== '') {
-                blocktitle.style.display = 'block';
+                blocktitle.classList.remove('vbox-hidden');
             } else {
-                blocktitle.style.display = 'none';
+                blocktitle.classList.add('vbox-hidden');
             }
             blocktitle.innerHTML = title;
 
@@ -672,7 +693,8 @@
             }
 
             // activate swipe
-            if (prevok || nextok) {
+            if ((prevok || nextok) && el.settings.navTouch) {
+                content.classList.add('vbox-grab');
                 content.addEventListener("touchstart", dragStart, false);
                 content.addEventListener("touchend", dragEnd, false);
                 content.addEventListener("touchmove", drag, false);
@@ -680,26 +702,35 @@
                 content.addEventListener("mouseup", dragEnd, false);
                 content.addEventListener("mouseout", dragEnd, false);
                 content.addEventListener("mousemove", drag, false);
+            } else {
+                content.classList.remove('vbox-grab');
+                content.removeEventListener("touchstart", dragStart, false);
+                content.removeEventListener("touchend", dragEnd, false);
+                content.removeEventListener("touchmove", drag, false);
+                content.removeEventListener("mousedown", dragStart, false);
+                content.removeEventListener("mouseup", dragEnd, false);
+                content.removeEventListener("mouseout", dragEnd, false);
+                content.removeEventListener("mousemove", drag, false);
             }
 
             let vbox_next = overlay.querySelector('.vbox-next');
             let vbox_prev = overlay.querySelector('.vbox-prev');
 
             if (prevok) {
-                vbox_prev.style.display = "block";
+                vbox_prev.classList.remove('vbox-hidden');
             } else {
-                vbox_prev.style.display = "none";
+                vbox_prev.classList.add('vbox-hidden');
             }
 
             if (nextok) {
-                vbox_next.style.display = "block";
+                vbox_next.classList.remove('vbox-hidden');
             } else {
-                vbox_next.style.display = "none";
+                vbox_next.classList.add('vbox-hidden');
             }
 
             if (!el.settings.navigation) {
-                vbox_next.style.display = "none";
-                vbox_prev.style.display = "none";
+                vbox_next.classList.add('vbox-hidden');
+                vbox_prev.classList.add('vbox-hidden');
             }
         }; // Checknav
 
@@ -708,7 +739,8 @@
          */
         var updateOverlay = function(destination){
 
-            overlay.style.backgroundColor = set_overlayColor;
+            // overlay.style.backgroundColor = set_overlayColor;
+            backdrop.style.backgroundColor = set_overlayColor;
 
             // Custom preloader color.
             elPreloaderInner.innerHTML = createspinner(spinners[destination.settings.spinner]);
@@ -822,6 +854,7 @@
             document.body.classList.add('vbox-open');
 
             overlay = document.querySelector(".vbox-overlay");
+            backdrop = overlay.querySelector(".vbox-backdrop");
             container = overlay.querySelector(".vbox-container");
             content = container.querySelector(".vbox-content");
             blocknum = overlay.querySelector(".vbox-num");
@@ -857,8 +890,9 @@
             loadContent();
 
             // Keyboard actions
-            document.body.addEventListener('keydown', keyboardHandler);
-
+            if (obj.settings.navKeyboard) {
+                document.body.addEventListener('keydown', keyboardHandler);
+            }
             // Prev gallery
             document.querySelector('.vbox-prev').addEventListener('click', function(){
                 navigateGall(theprev);
@@ -920,7 +954,7 @@
             let vbheader = '<div class="vbox-title"></div><div class="vbox-left-corner"><div class="vbox-num">0/0</div></div><div class="vbox-close"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z"/><path fill-rule="evenodd" d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z"/></svg></div>';
             let vbfooter = '<div class="vbox-share"></div>';
             let preloader = '<div class="vbox-preloader"><div class="vbox-preloader-inner"></div></div>';
-            core = '<div class="vbox-overlay">' + preloader + '<div class="vbox-container"><div class="vbox-content"></div></div>' + vbheader + navigation + vbfooter + '</div>';
+            core = '<div class="vbox-overlay"><div class="vbox-backdrop"></div>' + preloader + '<div class="vbox-container"><div class="vbox-content"></div></div>' + vbheader + navigation + vbfooter + '</div>';
 
             /**
              *  Close modal. 
@@ -935,6 +969,7 @@
                 if (closeSelector == '.vbox-close' || (closeSelector == '.vbox-overlay' &&
                 (e.target.classList.contains('vbox-overlay') ||
                     e.target.classList.contains('vbox-content') ||
+                    e.target.classList.contains('vbox-backdrop') ||
                     e.target.classList.contains('vbox-close') ||
                     e.target.classList.contains('vbox-preloader') ||
                     e.target.classList.contains('vbox-container'))
