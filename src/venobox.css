@@ -41,15 +41,10 @@
 
 .vbox-share, .vbox-title{
     line-height: 1;
-    overflow: hidden;
     position: fixed;
     z-index: 98;
-    display: flex;
-    align-items:center;
-    justify-content: center;
     text-align: center;
     margin: 0 auto;
-    border-radius: 5em;
     color: var(--vbox-tools-color);
 }
 .vbox-title{
@@ -57,7 +52,11 @@
     background-color: var(--vbox-title-background);
     width: var(--vbox-title-width);
     border-radius: var(--vbox-title-radius);
-    padding: 12px 1.5em;
+    padding: 12px 54px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
 }
 .vbox-share{
     font-size: 24px;
@@ -66,20 +65,22 @@
     width: var(--vbox-share-width);
     border-radius: var(--vbox-share-radius);
 }
-.vbox-share button.vbox-share-mobile,
-.vbox-share button.vbox-share-mobile:hover,
-.vbox-share button.vbox-share-mobile:active,
-.vbox-share button.vbox-share-mobile:focus{
+button.vbox-link-btn,
+button.vbox-link-btn:hover,
+button.vbox-link-btn:active,
+button.vbox-link-btn:focus{
     border: none !important;
     background: none !important;
     box-shadow: none !important;
     color: inherit !important;
-    padding: 6px .35em;
+    padding: 6px 12px;
     outline: none;
+    display: inline-block;
 }
 .vbox-share a{
     color: inherit !important;
-    padding: 6px .35em;
+    padding: 6px 12px;
+    display: inline-block;
 }
 
 .vbox-share svg{
@@ -90,12 +91,10 @@
 .vbox-close{
     cursor: pointer;
     position: fixed;
-    top: -1px;
+    top: 0;
     right: 0;
     z-index: 99;
-    width: 50px;
-    height: 40px;
-    padding: 6px;
+    padding: 6px 15px;
     color: #000;
     color: var(--vbox-tools-color);
     border: 0;
@@ -115,19 +114,17 @@
     position: fixed;
     left: 0;
     top: 0;
-    height: 40px;
     overflow: hidden;
-    line-height: 28px;
+    line-height: 1;
     font-size: 12px;
     z-index: 99;
     display: flex;
     align-items:center;
     color: var(--vbox-tools-color);
-/*    background-color: var(--vbox-tools-background);
-*/}
+}
 .vbox-num{
     display: inline-block;
-    margin: 6px 15px;
+    padding: 12px 15px;
 }
 /* ----- Social share ----- */
 
@@ -310,6 +307,42 @@
     -o-transform: translateZ(-1px);
     transform: translateZ(-1px);
     z-index: 0;
+}
+
+.vbox-tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.vbox-tooltip .vbox-tooltip-text {
+  visibility: hidden;
+  color: #fff;
+  text-align: center;
+  padding: 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 100%;
+  left: 0;
+  opacity: 0;
+  transition: opacity 0.3s;
+  margin-bottom: 2px;
+}
+.vbox-top .vbox-tooltip .vbox-tooltip-text{
+  bottom: auto;
+  top: 100%;
+  margin-bottom: 0;
+  margin-top: 2px;
+}
+
+.vbox-tooltip-inner{
+    padding: 5px 10px;
+    background-color: rgba(0, 0, 0, 0.9);
+    border-radius: 6px;
+    font-size: 10px;
+}
+.vbox-tooltip:hover .vbox-tooltip-text {
+  visibility: visible;
+  opacity: 1;
 }
 
 /* ---------- preloader ----------

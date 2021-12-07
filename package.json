@@ -1,6 +1,6 @@
 {
   "name": "venobox",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Responsive javascript modal window plugin",
   "main": "dist/venobox.min.js",
   "style": [
@@ -19,7 +19,8 @@
     "window",
     "ui",
     "vanillaJS",
-    "jquery-plugin",
+    "vanilla",
+    "javascript",
     "ecosystem:jquery"
   ],
   "author": "Nicola Franchini (https://veno.es/)",
