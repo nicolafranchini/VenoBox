@@ -1,14 +1,19 @@
 {
     "name": "nicolafranchini/venobox",
-    "description": "Responsive JavaScript modal window plugin",
-    "version": "2.0.1",
+    "description": "Responsive JavaScript modal window plugin, touch swipe gallery",
+    "version": "2.0.2",
     "keywords": [
         "lightbox",
-        "responsive",
         "modal",
+        "responsive",
+        "plugin",
         "popup",
-        "VanillaJS",
-        "javascript"
+        "gallery",
+        "window",
+        "no-jquery",
+        "vanilla",
+        "touch",
+        "swipe"
     ],
     "license": "MIT",
     "authors": [

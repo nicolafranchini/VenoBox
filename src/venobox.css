@@ -65,6 +65,7 @@
     width: var(--vbox-share-width);
     border-radius: var(--vbox-share-radius);
 }
+.vbox-link-btn,
 button.vbox-link-btn,
 button.vbox-link-btn:hover,
 button.vbox-link-btn:active,
@@ -76,6 +77,7 @@ button.vbox-link-btn:focus{
     padding: 6px 12px;
     outline: none;
     display: inline-block;
+    cursor: pointer;
 }
 .vbox-share a{
     color: inherit !important;
@@ -270,6 +272,7 @@ button.vbox-link-btn:focus{
     -moz-user-select: none;
     -o-user-select: none;
     user-select: none;
+    display: block;
 }
 .vbox-grab .vbox-child img{
     cursor: grab;
@@ -326,6 +329,7 @@ button.vbox-link-btn:focus{
   opacity: 0;
   transition: opacity 0.3s;
   margin-bottom: 2px;
+  font-family: sans-serif;
 }
 .vbox-top .vbox-tooltip .vbox-tooltip-text{
   bottom: auto;
