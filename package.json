@@ -1,6 +1,6 @@
 {
   "name": "venobox",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Responsive javascript modal window plugin, touch swipe gallery",
   "main": "dist/venobox.min.js",
   "module": "src/venobox.esm.js",
