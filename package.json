@@ -3,6 +3,8 @@
   "version": "2.0.2",
   "description": "Responsive javascript modal window plugin, touch swipe gallery",
   "main": "dist/venobox.min.js",
+  "module": "src/venobox.esm.js",
+  "browser": "dist/venobox.min.js",
   "style": "dist/venobox.min.css",
   "repository": {
     "type": "git",
