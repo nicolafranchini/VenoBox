@@ -9,6 +9,7 @@
     --vbox-share-background: #101010;
     --vbox-share-width:  'auto';
     --vbox-share-radius:  0;
+    --vbox-padding: 0;
 }
 
 /* ------ venobox.css --------*/
@@ -190,7 +191,7 @@ button.vbox-link-btn:focus{
     transform: rotate(45deg);
     right: 10px;
 }
-
+/* ----- Aspect ratio ----- */
 .venoratio, .vbox-inline {
     position: relative;
     width: 100%;
@@ -207,6 +208,7 @@ button.vbox-link-btn:focus{
   left: 0;
   width: 100%;
   height: 100%;
+  padding: var(--vbox-padding);
 }
 .venoratio-1x1 {
   --vb-aspect-ratio: 100%;
@@ -215,14 +217,17 @@ button.vbox-link-btn:focus{
   --vb-aspect-ratio: calc(3 / 4 * 100%);
 }
 .venoratio-16x9 {
-    --vb-aspect-ratio: calc(9 / 16 * 100%);
+  --vb-aspect-ratio: calc(9 / 16 * 100%);
 }
 .venoratio-21x9 {
   --vb-aspect-ratio: calc(9 / 21 * 100%);
 }
+.venoratio-full {
+  --vb-aspect-ratio: calc(100vh - 100px);
+}
 
 .vbox-child.venoratio, .vbox-child.vbox-inline{
-    max-width: 1400px;
+    max-width: 100%;
 }
 .vbox-open{
     overflow: hidden;
@@ -265,6 +270,7 @@ button.vbox-link-btn:focus{
     box-shadow: 0 0 12px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
     max-width: 100%;
     text-align: initial;
+    padding: var(--vbox-padding);
 }
 .vbox-child img{
     -webkit-user-select: none;
@@ -276,6 +282,9 @@ button.vbox-link-btn:focus{
 }
 .vbox-grab .vbox-child img{
     cursor: grab;
+}
+.vbox-child > iframe{
+    border: none !important;
 }
 .vbox-content.swipe-left{
     margin-left: -200px !important;

@@ -6,7 +6,7 @@
 
 Responsive modal window javaScript plugin, touch swipe gallery
 
-Just another responsive lightbox plugin, suitable for images, inline contents, iFrames, Google Maps, Vimeo and YouTube videos.
+Just another responsive lightbox plugin, suitable for images, inline contents, iFrames, videos.
 
 The big difference compared to many others plugins is that VenoBox calculates the max width of the image displayed and preserves its height if is taller than the window (so in small devices you can scroll down the content, avoiding vertical microscopic resized images).
 
