@@ -22,7 +22,7 @@
 - New: option `navTouch`
 - Update: minor fixes
 
-## [2.0.0]
+### [2.0.0]
 - Dropped jQuery dependency.
 - Async gallery navigation and items loading
 - New: support local videos (mp4, webm, ogg) 
