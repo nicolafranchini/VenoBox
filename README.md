@@ -50,7 +50,7 @@ Initialize the plugin and your VenoBox is ready for all the selected links.
 
 ```javascript
 new VenoBox({
-  selctor: '.venobox'
+  selector: '.venobox'
 });
 ```
 
