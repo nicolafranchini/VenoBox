@@ -163,16 +163,23 @@ function animate({timing, draw, duration}) {
  * Parse Youtube or Vimeo videos and get host & ID
  */
 function parseVideo(url) {
-    url.match(/(http:|https:|)\/\/(player.|www.)?(vimeo\.com|youtu(be\.com|\.be|be\.googleapis\.com))\/(video\/|embed\/|watch\?v=|v\/)?([A-Za-z0-9._%-]*)(\&\S+)?/);
-    let type;
-    if (RegExp.$3.indexOf('youtu') > -1) {
+    let type, match, vid;
+    let regYt = /(https?:\/\/)?((www\.)?(youtube(-nocookie)?|youtube.googleapis)\.com.*(v\/|v=|vi=|vi\/|e\/|embed\/|user\/.*\/u\/\d+\/)|youtu\.be\/)([_0-9a-z-]+)/i;
+    match = url.match(regYt);
+    if (match && match[7]) {
         type = 'youtube';
-    } else if (RegExp.$3.indexOf('vimeo') > -1) {
-        type = 'vimeo';
+        vid = match[7];
+    } else {
+        let regVim = /^.*(vimeo\.com\/)((channels\/[A-z]+\/)|(groups\/[A-z]+\/videos\/))?([0-9]+)/;
+        match = url.match(regVim);
+        if (match && match[5]) {
+            type = 'vimeo';
+            vid = match[5];
+        }
     }
     return {
         type: type,
-        id: RegExp.$6
+        id: vid
     };
 }
 
