@@ -1,5 +1,8 @@
 # Changelog
 
+### [2.0.5]
+- New option: `focusItem` to focus current element on window close
+
 ### [2.0.4]
 - New option: `customClass`
 - New attribute: `data-customclass` (overrides global option `customClass`) 

@@ -5,8 +5,8 @@
 }(this, (function () { 'use strict';
 
    /**
-    * VenoBox 2.0.4
-    * Copyright 2013-2021 Nicola Franchini
+    * VenoBox 2.0.5
+    * Copyright 2013-2023 Nicola Franchini
     * @license: https://github.com/nicolafranchini/VenoBox/blob/master/LICENSE
     */
    let backdrop, blocknum, blockshare, blocktitle, core, container, content, current_item, current_index, diffX, diffY, endY, elPreloader, elPreloaderInner;
@@ -76,6 +76,7 @@
        onContentLoaded: function(){}, // Return: newcontent
        onInit: function(){}, // Return: plugin obj
        jQuerySelectors: false,
+       focusItem: false
    };
 
    /**
@@ -254,7 +255,10 @@
        document.body.removeEventListener('keydown', keyboardHandler);
        document.body.classList.remove('vbox-open');
 
-       current_item.focus();
+       if (current_item.settings.focusItem) {
+           current_item.focus();
+       }
+
        animate({
            duration: 200,
            timing: timingLinear,
