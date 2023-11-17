@@ -1,5 +1,8 @@
 # Changelog
 
+### [2.0.6]
+- Update: composer version
+
 ### [2.0.5]
 - New option: `focusItem` to focus current element on window close
 - Update: youtube-nocookie support

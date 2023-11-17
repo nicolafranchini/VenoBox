@@ -5,7 +5,7 @@
 }(this, (function () { 'use strict';
 
    /**
-    * VenoBox 2.0.5
+    * VenoBox 2.0.6
     * Copyright 2013-2023 Nicola Franchini
     * @license: https://github.com/nicolafranchini/VenoBox/blob/master/LICENSE
     */
