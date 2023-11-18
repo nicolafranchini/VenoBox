@@ -70,7 +70,8 @@ const defaults = {
     onContentLoaded: function(){}, // Return: newcontent
     onInit: function(){}, // Return: plugin obj
     jQuerySelectors: false,
-    focusItem: false
+    focusItem: false,
+    fitView: false
 };
 
 /**
@@ -478,7 +479,6 @@ function loadAjax(dest){
  * Preload image
  */
 function loadImage(dest){
-    
     imgLoader.onload = function(){
         // image  has been loaded
         newcontent = '<div class="vbox-child"><img src="' + dest + '"></div>';
@@ -609,8 +609,10 @@ function checknav(el){
     current_index = Array.prototype.indexOf.call(items, el);
 
     if (items.length < 2) {
-        infinigall = false;
         numeratio = false;
+    }
+    if (items.length < 3) {
+        infinigall = false;
     }
 
     thenext = items[current_index + 1];
@@ -934,12 +936,14 @@ function init(venobox, settings) {
         settings.onInit(venobox);
     }
 
+    const contentclass = settings.fitView ? ' vbox-fit' : '';
+
     let selectors = settings.jQuerySelectors || document.querySelectorAll(settings.selector);
     let navigation = '<a class="vbox-next"><span>Next</span></a><a class="vbox-prev"><span>Prev</span></a>';
     let vbheader = '<div class="vbox-title"></div><div class="vbox-left-corner"><div class="vbox-num">0/0</div></div><div class="vbox-close"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="vbox-close-icon" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z"/><path fill-rule="evenodd" d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z"/></svg></div>';
     let vbfooter = '<div class="vbox-share"></div>';
     let preloader = '<div class="vbox-preloader"><div class="vbox-preloader-inner"></div></div>';
-    core = '<div class="vbox-overlay"><div class="vbox-backdrop"></div>' + preloader + '<div class="vbox-container"><div class="vbox-content"></div></div>' + vbheader + navigation + vbfooter + '</div>';
+    core = '<div class="vbox-overlay"><div class="vbox-backdrop"></div>' + preloader + '<div class="vbox-container"><div class="vbox-content' + contentclass + '"></div></div>' + vbheader + navigation + vbfooter + '</div>';
 
     /**
      *  Loop items.

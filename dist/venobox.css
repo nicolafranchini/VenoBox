@@ -35,10 +35,11 @@
 .vbox-open{overflow:hidden}
 .vbox-container{position:absolute;left:0;right:0;top:0;bottom:0;overflow-x:hidden;overflow-y:scroll;overflow-scrolling:touch;-webkit-overflow-scrolling:touch;z-index:20;max-height:100%;padding:30px 0}
 .vbox-content{opacity:0}
-.vbox-content{text-align:center;width:100%;position:relative;overflow:hidden;padding:20px 4%;display:flex;align-items:center;justify-content:center;min-height:100%}
+.vbox-content{text-align:center;width:100%;position:relative;overflow:hidden;padding:0 4%;display:flex;align-items:center;justify-content:center;min-height:100%}
 .vbox-container img{max-width:100%;height:auto}
 .vbox-child{box-shadow:0 0 12px rgba(0,0,0,.19),0 6px 6px rgba(0,0,0,.23);max-width:100%;text-align:initial;padding:var(--vbox-padding)}
 .vbox-child img{-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-o-user-select:none;user-select:none;display:block}
+.vbox-fit .vbox-child img{max-height:calc(100vh - 60px)}
 .vbox-grab .vbox-child img{cursor:grab}
 .vbox-child>iframe{border:none!important}
 .vbox-content.swipe-left{margin-left:-200px!important}

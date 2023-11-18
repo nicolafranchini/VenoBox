@@ -256,7 +256,7 @@ button.vbox-link-btn:focus{
     width: 100%;
     position: relative;
     overflow: hidden;
-    padding: 20px 4%;
+    padding: 0 4%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -279,6 +279,9 @@ button.vbox-link-btn:focus{
     -o-user-select: none;
     user-select: none;
     display: block;
+}
+.vbox-fit .vbox-child img{
+    max-height: calc(100vh - 60px);
 }
 .vbox-grab .vbox-child img{
     cursor: grab;
