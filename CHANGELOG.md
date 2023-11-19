@@ -1,5 +1,9 @@
 # Changelog
 
+### [2.0.8]
+- Fix: overlayClose does not work #178
+- Update:  Video Handling - Unknown Extension Types #174 
+
 ### [2.0.7]
 - New option: `fitView` resizes the images to fit within the viewport
 - Fix: minimum 3 items to activate infinite gallery

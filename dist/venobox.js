@@ -5,7 +5,7 @@
 }(this, (function () { 'use strict';
 
    /**
-    * VenoBox 2.0.6
+    * VenoBox 2.0.8
     * Copyright 2013-2023 Nicola Franchini
     * @license: https://github.com/nicolafranchini/VenoBox/blob/master/LICENSE
     */
@@ -391,26 +391,28 @@
    function loadVid(dest, ratio, autoplay){
 
        content.classList.add("vbox-loading");
-
        let stringAutoplay;                    
-       // check if it's a video file - thanks to @alexxandar
-       if (dest.search(/.+\.mp4|og[gv]|webm/) !== -1) {
-           stringAutoplay = autoplay ? " autoplay" : "";
-           newcontent = '<div class="venoratio venoratio-' + ratio + '"><video src="' + dest + '"' + stringAutoplay + ' controls>Your browser does not support the video tag.</video></div>';
-       } else {
+       let videoObj = parseVideo(dest);
+
+       if (videoObj.type == 'vimeo' || videoObj.type == 'youtube') {
            let player;
-           let videoObj = parseVideo(dest);
 
            // set rel=0 to hide related videos at the end of YT + optional autoplay
            stringAutoplay = autoplay ? "?rel=0&autoplay=1" : "?rel=0";
            let queryvars = stringAutoplay + getUrlParameter(dest);
 
            if (videoObj.type == 'vimeo') {
-             player = 'https://player.vimeo.com/video/';
+               player = 'https://player.vimeo.com/video/';
            } else if (videoObj.type == 'youtube') {
-             player = 'https://www.youtube.com/embed/';
+               player = 'https://www.youtube.com/embed/';
            }
            newcontent = '<div class="venoratio venoratio-' + ratio + '"><iframe webkitallowfullscreen mozallowfullscreen allowfullscreen allow="autoplay" frameborder="0" src="'+player+videoObj.id+queryvars+'"></iframe></div>';
+       } else {
+           // // check if it's a video file - thanks to @alexxandar
+           // if (dest.search(/.+\.mp4|og[gv]|webm/) !== -1) {
+               stringAutoplay = autoplay ? " autoplay" : "";
+               newcontent = '<div class="venoratio venoratio-' + ratio + '"><video src="' + dest + '"' + stringAutoplay + ' controls>Your browser does not support the video tag.</video></div>';
+           // }
        }
 
        content.classList.remove("vbox-loading");
@@ -760,7 +762,6 @@
            return false;
        }
        let vbtype = current_item.dataset.vbtype;
-
        switch (vbtype) {
        case 'iframe':
            loadIframe(set_href, set_ratio);
@@ -920,12 +921,12 @@
            let closeBtn = document.querySelector('.vbox-close');
            if (closeBtn) {
                if (closeBtn.contains(e.target) || closeBtn === e.target || (current_item.settings.overlayClose &&
-                   e.target.classList.contains('vbox-overlay') ||
+                   (e.target.classList.contains('vbox-overlay') ||
                    e.target.classList.contains('vbox-content') ||
                    e.target.classList.contains('vbox-backdrop') ||
                    e.target.classList.contains('vbox-close') ||
                    e.target.classList.contains('vbox-preloader') ||
-                   e.target.classList.contains('vbox-container')
+                   e.target.classList.contains('vbox-container'))
                )) {
                    close();
                }
