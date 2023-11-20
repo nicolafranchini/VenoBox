@@ -403,7 +403,7 @@ function loadVid(dest, ratio, autoplay){
         newcontent = '<div class="venoratio venoratio-' + ratio + '"><iframe webkitallowfullscreen mozallowfullscreen allowfullscreen allow="autoplay" frameborder="0" src="'+player+videoObj.id+queryvars+'"></iframe></div>';
     } else {
         // // check if it's a video file - thanks to @alexxandar
-        // if (dest.search(/.+\.mp4|og[gv]|webm/) !== -1) {
+        // if (/\.(mp4|ogg|ogv|mov|webm)$/i.test(dest)) {
             stringAutoplay = autoplay ? " autoplay" : "";
             newcontent = '<div class="venoratio venoratio-' + ratio + '"><video src="' + dest + '"' + stringAutoplay + ' controls>Your browser does not support the video tag.</video></div>';
         // }
@@ -552,7 +552,6 @@ function drag(e) {
         }
     }
 }
-
 
 function setShareButtons(href){
     // Navigator share
