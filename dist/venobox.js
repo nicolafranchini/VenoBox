@@ -5,7 +5,7 @@
 }(this, (function () { 'use strict';
 
    /**
-    * VenoBox 2.0.8
+    * VenoBox 2.0.9
     * Copyright 2013-2023 Nicola Franchini
     * @license: https://github.com/nicolafranchini/VenoBox/blob/master/LICENSE
     */
@@ -487,6 +487,7 @@
     * Preload image
     */
    function loadImage(dest){
+       imgLoader = new Image();
        imgLoader.onload = function(){
            // image  has been loaded
            newcontent = '<div class="vbox-child"><img src="' + dest + '"></div>';
@@ -501,10 +502,10 @@
     */
    function dragStart(e) {
        if (!navigationDisabled) {
-           let speed = (current_item.settings.navSpeed * 0.84);
-           content.style.transition = 'margin '+ speed + 'ms ease-out, opacity '+ speed + 'ms ease-out';
-           startY = endY = e.pageY;
-           startX = endX = e.pageX;
+           let speed = current_item.settings.navSpeed * 0.84;
+           content.style.transition =  "margin " + speed + "ms ease-out, opacity " + speed + "ms ease-out";
+           startX = endX = e.type === "touchstart" ? e.touches[0].pageX : e.pageX;
+           startY = endY = e.type === "touchstart" ? e.touches[0].pageY : e.pageY;
            startouch = true;
        }
    }
@@ -542,18 +543,18 @@
     */
    function drag(e) {
        if (startouch && !navigationDisabled) {
-           endX = e.pageX;
-           endY = e.pageY;
+           endX = e.type === "touchmove" ? e.touches[0].pageX : e.pageX;
+           endY = e.type === "touchmove" ? e.touches[0].pageY : e.pageY;
            diffX = endX - startX;
            diffY = endY - startY;
 
            let absdiffX = Math.abs(diffX);
            let absdiffY = Math.abs(diffY);
-
-           if ((absdiffX > absdiffY) && (absdiffX <= 180)) {
+           
+           if (absdiffX > absdiffY && absdiffX <= 180) {
                let diffopac = (1 - absdiffX / 180) * 1.5;
                e.preventDefault();
-               content.style.marginLeft = diffX + 'px';
+               content.style.marginLeft = diffX + "px";
                content.style.opacity = diffopac;
            }
        }
@@ -818,9 +819,9 @@
                content.style.opacity = startopacity - progress/startopacity;
 
                if (progress === 1){
+                   content.style.transition = '';
                    content.classList.remove("swipe-left", "swipe-right", "vbox-animated");
                    content.style.marginLeft = 0;
-                   content.style.transition = '';
 
                    checkState('loading');
 

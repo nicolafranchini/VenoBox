@@ -1,5 +1,8 @@
 # Changelog
 
+### [2.0.9]
+- Fix: Swiping doesn't work on Android devices #184 
+
 ### [2.0.8]
 - Fix: overlayClose does not work #178
 - Update:  Video Handling - Unknown Extension Types #174 
