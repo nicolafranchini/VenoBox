@@ -1,5 +1,8 @@
 # Changelog
 
+### [2.1.0]
+- Fix: Random flickering during gallery navigation with IOS
+
 ### [2.0.9]
 - Fix: Swiping doesn't work on Android devices #184 
 

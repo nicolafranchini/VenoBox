@@ -1,5 +1,5 @@
 /**
- * VenoBox 2.0.9
+ * VenoBox 2.1.0
  * Copyright 2013-2023 Nicola Franchini
  * @license: https://github.com/nicolafranchini/VenoBox/blob/master/LICENSE
  */
@@ -481,7 +481,7 @@ function loadAjax(dest){
  * Preload image
  */
 function loadImage(dest){
-    imgLoader = new Image();
+    // imgLoader = new Image();
     imgLoader.onload = function(){
         // image  has been loaded
         newcontent = '<div class="vbox-child"><img src="' + dest + '"></div>';
@@ -799,11 +799,17 @@ function navigateGall(destination) {
 
     elPreloader.classList.remove('vbox-hidden');
 
+    const clonecontent = content.cloneNode(true);
+    clonecontent.classList.add('cloned');
+    clonecontent.classList.remove('swipe-left', 'swipe-right');
+    clonecontent.style.opacity = 0;
+    clonecontent.style.marginLeft = '0';
+    clonecontent.style.marginRight = '0';
+    container.append(clonecontent);
+
     let startopacity = content.style.opacity;
 
     content.classList.add("vbox-animated", "vbox-loading");
-
-    checknav(destination);
 
     animate({
         duration: current_item.settings.navSpeed,
@@ -813,10 +819,10 @@ function navigateGall(destination) {
             content.style.opacity = startopacity - progress/startopacity;
 
             if (progress === 1){
-                content.style.transition = '';
-                content.classList.remove("swipe-left", "swipe-right", "vbox-animated");
-                content.style.marginLeft = 0;
+                content.remove();
+                content = clonecontent;
 
+                checknav(destination);
                 checkState('loading');
 
                 navigationDisabled = false;
