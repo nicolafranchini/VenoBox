@@ -1,5 +1,5 @@
 /**
- * VenoBox 2.1.0
+ * VenoBox 2.1.1
  * Copyright 2013-2023 Nicola Franchini
  * @license: https://github.com/nicolafranchini/VenoBox/blob/master/LICENSE
  */
@@ -20,6 +20,8 @@ let diff = 0;
 let threshold = 50;
 let startouch = false;
 let imgLoader = new Image();
+let clonecontent;
+let canDrag = false;
 
 const spinners = {
     'bounce': ['sk-bounce', 'sk-bounce-dot', 2],
@@ -307,6 +309,7 @@ function contentLoaded(){
     content.style.opacity = 0;
 
     content.innerHTML = newcontent;
+    dragListeners();
 
     let vboxChild = content.querySelector(":first-child");
 
@@ -585,6 +588,29 @@ function setShareButtons(href){
     });
 }
 
+function dragListeners(){
+    // activate swipe
+    if (canDrag) {
+        content.classList.add('vbox-grab');
+        content.addEventListener("touchstart", dragStart, false);
+        content.addEventListener("touchend", dragEnd, false);
+        content.addEventListener("touchmove", drag, false);
+        content.addEventListener("mousedown", dragStart, false);
+        content.addEventListener("mouseup", dragEnd, false);
+        content.addEventListener("mouseout", dragEnd, false);
+        content.addEventListener("mousemove", drag, false);
+    } else {
+        content.classList.remove('vbox-grab');
+        content.removeEventListener("touchstart", dragStart, false);
+        content.removeEventListener("touchend", dragEnd, false);
+        content.removeEventListener("touchmove", drag, false);
+        content.removeEventListener("mousedown", dragStart, false);
+        content.removeEventListener("mouseup", dragEnd, false);
+        content.removeEventListener("mouseout", dragEnd, false);
+        content.removeEventListener("mousemove", drag, false);
+    }
+}
+
 /**
  * Check navigation
  * @param {object} el Current item
@@ -661,26 +687,7 @@ function checknav(el){
         prevok = true;
     }
 
-    // activate swipe
-    if ((prevok || nextok) && el.settings.navTouch) {
-        content.classList.add('vbox-grab');
-        content.addEventListener("touchstart", dragStart, false);
-        content.addEventListener("touchend", dragEnd, false);
-        content.addEventListener("touchmove", drag, false);
-        content.addEventListener("mousedown", dragStart, false);
-        content.addEventListener("mouseup", dragEnd, false);
-        content.addEventListener("mouseout", dragEnd, false);
-        content.addEventListener("mousemove", drag, false);
-    } else {
-        content.classList.remove('vbox-grab');
-        content.removeEventListener("touchstart", dragStart, false);
-        content.removeEventListener("touchend", dragEnd, false);
-        content.removeEventListener("touchmove", drag, false);
-        content.removeEventListener("mousedown", dragStart, false);
-        content.removeEventListener("mouseup", dragEnd, false);
-        content.removeEventListener("mouseout", dragEnd, false);
-        content.removeEventListener("mousemove", drag, false);
-    }
+    canDrag = (prevok || nextok) && el.settings.navTouch;
 
     let vbox_next = overlay.querySelector('.vbox-next');
     let vbox_prev = overlay.querySelector('.vbox-prev');
@@ -787,7 +794,7 @@ function navigateGall(destination) {
     updateOverlay(destination);
 
     // swipe out item
-    let speed = (current_item.settings.navSpeed * 0.84);
+    const speed = (current_item.settings.navSpeed * 0.84);
     content.style.transition = 'margin '+ speed + 'ms ease-out, opacity '+ speed + 'ms ease-out';
 
     if (destination === theprev) {
@@ -798,33 +805,34 @@ function navigateGall(destination) {
     }
 
     elPreloader.classList.remove('vbox-hidden');
+    const startopacity = content.style.opacity;
+    content.classList.add("vbox-animated", "vbox-loading");
 
-    const clonecontent = content.cloneNode(true);
+    clonecontent = content.cloneNode(false);
     clonecontent.classList.add('cloned');
-    clonecontent.classList.remove('swipe-left', 'swipe-right');
+    clonecontent.classList.remove("swipe-left", "swipe-right");
     clonecontent.style.opacity = 0;
     clonecontent.style.marginLeft = '0';
     clonecontent.style.marginRight = '0';
+
+    const oldcontent = content;
     container.append(clonecontent);
+    content = clonecontent;
+    content.classList.remove('cloned');
 
-    let startopacity = content.style.opacity;
-
-    content.classList.add("vbox-animated", "vbox-loading");
+    checknav(destination);
 
     animate({
         duration: current_item.settings.navSpeed,
         timing: timingLinear,
         draw: function(progress) {
 
-            content.style.opacity = startopacity - progress/startopacity;
+            oldcontent.style.opacity = startopacity - progress/startopacity;
 
             if (progress === 1){
-                content.remove();
-                content = clonecontent;
-
-                checknav(destination);
+                oldcontent.remove();
+                content.classList.remove("vbox-animated");
                 checkState('loading');
-
                 navigationDisabled = false;
 
                 if (current_item.settings.onNavComplete && typeof current_item.settings.onNavComplete === 'function') {

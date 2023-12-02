@@ -1,5 +1,8 @@
 # Changelog
 
+### [2.1.1]
+- Fix: preload timing sync for gallery navigation
+
 ### [2.1.0]
 - Fix: Random flickering during gallery navigation with IOS
 
