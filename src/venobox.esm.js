@@ -1,11 +1,11 @@
 /**
- * VenoBox 2.1.1
+ * VenoBox 2.1.2
  * Copyright 2013-2023 Nicola Franchini
  * @license: https://github.com/nicolafranchini/VenoBox/blob/master/LICENSE
  */
 let backdrop, blocknum, blockshare, blocktitle, core, container, content, current_item, current_index, diffX, diffY, endY, elPreloader, elPreloaderInner;
 let gallIndex, images, infinigall, items, navigationDisabled, newcontent, numeratio, nextok, prevok, overlay;
-let set_maxWidth, set_overlayColor, set_ratio, set_autoplay, set_href, set_customclass, startY, thenext, theprev, thisborder, thisgall, title, throttle;
+let set_maxWidth, set_overlayColor, set_ratio, set_autoplay, set_href, set_customclass, set_fitview, startY, thenext, theprev, thisborder, thisgall, title, throttle;
 
 const svgOpen = '<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor">';
 const svgClose = '</svg>';
@@ -229,11 +229,12 @@ function updateVars(obj){
     set_maxWidth = obj.getAttribute("data-maxwidth") || obj.settings.maxWidth;
     set_overlayColor = obj.getAttribute("data-overlay") || obj.settings.overlayColor;
     set_ratio = obj.getAttribute("data-ratio") || obj.settings.ratio;
-    set_autoplay = obj.getAttribute("data-autoplay") || obj.settings.autoplay;
+    set_autoplay = obj.hasAttribute("data-autoplay") || obj.settings.autoplay;
     set_href = obj.getAttribute("data-href") || obj.getAttribute('href');
     set_customclass = obj.getAttribute("data-customclass") || obj.settings.customClass;
     title = obj.getAttribute(obj.settings.titleattr) || '';
     thisborder = obj.getAttribute("data-border") || obj.settings.border;
+    set_fitview = obj.hasAttribute("data-fitview") || obj.settings.fitView;
 }
 
 /**
@@ -345,6 +346,13 @@ function contentLoaded(){
     // Set custom class.
     if (set_customclass){
         overlay.classList.add(set_customclass);
+    }
+
+    // Set fitview class.
+    if (set_fitview){
+        content.classList.add('vbox-fit');
+    } else {
+        content.classList.remove('vbox-fit');
     }
 
     animate({
@@ -951,14 +959,12 @@ function init(venobox, settings) {
         settings.onInit(venobox);
     }
 
-    const contentclass = settings.fitView ? ' vbox-fit' : '';
-
     let selectors = settings.jQuerySelectors || document.querySelectorAll(settings.selector);
     let navigation = '<a class="vbox-next"><span>Next</span></a><a class="vbox-prev"><span>Prev</span></a>';
     let vbheader = '<div class="vbox-title"></div><div class="vbox-left-corner"><div class="vbox-num">0/0</div></div><div class="vbox-close"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="vbox-close-icon" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z"/><path fill-rule="evenodd" d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z"/></svg></div>';
     let vbfooter = '<div class="vbox-share"></div>';
     let preloader = '<div class="vbox-preloader"><div class="vbox-preloader-inner"></div></div>';
-    core = '<div class="vbox-overlay"><div class="vbox-backdrop"></div>' + preloader + '<div class="vbox-container"><div class="vbox-content' + contentclass + '"></div></div>' + vbheader + navigation + vbfooter + '</div>';
+    core = '<div class="vbox-overlay"><div class="vbox-backdrop"></div>' + preloader + '<div class="vbox-container"><div class="vbox-content"></div></div>' + vbheader + navigation + vbfooter + '</div>';
 
     /**
      *  Loop items.
