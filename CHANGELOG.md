@@ -1,7 +1,11 @@
 # Changelog
 
+### [2.1.3]
+- Update: Max width proportional to aspect ratio
+
 ### [2.1.2]
 - Update: Global `fitView` option can be set also as data attribute `data-fitview` to specific links
+
 ### [2.1.1]
 - Fix: preload timing sync for gallery navigation
 

@@ -5,7 +5,7 @@
 }(this, (function () { 'use strict';
 
    /**
-    * VenoBox 2.1.2
+    * VenoBox 2.1.3
     * Copyright 2013-2023 Nicola Franchini
     * @license: https://github.com/nicolafranchini/VenoBox/blob/master/LICENSE
     */
@@ -323,7 +323,7 @@
        vboxChild.classList.add('vbox-child');
 
        vboxChild.style.backgroundColor = current_item.settings.bgcolor;
-       vboxChild.style.maxWidth = set_maxWidth;
+       // vboxChild.style.maxWidth = set_maxWidth;
        vboxChild.style.transform = 'scale(0.9)';
        vboxChild.style.transition = 'transform 200ms';
 
@@ -341,6 +341,7 @@
        vboxChild.style.transform = 'scale(1)';
 
        overlay.style.setProperty('--vbox-padding', thisborder);
+       overlay.style.setProperty('--vbox-max-width', set_maxWidth);
 
        // Reset custom classes.
        forEach(overlay.classList, function(obj){

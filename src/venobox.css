@@ -10,6 +10,7 @@
     --vbox-share-width:  'auto';
     --vbox-share-radius:  0;
     --vbox-padding: 0;
+    --vbox-max-width: 100%;
 }
 
 /* ------ venobox.css --------*/
@@ -212,18 +213,23 @@ button.vbox-link-btn:focus{
 }
 .venoratio-1x1 {
   --vb-aspect-ratio: 100%;
+  max-width: calc(min(var(--vbox-max-width), (100vh - 60px)));
 }
-.venoratio-4x3 {
+
+.venoratio-4x3.vbox-child.venoratio {
   --vb-aspect-ratio: calc(3 / 4 * 100%);
+  max-width: calc(min(var(--vbox-max-width), (100vh - 60px) * 4 / 3));
 }
-.venoratio-16x9 {
+.venoratio-16x9.vbox-child.venoratio {
   --vb-aspect-ratio: calc(9 / 16 * 100%);
+  max-width: calc(min(var(--vbox-max-width), (100vh - 60px) * 16 / 9));
 }
-.venoratio-21x9 {
+.venoratio-21x9.vbox-child.venoratio {
   --vb-aspect-ratio: calc(9 / 21 * 100%);
+  max-width: calc(min(var(--vbox-max-width),(100vh - 60px) * 21 / 9));
 }
 .venoratio-full {
-  --vb-aspect-ratio: calc(100vh - 100px);
+  --vb-aspect-ratio: calc(100vh - 60px);
 }
 
 .vbox-child.venoratio, .vbox-child.vbox-inline{
@@ -249,9 +255,6 @@ button.vbox-link-btn:focus{
 
 .vbox-content{
     opacity: 0;
-}
-
-.vbox-content{
     text-align: center;
     width: 100%;
     position: relative;
@@ -268,7 +271,7 @@ button.vbox-link-btn:focus{
 }
 .vbox-child{
     box-shadow: 0 0 12px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-    max-width: 100%;
+    max-width: var(--vbox-max-width);
     text-align: initial;
     padding: var(--vbox-padding);
 }
@@ -280,7 +283,8 @@ button.vbox-link-btn:focus{
     user-select: none;
     display: block;
 }
-.vbox-fit .vbox-child img{
+.vbox-fit .vbox-child img,
+.vbox-fit .vbox-child.venoratio{
     max-height: calc(100vh - 60px);
 }
 .vbox-grab .vbox-child img{
