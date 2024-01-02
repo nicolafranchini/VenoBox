@@ -1,5 +1,8 @@
 # Changelog
 
+### [2.1.4]
+- Fix: Enable Wave preloader
+
 ### [2.1.3]
 - Update: Max width proportional to aspect ratio
 

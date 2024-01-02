@@ -1,6 +1,6 @@
 /**
- * VenoBox 2.1.3
- * Copyright 2013-2023 Nicola Franchini
+ * VenoBox 2.1.4
+ * Copyright 2013-2024 Nicola Franchini
  * @license: https://github.com/nicolafranchini/VenoBox/blob/master/LICENSE
  */
 let backdrop, blocknum, blockshare, blocktitle, core, container, content, current_item, current_index, diffX, diffY, endY, elPreloader, elPreloaderInner;
@@ -35,7 +35,7 @@ const spinners = {
     'pulse': ['sk-pulse', '', 5],
     'swing': ['sk-swing', 'sk-swing-dot', 2],
     'wander': ['sk-wander', 'sk-wander-cube', 3],
-    'wave': ['sk-wave', 'sk-wave-rec', 5]
+    'wave': ['sk-wave', 'sk-wave-rect', 5]
 };
 
 // Default settings
