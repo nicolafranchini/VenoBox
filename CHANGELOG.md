@@ -1,5 +1,8 @@
 # Changelog
 
+### [2.1.5]
+- Update: return false after function execution for `onPostOpen` and `onPreClose` #190
+
 ### [2.1.4]
 - Fix: Enable Wave preloader
 

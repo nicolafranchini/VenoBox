@@ -1,5 +1,5 @@
 /**
- * VenoBox 2.1.4
+ * VenoBox 2.1.5
  * Copyright 2013-2024 Nicola Franchini
  * @license: https://github.com/nicolafranchini/VenoBox/blob/master/LICENSE
  */
@@ -245,11 +245,11 @@ function close() {
         return false;
     }
     if (current_item.settings.onPreClose && typeof current_item.settings.onPreClose === 'function') {
-        current_item.settings.onPreClose(current_item, gallIndex, thenext, theprev);
-        if (current_item.settings.onPreClose === false) {
+        if (current_item.settings.onPreClose(current_item, gallIndex, thenext, theprev) === false) {
             return false;
         }
     }
+
     document.body.removeEventListener('keydown', keyboardHandler);
     document.body.classList.remove('vbox-open');
 
@@ -863,10 +863,9 @@ function navigateGall(destination) {
     }
 
     if (obj.settings.onPreOpen && typeof obj.settings.onPreOpen === 'function') {
-        obj.settings.onPreOpen(obj);
-    }
-    if (!obj.settings.onPreOpen) {
-        return false;
+        if (obj.settings.onPreOpen(obj) === false) {
+            return false;
+        }
     }
 
     updateVars(obj);
