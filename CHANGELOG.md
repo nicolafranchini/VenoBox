@@ -1,5 +1,8 @@
 # Changelog
 
+### [2.1.6]
+- Update: use /youtube-nocookie.com/embed/ for all YouTube videos
+
 ### [2.1.5]
 - Update: return false after function execution for `onPostOpen` and `onPreClose` #190
 

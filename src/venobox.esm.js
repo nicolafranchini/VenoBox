@@ -1,5 +1,5 @@
 /**
- * VenoBox 2.1.5
+ * VenoBox 2.1.6
  * Copyright 2013-2024 Nicola Franchini
  * @license: https://github.com/nicolafranchini/VenoBox/blob/master/LICENSE
  */
@@ -410,7 +410,7 @@ function loadVid(dest, ratio, autoplay){
         if (videoObj.type == 'vimeo') {
             player = 'https://player.vimeo.com/video/';
         } else if (videoObj.type == 'youtube') {
-            player = 'https://www.youtube.com/embed/';
+            player = 'https://www.youtube-nocookie.com/embed/';
         }
         newcontent = '<div class="venoratio venoratio-' + ratio + '"><iframe webkitallowfullscreen mozallowfullscreen allowfullscreen allow="autoplay" frameborder="0" src="'+player+videoObj.id+queryvars+'"></iframe></div>';
     } else {
