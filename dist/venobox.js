@@ -60,6 +60,9 @@
        numeration: false,
        overlayClose: true,
        overlayColor: 'rgba(23,23,23,0.95)',
+       timeOverlay : 100,
+       scaleOpen: 0.1,
+       speedOpen: 100,
        popup: false,
        ratio: '16x9', // '1x1' | '4x3' | '16x9' | '21x9'
        share: false,
@@ -324,8 +327,10 @@
 
        vboxChild.style.backgroundColor = current_item.settings.bgcolor;
        // vboxChild.style.maxWidth = set_maxWidth;
-       vboxChild.style.transform = 'scale(0.9)';
-       vboxChild.style.transition = 'transform 200ms';
+
+      vboxChild.style.transform = 'scale('+ current_item.settings.scaleOpen +')';
+      vboxChild.style.transition = 'transform '+ current_item.settings.speedOpen +'ms';
+
 
        // Fix weird drag
        let childImageLock = content.querySelector('.vbox-child img');
@@ -898,10 +903,11 @@
 
        // fade in overlay
        animate({
-           duration: 200,
+           duration: current_item.settings.timeOverlay,
            timing: timingLinear,
            draw: function(progress) {
                overlay.style.opacity = progress;
+               
                if (progress === 1){
                    content.classList.remove('vbox-animated');
                    navigationDisabled = false;
