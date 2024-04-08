@@ -1,5 +1,8 @@
 # Changelog
 
+### [2.1.7]
+- Update: New options `initialScale` and `transitionSpeed` #191
+
 ### [2.1.6]
 - Update: use /youtube-nocookie.com/embed/ for all YouTube videos
 

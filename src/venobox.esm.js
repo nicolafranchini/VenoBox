@@ -1,5 +1,5 @@
 /**
- * VenoBox 2.1.6
+ * VenoBox 2.1.7
  * Copyright 2013-2024 Nicola Franchini
  * @license: https://github.com/nicolafranchini/VenoBox/blob/master/LICENSE
  */
@@ -73,7 +73,9 @@ const defaults = {
     onInit: function(){}, // Return: plugin obj
     jQuerySelectors: false,
     focusItem: false,
-    fitView: false
+    fitView: false,
+    initialScale: 0.9,
+    transitionSpeed: 200
 };
 
 /**
@@ -318,8 +320,8 @@ function contentLoaded(){
 
     vboxChild.style.backgroundColor = current_item.settings.bgcolor;
     // vboxChild.style.maxWidth = set_maxWidth;
-    vboxChild.style.transform = 'scale(0.9)';
-    vboxChild.style.transition = 'transform 200ms';
+    vboxChild.style.transform = 'scale('+ current_item.settings.initialScale +')'; 
+    vboxChild.style.transition = 'transform '+ current_item.settings.transitionSpeed +'ms';
 
     // Fix weird drag
     let childImageLock = content.querySelector('.vbox-child img');
@@ -357,7 +359,7 @@ function contentLoaded(){
     }
 
     animate({
-        duration: 200,
+        duration: current_item.settings.transitionSpeed,
         timing: timingLinear,
         draw: function(progress) {
             content.style.opacity = progress;
