@@ -1026,7 +1026,7 @@ if (typeof jQuery === 'function') {
                 const pluginoptions = options || {};
                 pluginoptions.jQuerySelectors = this;
                 // Init venobx
-                new VenoBox({pluginoptions});
+                new VenoBox(pluginoptions);
             } // venobox
         }); // extend
     })(jQuery);
