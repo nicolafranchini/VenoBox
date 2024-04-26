@@ -1,5 +1,10 @@
 # Changelog
 
+### [2.1.8]
+- Fix: Wrong format plugin options jQuery #195 
+- Fix: maxWidth does not work correctly due to overwriting width in styles #193
+- Update: Moved DOM initializations to object creation #196 
+
 ### [2.1.7]
 - Update: New options `initialScale` and `transitionSpeed` #191
 

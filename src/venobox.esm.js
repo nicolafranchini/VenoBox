@@ -1,5 +1,5 @@
 /**
- * VenoBox 2.1.7
+ * VenoBox 2.1.8
  * Copyright 2013-2024 Nicola Franchini
  * @license: https://github.com/nicolafranchini/VenoBox/blob/master/LICENSE
  */
@@ -12,14 +12,14 @@ const svgClose = '</svg>';
 const downloadIcon = svgOpen + '<path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/><path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>' + svgClose;
 const shareIcon = svgOpen + '<path fill-rule="evenodd" d="M3.5 6a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5h-2a.5.5 0 0 1 0-1h2A1.5 1.5 0 0 1 14 6.5v8a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 14.5v-8A1.5 1.5 0 0 1 3.5 5h2a.5.5 0 0 1 0 1h-2z"/><path fill-rule="evenodd" d="M7.646.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 1.707V10.5a.5.5 0 0 1-1 0V1.707L5.354 3.854a.5.5 0 1 1-.708-.708l3-3z"/>' + svgClose;
 const linkIcon = svgOpen + '<path fill-rule="evenodd" d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"/><path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/><path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>' + svgClose;
-const imagesHolder = document.createElement('div');
 
 let startX = 0;
 let endX = 0;
 let diff = 0;
 let threshold = 50;
 let startouch = false;
-let imgLoader = new Image();
+let imagesHolder = false;
+let imgLoader = false;
 let clonecontent;
 let canDrag = false;
 
@@ -449,22 +449,22 @@ function loadAjaxImages(){
         let imgCounter = 0;
         forEach(images, function(getimg){
             let srcimg = getimg.src;
-            imgLoader = new Image();
-            imgLoader.onload = function(){
+            const ajaxImgLoader = new Image();
+            ajaxImgLoader.onload = function(){
                 imgCounter++;
                 if ( imgCounter == images.length ) {
                     content.classList.remove("vbox-loading");
                     checkState('animated');
                 }
             };
-            imgLoader.onerror = function(){
+            ajaxImgLoader.onerror = function(){
                 imgCounter++;
                 if ( imgCounter == images.length ) {
                     content.classList.remove("vbox-loading");
                     checkState('animated');
                 }
             };
-            imgLoader.src = srcimg;
+            ajaxImgLoader.src = srcimg;
         });
     } else {
         content.classList.remove("vbox-loading");
@@ -495,7 +495,6 @@ function loadAjax(dest){
  * Preload image
  */
 function loadImage(dest){
-    // imgLoader = new Image();
     imgLoader.onload = function(){
         // image  has been loaded
         newcontent = '<div class="vbox-child"><img src="' + dest + '"></div>';
@@ -968,24 +967,30 @@ function init(venobox, settings) {
     let preloader = '<div class="vbox-preloader"><div class="vbox-preloader-inner"></div></div>';
     core = '<div class="vbox-overlay"><div class="vbox-backdrop"></div>' + preloader + '<div class="vbox-container"><div class="vbox-content"></div></div>' + vbheader + navigation + vbfooter + '</div>';
 
+    // DOM manipulation only initialized on constructor, so this is SSR framework safe (ex. SvelteKit)
+    imagesHolder = imagesHolder || document.createElement('div');
+    imgLoader = imgLoader || new Image();
+
     /**
      *  Loop items.
      */
     forEach(selectors, function(obj){
-        if (obj.classList.contains("vbox-item")) {
-            return true;
-        }
-        obj.settings = settings;
-        obj.classList.add("vbox-item");
+        if (obj instanceof Element) {
+            if (obj.classList.contains("vbox-item")) {
+                return true;
+            }
+            obj.settings = settings;
+            obj.classList.add("vbox-item");
 
-        // Open Link
-        obj.addEventListener("click", function(e){
-            e.preventDefault();
-            // Remove focus from link to avoid multiple calls with enter key
-            obj.blur();
-            open(obj);
-            return false;
-        }); // Click;
+            // Open Link
+            obj.addEventListener("click", function(e){
+                e.preventDefault();
+                // Remove focus from link to avoid multiple calls with enter key
+                obj.blur();
+                open(obj);
+                return false;
+            }); // Click;
+        }
     }); // forEach
 
     if (settings.popup) {
@@ -999,6 +1004,7 @@ function init(venobox, settings) {
  * VenoBox constructor
  */
 const VenoBox = function (options) {
+
     const venobox = {};
 
     // Merge user options with defaults
@@ -1026,7 +1032,7 @@ if (typeof jQuery === 'function') {
                 const pluginoptions = options || {};
                 pluginoptions.jQuerySelectors = this;
                 // Init venobx
-                new VenoBox({pluginoptions});
+                new VenoBox(pluginoptions);
             } // venobox
         }); // extend
     })(jQuery);

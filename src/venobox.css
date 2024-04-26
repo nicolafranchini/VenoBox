@@ -192,49 +192,7 @@ button.vbox-link-btn:focus{
     transform: rotate(45deg);
     right: 10px;
 }
-/* ----- Aspect ratio ----- */
-.venoratio, .vbox-inline {
-    position: relative;
-    width: 100%;
-    margin: 0 auto;
-}
-.venoratio::before {
-  display: block;
-  padding-top: var(--vb-aspect-ratio);
-  content: "";
-}
-.venoratio > * {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  padding: var(--vbox-padding);
-}
-.venoratio-1x1 {
-  --vb-aspect-ratio: 100%;
-  max-width: calc(min(var(--vbox-max-width), (100vh - 60px)));
-}
 
-.venoratio-4x3.vbox-child.venoratio {
-  --vb-aspect-ratio: calc(3 / 4 * 100%);
-  max-width: calc(min(var(--vbox-max-width), (100vh - 60px) * 4 / 3));
-}
-.venoratio-16x9.vbox-child.venoratio {
-  --vb-aspect-ratio: calc(9 / 16 * 100%);
-  max-width: calc(min(var(--vbox-max-width), (100vh - 60px) * 16 / 9));
-}
-.venoratio-21x9.vbox-child.venoratio {
-  --vb-aspect-ratio: calc(9 / 21 * 100%);
-  max-width: calc(min(var(--vbox-max-width),(100vh - 60px) * 21 / 9));
-}
-.venoratio-full {
-  --vb-aspect-ratio: calc(100vh - 60px);
-}
-
-.vbox-child.venoratio, .vbox-child.vbox-inline{
-    max-width: 100%;
-}
 .vbox-open{
     overflow: hidden;
 }
@@ -287,6 +245,47 @@ button.vbox-link-btn:focus{
 .vbox-fit .vbox-child.venoratio{
     max-height: calc(100vh - 60px);
 }
+
+/* ----- Aspect ratio ----- */
+.venoratio, .vbox-inline {
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+}
+.venoratio::before {
+  display: block;
+  padding-top: var(--vb-aspect-ratio);
+  content: "";
+}
+.venoratio > * {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: var(--vbox-padding);
+}
+.venoratio-1x1 {
+  --vb-aspect-ratio: 100%;
+  max-width: calc(min(var(--vbox-max-width), (100vh - 60px)));
+}
+
+.venoratio-4x3.vbox-child.venoratio {
+  --vb-aspect-ratio: calc(3 / 4 * 100%);
+  max-width: calc(min(var(--vbox-max-width), (100vh - 60px) * 4 / 3));
+}
+.venoratio-16x9.vbox-child.venoratio {
+  --vb-aspect-ratio: calc(9 / 16 * 100%);
+  max-width: calc(min(var(--vbox-max-width), (100vh - 60px) * 16 / 9));
+}
+.venoratio-21x9.vbox-child.venoratio {
+  --vb-aspect-ratio: calc(9 / 21 * 100%);
+  max-width: calc(min(var(--vbox-max-width),(100vh - 60px) * 21 / 9));
+}
+.venoratio-full {
+  --vb-aspect-ratio: calc(100vh - 60px);
+}
+
 .vbox-grab .vbox-child img{
     cursor: grab;
 }
