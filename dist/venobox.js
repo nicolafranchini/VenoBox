@@ -59,6 +59,7 @@
        navSpeed: 300,
        numeration: false,
        overlayClose: true,
+       buttonClose: true,
        overlayColor: 'rgba(23,23,23,0.95)',
        popup: false,
        ratio: '16x9', // '1x1' | '4x3' | '16x9' | '21x9'
@@ -966,12 +967,18 @@
            settings.onInit(venobox);
        }
 
+       let vbclose = '';
+
+       if (settings.buttonClose) {
+           vbclose = '<div class="vbox-close"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="vbox-close-icon" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z"/><path fill-rule="evenodd" d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z"/></svg></div>';
+       }
+
        let selectors = settings.jQuerySelectors || document.querySelectorAll(settings.selector);
        let navigation = '<a class="vbox-next"><span>Next</span></a><a class="vbox-prev"><span>Prev</span></a>';
-       let vbheader = '<div class="vbox-title"></div><div class="vbox-left-corner"><div class="vbox-num">0/0</div></div><div class="vbox-close"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="vbox-close-icon" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z"/><path fill-rule="evenodd" d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z"/></svg></div>';
+       let vbheader = '<div class="vbox-title"></div><div class="vbox-left-corner"><div class="vbox-num">0/0</div></div>';
        let vbfooter = '<div class="vbox-share"></div>';
        let preloader = '<div class="vbox-preloader"><div class="vbox-preloader-inner"></div></div>';
-       core = '<div class="vbox-overlay"><div class="vbox-backdrop"></div>' + preloader + '<div class="vbox-container"><div class="vbox-content"></div></div>' + vbheader + navigation + vbfooter + '</div>';
+       core = '<div class="vbox-overlay"><div class="vbox-backdrop"></div>' + preloader + '<div class="vbox-container"><div class="vbox-content"></div></div>' + vbheader + vbclose + navigation + vbfooter + '</div>';
 
        // DOM manipulation only initialized on constructor, so this is SSR framework safe (ex. SvelteKit)
        imagesHolder = imagesHolder || document.createElement('div');
