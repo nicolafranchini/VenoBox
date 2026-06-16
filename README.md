@@ -1,7 +1,7 @@
 # VenoBox
 
 [![venobox (latest)](https://img.shields.io/npm/v/venobox/latest.svg)](https://www.npmjs.com/package/venobox)
-[![venobox (downloads)](https://img.shields.io/npm/dy/vanilla-lazyload.svg)](https://www.npmjs.com/package/venobox)
+[![venobox (downloads)](https://img.shields.io/npm/dy/venobox.svg)](https://www.npmjs.com/package/venobox)
 [![](https://data.jsdelivr.com/v1/package/npm/venobox/badge)](https://www.jsdelivr.com/package/npm/venobox)
 
 Responsive modal window javaScript plugin, touch swipe gallery
