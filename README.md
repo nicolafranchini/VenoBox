@@ -20,6 +20,27 @@ This package can be installed with:
 - [npm](https://www.npmjs.com/package/venobox): `npm install venobox`
 - [composer](https://packagist.org/packages/nicolafranchini/venobox): `composer require nicolafranchini/venobox`
 
+#### JavaScript Setup
+
+Import the module and initialize.
+
+```code
+import VenoBox from 'venobox';
+```
+
+#### CSS Setup
+
+Include the stylesheet separately in your CSS entry point or HTML head.
+
+**via CSS (@import):**
+```code
+@import "venobox/dist/venobox.min.css";
+```
+**or via HTML (```<link>```):**
+```html
+<link rel="stylesheet" href="node\_modules/venobox/dist/venobox.min.css">
+```
+
 ### Static HTML
 
 Download the [latest release](https://github.com/nicolafranchini/VenoBox/releases)
@@ -36,7 +57,6 @@ Include the script near the end of your pages, right before the closing `</body>
 ```html
 <script src="venobox/dist/venobox.min.js"></script>
 ```
-
 
 ### Usage
 

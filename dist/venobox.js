@@ -2,10 +2,10 @@
    typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
    typeof define === 'function' && define.amd ? define(factory) :
    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.VenoBox = factory());
-}(this, (function () { 'use strict';
+})(this, (function () { 'use strict';
 
    /**
-    * VenoBox 2.1.8
+    * VenoBox 2.1.9
     * Copyright 2013-2024 Nicola Franchini
     * @license: https://github.com/nicolafranchini/VenoBox/blob/master/LICENSE
     */
@@ -13,7 +13,7 @@
    let gallIndex, images, infinigall, items, navigationDisabled, newcontent, numeratio, nextok, prevok, overlay;
    let set_maxWidth, set_overlayColor, set_ratio, set_autoplay, set_href, set_customclass, set_fitview, startY, thenext, theprev, thisborder, thisgall, title, throttle;
 
-   const svgOpen = '<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor">';
+   const svgOpen = '<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" focusable="false">';
    const svgClose = '</svg>';
    const downloadIcon = svgOpen + '<path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/><path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>' + svgClose;
    const shareIcon = svgOpen + '<path fill-rule="evenodd" d="M3.5 6a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5h-2a.5.5 0 0 1 0-1h2A1.5 1.5 0 0 1 14 6.5v8a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 14.5v-8A1.5 1.5 0 0 1 3.5 5h2a.5.5 0 0 1 0 1h-2z"/><path fill-rule="evenodd" d="M7.646.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 1.707V10.5a.5.5 0 0 1-1 0V1.707L5.354 3.854a.5.5 0 1 1-.708-.708l3-3z"/>' + svgClose;
@@ -78,7 +78,7 @@
        onContentLoaded: function(){}, // Return: newcontent
        onInit: function(){}, // Return: plugin obj
        jQuerySelectors: false,
-       focusItem: false,
+       focusItem: true,
        fitView: false,
        initialScale: 0.9,
        transitionSpeed: 200
@@ -288,12 +288,32 @@
    }
 
    /**
-    * Keyboard navigation.
+    * Keyboard navigation and focus trap.
     */
    function keyboardHandler(e) {
        if (e.keyCode === 27) { // esc
            close();
        }
+
+       // FOCUS TRAP LOGIC
+       if (e.keyCode === 9) { // tab
+           const focusableElements = overlay.querySelectorAll('a[href], button, input, textarea, select, [tabindex]:not([tabindex="-1"])');
+           const firstElement = focusableElements[0];
+           const lastElement = focusableElements[focusableElements.length - 1];
+
+           if (e.shiftKey) { // Shift + Tab
+               if (document.activeElement === firstElement) {
+                   lastElement.focus();
+                   e.preventDefault();
+               }
+           } else { // Tab
+               if (document.activeElement === lastElement) {
+                   firstElement.focus();
+                   e.preventDefault();
+               }
+           }
+       }
+
        if (!throttle) {
            if (e.keyCode == 37 && prevok === true) { // <
                navigateGall(theprev);
@@ -503,7 +523,8 @@
    function loadImage(dest){
        imgLoader.onload = function(){
            // image  has been loaded
-           newcontent = '<div class="vbox-child"><img src="' + dest + '"></div>';
+           let altText = title ? title : "Details";
+           newcontent = '<div class="vbox-child"><img src="' + dest + '" alt="' + altText + '"></div>';
            content.classList.remove('vbox-loading');
            checkState('animated');
        };
@@ -579,7 +600,8 @@
            const shareData = {
                url: href
            };
-           blockshare.insertAdjacentHTML('beforeend', '<div class="vbox-link-btn vbox-share-mobile">'+shareIcon+'</div>');
+           blockshare.insertAdjacentHTML('beforeend', '<button type="button" class="vbox-link-btn vbox-share-mobile" aria-label="Condividi">'+shareIcon+'</button>');
+
            const mobileShareBtn = blockshare.querySelector('.vbox-share-mobile');
            mobileShareBtn.addEventListener('click', function(e){
                e.preventDefault();
@@ -588,10 +610,11 @@
        }
 
        // Download
-       blockshare.insertAdjacentHTML('beforeend', '<a target="_blank" href="'+href+'" download>'+downloadIcon+'</a>');
+       blockshare.insertAdjacentHTML('beforeend', '<a target="_blank" href="'+href+'" download aria-label="Download">'+downloadIcon+'</a>');
 
        // Copy link
-       blockshare.insertAdjacentHTML('beforeend', '<div class="vbox-tooltip"><div class="vbox-link-btn vbox-share-copy"><span class="vbox-tooltip-text" id="myTooltip"></span>'+linkIcon+'</div ></div>');
+       blockshare.insertAdjacentHTML('beforeend', '<div class="vbox-tooltip"><button type="button" class="vbox-link-btn vbox-share-copy" aria-label="Copia link"><span class="vbox-tooltip-text" id="myTooltip"></span>'+linkIcon+'</button></div>');
+
        const shareCopyBtn = blockshare.querySelector('.vbox-share-copy');
        shareCopyBtn.addEventListener('click', function(e){
            e.preventDefault();
@@ -907,6 +930,14 @@
                    content.classList.remove('vbox-animated');
                    navigationDisabled = false;
                    checkState('loading');
+
+                   // Focus the close button immediately after opening
+                   const closeBtn = overlay.querySelector('.vbox-close');
+                   if (closeBtn) {
+                       closeBtn.setAttribute('tabindex', '0'); // Ensure it's focusable
+                       closeBtn.focus();
+                   }
+
                    if (current_item.settings.onPostOpen && typeof current_item.settings.onPostOpen === 'function') {
                        current_item.settings.onPostOpen(current_item, gallIndex, thenext, theprev);
                    }
@@ -967,8 +998,13 @@
        }
 
        let selectors = settings.jQuerySelectors || document.querySelectorAll(settings.selector);
-       let navigation = '<a class="vbox-next"><span>Next</span></a><a class="vbox-prev"><span>Prev</span></a>';
-       let vbheader = '<div class="vbox-title"></div><div class="vbox-left-corner"><div class="vbox-num">0/0</div></div><div class="vbox-close"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="vbox-close-icon" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z"/><path fill-rule="evenodd" d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z"/></svg></div>';
+       let navigation = '<button type="button" class="vbox-next" aria-label="Next"><span>Next</span></button>' +
+                        '<button type="button" class="vbox-prev" aria-label="Prev"><span>Prev</span></button>';
+       let vbheader = '<div class="vbox-title"></div>' +
+                      '<div class="vbox-left-corner"><div class="vbox-num" aria-live="polite">0/0</div></div>' +
+                      '<button type="button" class="vbox-close" aria-label="Close">' +
+                      '<svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="vbox-close-icon" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z"/><path fill-rule="evenodd" d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z"/></svg>' +
+                      '</button>';   
        let vbfooter = '<div class="vbox-share"></div>';
        let preloader = '<div class="vbox-preloader"><div class="vbox-preloader-inner"></div></div>';
        core = '<div class="vbox-overlay"><div class="vbox-backdrop"></div>' + preloader + '<div class="vbox-container"><div class="vbox-content"></div></div>' + vbheader + navigation + vbfooter + '</div>';
@@ -1043,8 +1079,6 @@
        })(jQuery);
    }
 
-   // See https://www.npmjs.com/package/venobox documentation.
-
    return VenoBox;
 
-})));
+}));

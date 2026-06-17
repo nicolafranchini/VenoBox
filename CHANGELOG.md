@@ -1,5 +1,10 @@
 # Changelog
 
+### [2.2.0]
+- Fix: Modal doesn't trap focus #206
+- Update: WCAG compliant
+- Update: Hide scrollbars entirely #199
+
 ### [2.1.8]
 - Fix: Wrong format plugin options jQuery #195 
 - Fix: maxWidth does not work correctly due to overwriting width in styles #193

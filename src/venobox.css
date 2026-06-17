@@ -92,7 +92,15 @@ button.vbox-link-btn:focus{
     vertical-align: middle;
 }
 /* ----- navigation ----- */
-.vbox-close{
+button.vbox-prev,
+button.vbox-next,
+button.vbox-link-btn,
+button.vbox-close{
+    background: transparent;
+    border: none;
+}
+
+button.vbox-close{
     cursor: pointer;
     position: fixed;
     top: 0;
@@ -101,7 +109,6 @@ button.vbox-link-btn:focus{
     padding: 6px 15px;
     color: #000;
     color: var(--vbox-tools-color);
-    border: 0;
     font-size: 24px;
     display: flex;
     align-items: center;
@@ -209,8 +216,17 @@ button.vbox-link-btn:focus{
     z-index: 20;
     max-height: 100%;
     padding: 30px 0px;
+    
+    /* Nasconde la barra per Firefox */
+    scrollbar-width: none; 
+    
+    /* Nasconde la barra per Internet Explorer e Edge vecchio */
+    -ms-overflow-style: none; 
 }
-
+/* Nasconde la barra per Chrome, Safari e nuovi Edge (Webkit) */
+.vbox-container::-webkit-scrollbar {
+    display: none;
+}
 .vbox-content{
     opacity: 0;
     text-align: center;

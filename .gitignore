@@ -1,2 +1,21 @@
 .jshintrc
 _build
+# Dipendenze Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# File di sistema
+.DS_Store
+Thumbs.db
+
+# File temporanei/Sass cache
+.sass-cache/
+.tmp/
+
+# Opzionale: se preferisci non tracciare le mappe ma solo i min.js
+# dist/*.map
+
+# Log di errore
+*.log
