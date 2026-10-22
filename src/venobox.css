@@ -342,6 +342,10 @@ button.vbox-close{
     transform: translateZ(-1px);
     z-index: 0;
 }
+.vbox-blurred{
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
 
 .vbox-tooltip {
   position: relative;

@@ -1,5 +1,8 @@
 # Changelog
 
+### [2.2.1]
+- New: overlayBlurred option
+
 ### [2.2.0]
 - Fix: Modal doesn't trap focus #206
 - Update: WCAG compliant

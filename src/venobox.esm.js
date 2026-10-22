@@ -1,5 +1,5 @@
 /**
- * VenoBox 2.2.0
+ * VenoBox 2.2.1
  * Copyright 2013-2024 Nicola Franchini
  * @license: https://github.com/nicolafranchini/VenoBox/blob/master/LICENSE
  */
@@ -52,6 +52,7 @@ const defaults = {
     navTouch: true,
     navSpeed: 300,
     numeration: false,
+    overlayBlurred: false,
     overlayClose: true,
     overlayColor: 'rgba(23,23,23,0.95)',
     popup: false,
@@ -750,6 +751,10 @@ function updateOverlay(destination){
 
     if (!destination) {
         return false;
+    }
+
+    if (destination.settings.overlayBlurred) {
+        backdrop.classList.add("vbox-blurred");
     }
 
     backdrop.style.backgroundColor = set_overlayColor;
